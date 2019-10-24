@@ -1,0 +1,49 @@
+# VSCode
+.vscode
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PHPUnit
+.phpunit.result.cache
+
+# Composer
+/vendor
+
+# Logs and databases 
+*.log
+*.sql
+*.sqlite
+
+# Packages 
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Others
+/config
+/private
+/uploads
