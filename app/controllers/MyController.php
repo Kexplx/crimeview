@@ -26,4 +26,16 @@ final class MyController
     {
         return "Hello World";
     }
+
+    /**
+     * A method that says something new
+     * 
+     * @param string $var Description.
+     *
+     * @return string Description.
+     */
+    public function saySomethingNew(string $var = null):string
+    {
+        return "Hello new World";
+    }
 }
