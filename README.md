@@ -1,2 +1,2 @@
 # CrimeView
-The CrimeView Web app  for AMSE @ FAU.
+The CrimeView Web App for Advanced Methods of Software Engineering (AMSE) @ FAU.
