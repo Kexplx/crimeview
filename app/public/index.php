@@ -6,3 +6,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../Logging.php';
 
 $log->info('info log');
+
+
+echo "Hello World";
