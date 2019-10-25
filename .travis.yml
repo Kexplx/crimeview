@@ -1,0 +1,9 @@
+language: php
+php:
+  - 7.3
+before-install:
+  - composer self-update
+install:
+  - composer install
+script:
+  - phpunit
