@@ -12,7 +12,7 @@ class MockDataProvider implements IDataProvider
     /**
      * A description for this method.
      * 
-     * @param string $var Description.
+     * @param string $countyName Description.
      *
      * @return string Description.
      */
@@ -24,9 +24,11 @@ class MockDataProvider implements IDataProvider
     /**
      * A description for this method.
      * 
-     * @param string $var Description.
+     * @param float $from Description.
+     * 
+     * @param float $to Description.
      *
-     * @return string Description.
+     * @return array Description.
      */
     public function getCountiesOnRoute(float $from, float $to): array
     {
