@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
 /**
  * Provides unit testing for app/controllers/HomeController
  */
