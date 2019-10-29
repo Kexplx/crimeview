@@ -1,2 +1,4 @@
 1. Install Required Packages -> composer install
 2. Update Autoloader -> composer dump-autoload -o
+
+// Run tests like this from root dir: .\vendor\bin\phpunit .\tests\Controllers\
