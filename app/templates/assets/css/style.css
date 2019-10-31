@@ -47,7 +47,7 @@ nav img {
 }
 
 .form-search {
-    margin: 0 auto 50px auto;
+    margin: 0 auto 20px auto;
     width: 300px;
 }
 
@@ -74,11 +74,13 @@ nav img {
     margin-bottom: 10px;
 }
 
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
+}
+
 .map-container {
     text-align: center;
     margin: 0 auto;
-    width: 600px;
-    height: 400px;
 }
 
 .map-container div {
@@ -87,12 +89,11 @@ nav img {
 }
 
 #osm_map {
-    border-radius: 35px;
+    border-radius: 5px;
     visibility: hidden;
     margin: 0 auto;
     width: 500px;
-    /* box-shadow: 0px 2px 5px 2px #999; */
-    height: 500px;
-    /* border: solid 1px rgb(185, 185, 185); */
+    height: 400px;
+    border: solid 1px rgb(228, 228, 228);
     margin-bottom: 50px;
 }
