@@ -9,12 +9,17 @@ class County implements JsonSerializable
 
     private $geoJson;
 
-    function __construct(string $name, string $type, string $state_name, CrimeStats $crimeStats, string $geoJson)
+    function __construct(string $name, string $type, string $state_name, string $geoJson, CrimeStats $crimeStats = null)
     {
         $this->name = $name;
         $this->type = $type;
         $this->geoJson = $geoJson;
         $this->state_name = $state_name;
+        $this->crimeStats = $crimeStats;
+    }
+
+    public function setCrimeStats(CrimeStats $crimeStats)
+    {
         $this->crimeStats = $crimeStats;
     }
 
