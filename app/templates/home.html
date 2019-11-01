@@ -34,15 +34,41 @@
     <div class="heading">
         <img src="assets/images/police.svg" alt="">
         <h1>CrimeView</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        <p>Submit your travel route below to get started.</p>
     </div>
 
     <form class="form-search " method="GET ">
-        <input id="inputLocation" required type="text " placeholder="Departure e.g Regensburg">
-        <input id="inputLocation" required type="text " placeholder="Destination e.g Erlangen">
+        <input id="inputDeparture" required type="text " placeholder="Departure">
+        <img src="assets/images/exchange-arrows.svg" title="Change" onclick="exchangeInputs()" style="width: 30px; cursor: pointer;">
+        <input id="inputDestination" required type="text " placeholder="Destination">
         <button type="button" onclick="changeRoute()">View Crime</button>
     </form>
-    <div id="osm_map"></div>
+
+    <div class="main-container">
+
+        <div id="osm_map"></div>
+
+        <div class="container-cards">
+            <div class="card item1">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #c0392b;">Nürnberg</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+            <div class="card item2">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #b32518;">Erlangen</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+            <div class="card item3">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #c0672b;">Regensburg</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         var map = null;
 
@@ -9635,6 +9661,12 @@
                 }, 12.1, "#27ae60")
             ]
             addCountiesToMap(counties, map);
+        }
+
+        function exchangeInputs() {
+            var hold = $("#inputDeparture").val();
+            $("#inputDeparture").val($("#inputDestination").val());
+            $("#inputDestination").val(hold);
         }
     </script>
 </body>
