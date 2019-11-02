@@ -91,7 +91,7 @@ nav img {
 .main-container {
     max-width: 800px;
     display: flex;
-    margin: auto;
+    margin: 0 auto 50px auto;
     flex-direction: row;
     flex-wrap: wrap;
 }
