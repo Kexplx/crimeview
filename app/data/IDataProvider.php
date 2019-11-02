@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interface for getting data from different sources
+ * Represents an IDataProvider class used to fetch county and city data from a specific source.
  */
 interface IDataProvider
 {
@@ -10,7 +10,7 @@ interface IDataProvider
      * 
      * @param string $countyName.
      *
-     * @return float between 0 and 1 with probability to die in this county.
+     * @return float amount of crimes per x inhabitants
      */
     public function getCountyCrimeRate(string $countyName): float;
 
