@@ -1,29 +1,35 @@
 <?php
 
 /**
- * First sentence is a short description. Then you can write more, just as you like.
- *
- * Here may follow some detailed description about what the class is for.
- *
- * Paragraphs are separated by an empty line.
+ * Represents an IDataProvider class used to fetch county and city data from a specific source.
  */
 interface IDataProvider
 {
     /**
-     * A description for this method.
+     * Get CrimeRate for a countyname.
      * 
-     * @param string $var Description.
+     * @param string $countyName.
      *
-     * @return string Description.
+     * @return float amount of crimes per x inhabitants
      */
     public function getCountyCrimeRate(string $countyName): float;
 
     /**
-     * A description for this method.
+     * Get all Counties on a Route.
      * 
-     * @param string $var Description.
+     * @param City $from.
+     * @param City $to.
      *
-     * @return string Description.
+     * @return array of Counties on given route.
      */
-    public function getCountiesOnRoute(float $from, float $to): array;
+    public function getCountiesOnRoute(City $from, City $to): array;
+
+    /**
+     * Get City Model from Name.
+     * 
+     * @param string $name Cityname.
+     *
+     * @return City Citymodel.
+     */
+    public function getCityFromName(string $name): City;
 }
