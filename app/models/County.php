@@ -5,9 +5,9 @@ class County implements JsonSerializable
     private $name;
     private $type;
     private $state_name;
+    private $geoJson;
     private $crimeStats;
 
-    private $geoJson;
 
     function __construct(string $name, string $type, string $state_name, string $geoJson, CrimeStats $crimeStats = null)
     {
@@ -60,3 +60,8 @@ class County implements JsonSerializable
 //         }
 //     }
 // }
+
+
+// [0 => "Hello", 1 => "World", 2 => "Ayy"];
+
+// [0 => "Hello", 2 => "Ayy"];
