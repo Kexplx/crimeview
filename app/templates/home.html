@@ -22,7 +22,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light ">
-        <img src="assets/images/police.svg" alt="">
+        <img src="assets/images/icons8-undefined-40.png" alt="">
         <div class="navbar-nav ">
             <a class="nav-link active" href="">Home</a>
             <a class="nav-link " href="">API / Documentation</a>
@@ -32,39 +32,40 @@
         </div>
     </nav>
     <div class="heading">
-        <img src="assets/images/police.svg" alt="">
+        <img src="assets/images/icons8-film-noir-100(1).png" alt="">
         <h1>CrimeView</h1>
         <p>Submit your travel route below to get started.</p>
     </div>
 
     <form class="form-search " method="GET ">
         <input id="inputDeparture" required type="text " placeholder="Departure">
-        <img src="assets/images/exchange-arrows.svg" title="Change" onclick="exchangeInputs()" style="width: 30px; cursor: pointer;">
+        <img src="assets/images/icons8-daten-in-beide-richtungen-48.png" title="Change" onclick="exchangeInputs()">
         <input id="inputDestination" required type="text " placeholder="Destination">
-        <button type="button" onclick="changeRoute()">View Crime</button>
+        <button type="button" onclick="changeRoute()" class="btn btn-outline-dark">View Crime</button>
     </form>
 
     <div class="main-container">
-
         <div id="osm_map"></div>
-
         <div class="container-cards">
             <div class="card item1">
                 <div class="card-body">
-                    <h5 class="card-title" style="color: #c0392b;">Nürnberg</h5>
+                    <h5 class="card-title" style="color: #e41111;">Nürnberg - 20%</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text"><small class="text-muted">We recommend heavy artillery.</small></p>
                 </div>
             </div>
             <div class="card item2">
                 <div class="card-body">
-                    <h5 class="card-title" style="color: #b32518;">Erlangen</h5>
+                    <h5 class="card-title" style="color: #dd7d00;">Erlangen - 12%</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text"><small class="text-muted">Maybe bring a knife.</small></p>
                 </div>
             </div>
             <div class="card item3">
                 <div class="card-body">
-                    <h5 class="card-title" style="color: #c0672b;">Regensburg</h5>
+                    <h5 class="card-title" style=" color: #a1be00;">Regensburg - 8%</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text"><small class="text-muted">A Pepperspray should be enough.</small></p>
                 </div>
             </div>
         </div>
@@ -78,7 +79,7 @@
             });
 
             L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'OpenStreetMap | Esri/ArcGIS',
+                attribution: 'OpenStreetMap',
                 maxZoom: 13
             }).addTo(map);
 
