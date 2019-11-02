@@ -1,7 +1,7 @@
 :root {
     --light_background: #f6f6f6;
-    --button: #e74c3c;
-    --button_hover: #c0392b;
+    --button: #9b59b6;
+    --button_hover: #8e44ad;
     --link: #1e90ff;
     --link-light: #367294;
     --modal-success: #bef2be;
@@ -51,7 +51,7 @@ nav img {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0 auto 20px auto;
-    width: 500px;
+    max-width: 400px;
 }
 
 .form-search * {
@@ -61,23 +61,25 @@ nav img {
 }
 
 .form-search button {
-    background-color: var(--button);
-    border: none;
-    color: white;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 .form-search button:focus {
     outline: none;
+    outline: none !important;
+    box-shadow: none;
 }
 
-.form-search button:hover {
-    background-color: var(--button_hover);
+.form-search img {
+    max-width: 35px;
+    margin: 0 20px;
+    cursor: pointer;
 }
 
 .form-search input {
     border: none;
-    width: 210px;
+    flex-grow: 1;
+    width: 160px;
     border-bottom: solid 1px rgb(212, 212, 212);
     margin-bottom: 10px;
 }
@@ -118,4 +120,8 @@ nav img {
     font-size: 15px;
     margin-left: 3px;
     margin-bottom: 3px;
+}
+
+.card-header {
+    font-size: 18px;
 }
