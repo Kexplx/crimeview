@@ -1,5 +1,4 @@
 <?php
-// Run tests like this from root dir: .\vendor\bin\phpunit .\tests\data\
 use PHPUnit\Framework\TestCase;
 
 class DataProviderTest extends TestCase
@@ -40,7 +39,6 @@ class DataProviderTest extends TestCase
 
         $cites = [$routeRegensburgErlangen, $routeErlangenNuernberg, $routeNuernbergRegensburg];
 
-        // Test routes
         foreach ($cites as $route)
         {
             $counties = $provider->getCountiesOnRoute($route["from"], $route["to"]);
@@ -64,7 +62,6 @@ class DataProviderTest extends TestCase
             $this->assertInstanceOf('City', $provider->getCityFromName($cityName));
         }
     }
-
 
     public function dataProvider() {
         return array(
