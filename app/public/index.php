@@ -8,17 +8,16 @@ $a = $_GET['a'];
 
 try {
     validateParams($c, $a);
+
     $controllerName = $c . 'Controller';
 
-    $controller = new $controllerName();
+    $controller = new $controllerName(new MockDataProvider());
     $controller->$a();
 } catch (InvalidArgumentException $e) {
     $log->error($e);
-    // Redirect
 } catch (Throwable $th) {
     $log->error($th);
 }
-
 
 function validateParams(string $c, string $a)
 {
