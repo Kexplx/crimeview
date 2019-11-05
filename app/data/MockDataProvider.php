@@ -7,21 +7,21 @@
  */
 class MockDataProvider implements IDataProvider
 {
-    public function getCountyCrimeRate(string $countyName): float
+    public function getCountyCrimeStats(string $countyName): CrimeStats
     {
         switch (strtolower($countyName)) {
             case "neumarkt in der oberpfalz":
-                return 0.2;
+                return new CrimeStats(0.2, ["Diebstahl" => 58, "Mord" => 1]);
             case "regensburg":
-                return 0.15;
+                return new CrimeStats(0.3, ["Diebstahl" => 200, "Körperverletzung" => 30]);
             case "nürnberger land":
-                return 0.3;
+                return new CrimeStats(0.13, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]);
             case "erlangen":
-                return 0.1;
+                return new CrimeStats(0.25, ["Diebstahl" => 90, "Raub" => 43]);
             case "erlangen-höchstadt":
-                return 0.12;
+                return new CrimeStats(0.2, ["Diebstahl" => 180]);
             default:
-                return 0.4;
+                return new CrimeStats(0.4, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]);
         }
     }
 
@@ -39,8 +39,9 @@ class MockDataProvider implements IDataProvider
             $type = $feature["properties"]["engtype_2"];
             $stateName = $feature["properties"]["name_1"];
             $geo = json_encode($feature);
+            $crimeStats = $this->getCountyCrimeStats($name);
 
-            $counties[] = new County($name, $type, $stateName, $geo);
+            $counties[] = new County($name, $type, $stateName, $geo, $crimeStats);
         }
 
         return $counties;

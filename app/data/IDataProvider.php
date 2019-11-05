@@ -6,13 +6,13 @@
 interface IDataProvider
 {
     /**
-     * Gets the latest crime rate of a county
+     * Gets the latest crime stats of a county
      * 
      * @param string $countyName Name of the county
      *
-     * @return float The countie's crime rate (amount of crimes / inhabitants)
+     * @return float The countie's crime stats that hold (amount of crimes / inhabitants) and its distribution
      */
-    public function getCountyCrimeRate(string $countyName): float;
+    public function getCountyCrimeStats(string $countyName): CrimeStats;
 
     /**
      * Gets all counties on a route
