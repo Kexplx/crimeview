@@ -46,7 +46,7 @@ class MockDataProvider implements IDataProvider
         return $counties;
     }
 
-    public function getCityFromName(string $name): City
+    public function getCityByName(string $name): City
     {
         switch (strtolower($name)) {
             case "regensburg":

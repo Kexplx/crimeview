@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 
 class DataProviderTest extends TestCase
@@ -9,10 +10,9 @@ class DataProviderTest extends TestCase
      */
     public function testGetCountyCrimeRate(IDataProvider $provider)
     {
-        $countyNames = ["Regensburg","Erlangen","München"];
+        $countyNames = ["Regensburg", "Erlangen", "München"];
 
-        foreach ($countyNames as $countyName)
-        {
+        foreach ($countyNames as $countyName) {
             // expecting values between 0.0 and 1.0
             $this->assertEqualsWithDelta(0.5, $provider->getCountyCrimeRate($countyName), 0.5);
         }
@@ -39,12 +39,10 @@ class DataProviderTest extends TestCase
 
         $cites = [$routeRegensburgErlangen, $routeErlangenNuernberg, $routeNuernbergRegensburg];
 
-        foreach ($cites as $route)
-        {
+        foreach ($cites as $route) {
             $counties = $provider->getCountiesOnRoute($route["from"], $route["to"]);
             $this->assertIsArray($counties);
-            foreach ($counties as $county) 
-            {
+            foreach ($counties as $county) {
                 $this->assertInstanceOf('County', $county);
             }
         }
@@ -53,18 +51,19 @@ class DataProviderTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testMockGetCityFromName(IDataProvider $provider)
+    public function testMockGetCityByName(IDataProvider $provider)
     {
-        $cityNames = ["Regensburg","Erlangen","München"];
+        $cityNames = ["Regensburg", "Erlangen", "München"];
 
-        foreach ($cityNames as $cityName)
-        {
-            $this->assertInstanceOf('City', $provider->getCityFromName($cityName));
+        foreach ($cityNames as $cityName) {
+            $this->assertInstanceOf('City', $provider->getCityByName($cityName));
         }
     }
 
-    public function dataProvider() {
+    public function dataProvider()
+    {
         return array(
-                 array(new MockDataProvider));
+            array(new MockDataProvider)
+        );
     }
 }
