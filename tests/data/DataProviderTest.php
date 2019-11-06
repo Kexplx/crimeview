@@ -13,8 +13,8 @@ class DataProviderTest extends TestCase
         $countyNames = ["Regensburg", "Erlangen", "München"];
 
         foreach ($countyNames as $countyName) {
-            // expecting values between 0.0 and 1.0
-            $this->assertEqualsWithDelta(0.5, $provider->getCountyCrimeRate($countyName), 0.5);
+            $crimeStats = $provider->getCountyCrimeStats($countyName);
+            $this->assertInstanceOf('CrimeStats', $crimeStats);
         }
     }
 
