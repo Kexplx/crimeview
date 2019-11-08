@@ -27,7 +27,7 @@ class MockDataProvider implements IDataProvider
 
     public function getCountiesOnRoute(City $from, City $to): array
     {
-        $pathToGeoJson = "app/data/geojson/landkreise.geojson";
+        $pathToGeoJson = __DIR__ . "/geojson/landkreise.geojson";
         $geoJson = file_get_contents($pathToGeoJson);
         $raw = json_decode($geoJson, true);
         $features = $raw["features"];
