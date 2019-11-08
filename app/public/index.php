@@ -15,14 +15,17 @@ try {
     $controller->$a();
 } catch (InvalidArgumentException $e) {
     $log->error($e);
+    $controller = new NotFoundController();
+    $controller->serve();
 } catch (Throwable $th) {
     $log->error($th);
 }
 
-function validateParams(string $c, string $a)
+function validateParams(string $c = null, string $a = null)
 {
     if (!isset($c) || !isset($a)) {
-        redirect('Home', 'serve');
+        header("Location: ?c=Home&a=serve");
+        exit;
     }
 
     if (!class_exists($c . 'Controller')) {
