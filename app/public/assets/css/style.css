@@ -9,41 +9,257 @@
     --border: #dadada;
 }
 
-h1 {
-    font-size: 25px;
-    font-weight: 300;
-}
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
+
+/* mixin start
+	============================================================================================ */
+
+
+/* Medium Layout: 1280px */
+
+
+/* Tablet Layout: 768px */
+
+
+/* Mobile Layout: 320px */
+
+
+/* Wide Mobile Layout: 480px */
+
+
+/* mixin end
+	============================================================================================ */
+
+
+/* global style start
+	============================================================================================ */
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    color: #888888;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.667;
 }
 
-.heading {
-    text-align: center;
-    padding-top: 20px;
+a:hover {
+    text-decoration: none;
 }
 
-.heading * {
-    margin-bottom: 15px;
-    margin-left: auto;
-    margin-right: auto;
+h1,
+h2,
+h5 {
+    font-family: "Roboto Condensed", sans-serif;
+    color: #484750;
+    line-height: 1.25;
 }
 
-.heading img {
-    width: 90px;
+.navbar {
+    font-size: 17px;
 }
 
-.heading p {
-    display: block;
-    max-width: 500px;
+.main_menu {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
 }
 
-nav {
-    border-bottom: solid 1px var(--border);
+.main-img {
+    width: 200px;
 }
 
-nav img {
+.navbar img {
     width: 40px;
+}
+
+.img-main {
+    border-radius: 20%;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+@media (min-width: 768px) {
+    h2 {
+        font-size: 36px;
+    }
+}
+
+.pb-90px {
+    padding-bottom: 60px;
+}
+
+@media (min-width: 992px) {
+    .pb-90px {
+        padding-bottom: 90px;
+    }
+}
+
+@media (min-width: 992px) {
+    .generic-margin {
+        margin-top: 20px;
+    }
+}
+
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
+}
+
+.header_area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: background 0.4s, all 0.3s linear;
+}
+
+.header_area .navbar-brand {
+    margin-right: 30px;
+    padding: 0;
+}
+
+.header_area .navbar {
+    background: transparent;
+    border: 0px;
+    border-radius: 0px;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.hero-banner {
+    padding-top: 120px;
+}
+
+@media (min-width: 992px) {
+    .hero-banner {
+        padding-top: 160px;
+    }
+}
+
+.hero-banner h1 {
+    text-transform: uppercase;
+    color: #484750;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 1200px) {
+    .hero-banner h1 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-banner h1 {
+        font-size: 30px;
+    }
+}
+
+.bg-shape {
+    position: relative;
+}
+
+.bg-shape::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 595px;
+    height: 660px;
+    background: url(../img/home/bg-shape-left.png) left center no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
+@media (max-width: 620px) {
+    .bg-shape::before {
+        display: none;
+    }
+}
+
+.bg-shape::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 755px;
+    height: 860px;
+    background: url(../img/home/bg-shape-right.png) left center no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
+@media (max-width: 620px) {
+    .bg-shape::after {
+        display: none;
+    }
+}
+
+.section-intro {
+    max-width: 640px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.section-intro p {
+    margin-bottom: 0;
+}
+
+.section-intro-img {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    .magic-ball::before {
+        width: 70px;
+        height: 70px;
+        left: -35px;
+        border: 15px solid #6059f6;
+    }
+}
+
+@media (min-width: 768px) {
+    .magic-ball::after {
+        width: 98px;
+        height: 98px;
+        left: 165px;
+    }
+}
+
+.button {
+    display: inline-block;
+    background-color: #6059f6;
+    color: #fff;
+    border-radius: 30px;
+    padding: 8px 25px;
+    text-transform: capitalize;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+@media (min-width: 600px) {
+    .button {
+        padding: 12px 45px;
+    }
+}
+
+.button:hover {
+    background-color: #201aa3;
+    color: #fff;
+}
+
+.button-hero {
+    font-weight: 500;
 }
 
 .form-search {
@@ -51,28 +267,14 @@ nav img {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0 auto 20px auto;
-    max-width: 400px;
-}
-
-.form-search * {
-    width: 100%;
-    height: 35px;
-    font-size: 14px;
-}
-
-.form-search button {
-    border-radius: 20px;
-}
-
-.form-search button:focus {
-    outline: none;
-    outline: none !important;
-    box-shadow: none;
+    max-width: 500px;
+    justify-content: space-between;
 }
 
 .form-search img {
-    max-width: 35px;
-    margin: 0 20px;
+    max-width: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
     cursor: pointer;
 }
 
@@ -81,47 +283,48 @@ nav img {
     flex-grow: 1;
     width: 160px;
     border-bottom: solid 1px rgb(212, 212, 212);
-    margin-bottom: 10px;
 }
 
-.leaflet-control-container .leaflet-routing-container-hide {
-    display: none;
+.form-search button {
+    flex-basis: 60%;
 }
 
-.main-container {
-    max-width: 800px;
-    display: flex;
-    margin: 0 auto 50px auto;
-    flex-direction: row;
-    flex-wrap: wrap;
+.button-hero {
+    text-align: center;
 }
 
 #osm_map {
+    background: rgb(212, 212, 212);
     border-radius: 5px;
     flex-grow: 1;
-    width: 450px;
     border: solid 1px var(--border);
     min-height: 400px;
-}
-
-.container-cards {
-    flex-grow: 1;
-    width: 350px;
-    display: flex;
-    flex-direction: column;
 }
 
 .container-cards> :last-child {
     margin-bottom: 0px;
 }
 
-.card {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    margin-left: 3px;
-    margin-bottom: 3px;
+.card-title {
+    font-size: 18px;
 }
 
-.card-header {
-    font-size: 18px;
+.map-content {
+    visibility: hidden;
+}
+
+.map-content * {
+    margin-bottom: 5px;
+}
+
+.card-red {
+    background-color: rgb(245, 153, 153);
+}
+
+.card-yellow {
+    background-color: rgb(245, 153, 153);
+}
+
+.card-green {
+    background-color: rgb(117, 216, 130);
 }

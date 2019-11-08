@@ -19,55 +19,44 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light ">
-        <img src="assets/images/icons8-undefined-40.png" alt="">
-        <div class="navbar-nav ">
-            <a class="nav-link active" href="">Home</a>
-            <a class="nav-link " href="">API / Documentation</a>
-        </div>
-        <div class="navbar-nav ml-auto ">
-            <a class="nav-link " href="">Github</a>
-        </div>
-    </nav>
-    <div class="heading">
-        <h1>CrimeView</h1>
-        <p>Submit your travel route below to get started.</p>
-    </div>
+<body class="bg-shape">
+    <section class="hero-banner">
+        <div class="container">
+            <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
+                <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
+                    <h1>Stay save on german routes</h1>
+                    <p>CrimeView analyses your car-travel route and generates an overview of all german-counties (Landkreise) on the route, inluding their current crime rates. </p>
+                    <p>CrimeView displays a map of your route below and mark the counties you should avoid if possible.</p>
+                    <p>We retrieve our data from a variety of open data sources.</p>
+                </div>
+                <div class="col-md-8 col-lg-5">
+                    <img class="main-img" src="assets/images/bka_logo.png" alt="The BKA logo">
+                    <img class="main-img" src="assets/images/osm_logo.png" alt="The OSM Logo">
+                    <img class="main-img" src="assets/images/leaflet_logo.png" alt="The leaflet logo">
+                    <img class="main-img" src="assets/images/opendatasoft_logo.png" alt="the Opendatasoft logo">
+                </div>
+            </div>
+            <hr>
+            <div class="row justify-content-between align-items-stretch" style="margin-bottom: 40px;">
+                <div class="col-md-6 col-lg-5 mb-md-0">
+                    <h2>Get started here</h2>
+                    <p>Submit your travel route below to get started.</p>
+                    <form id="formRoute" class="form-search " method="POST ">
+                        <input id="inputDeparture" required type="text " name="from" placeholder="Departure">
+                        <img src="assets/images/exchange-arrows.svg" title="Exchange Cities" onclick="exchangeInputs()">
+                        <input id="inputDestination" required type="text " name="to" placeholder="Destination">
+                        <button type="submit" style="display: block;" class="button button-hero mt-4" href="#">Stay save</button>
+                    </form>
+                    <div class="map-content card-container">
 
-    <form id="formRoute" class="form-search " method="POST ">
-        <input value="Regensburg" id="inputDeparture" required type="text " name="from" placeholder="Departure">
-        <img src="assets/images/icons8-daten-in-beide-richtungen-48.png" title="Change" onclick="exchangeInputs()">
-        <input value="Erlangen" id="inputDestination" required type="text " name="to" placeholder="Destination">
-        <button type="submit" class="btn btn-outline-dark">View Crime</button>
-    </form>
-
-    <div class="main-container">
-        <div id="osm_map"></div>
-        <div class="container-cards">
-            <div class="card item1">
-                <div class="card-body">
-                    <h5 class="card-title" style="color: #e41111;">Nürnberg - 20%</h5>
-                    <p class="card-text">Some quick example text to the card's content.</p>
-                    <p class="card-text"><small class="text-muted">We recommend heavy artillery.</small></p>
+                    </div>
                 </div>
-            </div>
-            <div class="card item2">
-                <div class="card-body">
-                    <h5 class="card-title" style="color: #dd7d00;">Erlangen - 12%</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="card-text"><small class="text-muted">Maybe bring a knife.</small></p>
-                </div>
-            </div>
-            <div class="card item3">
-                <div class="card-body">
-                    <h5 class="card-title" style=" color: #a1be00;">Regensburg - 8%</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="card-text"><small class="text-muted">A Pepperspray should be enough.</small></p>
+                <div class="map-content map-container col-md-8 col-lg-7">
+                    <div id="osm_map"></div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <script type="text/javascript">
         var map = null;
@@ -82,6 +71,7 @@
 
         $("#formRoute").submit(function(e) {
             e.preventDefault()
+
             var data = new FormData($("#formRoute")[0]);
             fetch('/?c=Home&a=getCounties', {
                 method: 'POST',
@@ -89,16 +79,55 @@
             }).then(data => {
                 data.json().then(json => {
                     initMap();
-                    addRouting(json.from.city.lat, json.from.city.lon, json.to.city.lat, json.to.city.lon)
+                    addRouting(json.from.city.lat, json.from.city.lon, json.to.city.lat, json.to.city.lon);
+                    $(".card").remove();
+
+                    $(".map-container").append(
+                        '<div class="card">' +
+                        '<div class="card-body ">' +
+                        '<h5 class="card-title ">   Route information</h5>' +
+                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val() + ' to ' + $("#inputDestination").val() + ' you will pass ' +
+                        json.counties.length + ' german counties.</p>' +
+                        '<p class="card-text "><small class="text-muted ">Geocoding provided by Nominatim: <a href=https://nominatim.openstreetmap.org>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">Crime statistics provided by BKA: <a href=https://www.bka.de/DE/Home/home_node.html>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">County information provided by OpenDataSoft: <a href=https://www.opendatasoft.com/de>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">Map provided by OpenStreetMap and displayed with Leaflet: <a href=https://leafletjs.com>See data source</a></small></p>' +
+                        '</div>' +
+                        '</div>'
+                    );
+
+                    var countyAdded = 0;
+
                     json.counties.forEach(element => {
                         L.geoJson($.parseJSON(element.county.geoJson), {
                             style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate))
                         }).addTo(map);
+                        var dist_string = "<strong>Crime distribution: </strong>";
+                        element.county.crimeStats.distribution.forEach(dist => {
+                            dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
+                        });
+
+                        dist_string = dist_string.replace(/,\s$/g, '');
+
+                        if (countyAdded < 3) {
+                            $(".card-container").append(
+                                '<div class="card">' +
+                                '<div class="card-body ">' +
+                                '<h5 class="card-title " style=" color: ' + getColorByCrimeRate(element.county.crimeStats.rate) + '; ">' + element.county.name + ' (' +
+                                element.county.type + ') - ' + element.county.crimeStats.rate + '</h5>' +
+                                '<p class="card-text ">' + dist_string + '</p>' +
+                                '<p class="card-text "><small class="text-muted ">' + getSuggestionByCrimeRate(element.county.crimeStats.rate) + '</small></p>' +
+                                '</div>' +
+                                '</div>'
+                            );
+
+                            countyAdded++;
+                        }
                     });
                 })
             });
 
-            $(".main-container").css("visibility", "visible");
+            $(".map-content").css("visibility", "visible");
         });
 
         function addRouting(from_lat, from_lng, to_lat, to_lng) {
@@ -109,6 +138,7 @@
                 ],
                 draggableWaypoints: false,
                 addWaypoints: false,
+                show: false,
                 lineOptions: {
                     styles: [{
                         color: 'black',
@@ -124,7 +154,6 @@
                         weight: 2
                     }]
                 },
-                show: false
             }).addTo(map)
         }
 
@@ -155,17 +184,30 @@
         }
 
         function getColorByCrimeRate(crimeRate) {
-            console.log(crimeRate);
             var x = crimeRate;
             switch (true) {
-                case (crimeRate <= 0.2):
+                case (crimeRate <= 0.02):
                     return "#27ae60";
-                case (crimeRate <= 0.3):
+                case (crimeRate <= 0.05):
                     return "#d35400";
-                case (crimeRate <= 0.4):
+                case (crimeRate <= 0.06):
                     return "#c0392b";
                 default:
                     return "#27ae60";
+            }
+        }
+
+        function getSuggestionByCrimeRate(crimeRate) {
+            var x = crimeRate;
+            switch (true) {
+                case (crimeRate <= 0.02):
+                    return "A pepperspray should be enough.";
+                case (crimeRate <= 0.05):
+                    return "Maybe bring a knife";
+                case (crimeRate <= 0.06):
+                    return "We reccommend heavy artiellery";
+                default:
+                    return "We reccommend heavy artiellery";
             }
         }
 
