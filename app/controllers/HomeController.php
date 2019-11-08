@@ -29,11 +29,11 @@ final class HomeController extends AbstractController
 
         $counties = $this->dataProvider->getCountiesOnRoute($from_city, $to_city);
 
-        $json_ok = json_encode($counties);
-        if ($json_ok) {
-            echo $json_ok;
+        $json = json_encode(["from" => $from_city, "to" => $to_city, "counties" => $counties]);
+        if ($json) {
+            echo $json;
         } else {
-            throw new Exception("Couldn't encode counties to json", 1);
+            throw new Exception("Couldn't encode to json", 1);
         }
     }
 }
