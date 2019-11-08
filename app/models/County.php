@@ -31,32 +31,3 @@ class County implements JsonSerializable
         ];
     }
 }
-
-// $c = new County("Neumarkt", "District", "Bayern", new CrimeStats(19.21, ["Mord" => 1919, "Raub" => 812]), '{"geojson" : "Hello World"}');
-
-// $json = json_encode($c->jsonSerialize(), JSON_PRETTY_PRINT);
-// echo $json;
-// {
-//     "county": {
-//         "name": "Neumarkt",
-//         "type": "District",
-//         "state_name": "Bayern",
-//         "geoJson": "{\"geojson\" : \"Hello World\"}",
-//         "crimeStats": {
-//             "rate": 19.21,
-//             "distribution": [
-//                 {
-//                     "Mord": 1919
-//                 },
-//                 {
-//                     "Raub": 812
-//                 }
-//             ]
-//         }
-//     }
-// }
-
-
-// [0 => "Hello", 1 => "World", 2 => "Ayy"];
-
-// [0 => "Hello", 2 => "Ayy"];
