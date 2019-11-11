@@ -12,7 +12,7 @@ interface IDataProvider
      *
      * @return float The countie's crime stats that hold (amount of crimes / inhabitants) and its distribution
      */
-    public function getCountyCrimeStats(string $countyName): CrimeStats;
+    public function getCountyCrimeStats(string $countyName, string $countyType, int $countDistribution): CrimeStats;
 
     /**
      * Gets all counties on a route

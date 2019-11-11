@@ -7,7 +7,7 @@
  */
 class MockDataProvider implements IDataProvider
 {
-    public function getCountyCrimeStats(string $countyName): CrimeStats
+    public function getCountyCrimeStats(string $countyName, string $countyType = "county", int $countDistribution = 3): CrimeStats
     {
         switch (strtolower($countyName)) {
             case "neumarkt in der oberpfalz":
@@ -36,7 +36,7 @@ class MockDataProvider implements IDataProvider
 
         foreach ($features as $feature) {
             $name = $feature["properties"]["name_2"];
-            $type = $feature["properties"]["engtype_2"];
+            $type = $feature["properties"]["type_2"];
             $stateName = $feature["properties"]["name_1"];
             $geo = json_encode($feature);
             $crimeStats = $this->getCountyCrimeStats($name);
