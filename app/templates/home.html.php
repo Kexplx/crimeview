@@ -20,6 +20,38 @@
 </head>
 
 <body class="bg-shape">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">CrimeView</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Data Sources
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" target="_blank" href="https://leafletjs.com">Leaflet</a>
+                            <a class="dropdown-item" target="_blank" href="https://www.opendatasoft.com/de">OpenDataSoft</a>
+                            <a class="dropdown-item" target="_blank" href="https://nominatim.openstreetmap.org">Nominatim</a>
+                            <a class="dropdown-item" target="_blank" href="https://www.bka.de/DE/Home/home_node.html">Bundeskriminalamt</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" target="_blank" href="https://github.com/jvalue/open-data-service">Jvalue by FAU</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/Kexplx/CrimeView/tree/master">Github</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
     <section class="hero-banner">
         <div class="container">
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
