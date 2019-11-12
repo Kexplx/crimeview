@@ -8,9 +8,9 @@
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
     <script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
     <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/leaflet-providers.js"></script>
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    <script src="assets/js/vendor/leaflet-providers.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap ">
@@ -36,18 +36,17 @@
                             Data Sources
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" target="_blank" href="https://leafletjs.com">Leaflet</a>
-                            <a class="dropdown-item" target="_blank" href="https://www.opendatasoft.com/de">OpenDataSoft</a>
-                            <a class="dropdown-item" target="_blank" href="https://nominatim.openstreetmap.org">Nominatim</a>
-                            <a class="dropdown-item" target="_blank" href="https://www.bka.de/DE/Home/home_node.html">Bundeskriminalamt</a>
+                            <a class="dropdown-item" href="https://leafletjs.com">Leaflet</a>
+                            <a class="dropdown-item" href="https://www.opendatasoft.com/de">OpenDataSoft</a>
+                            <a class="dropdown-item" href="https://nominatim.openstreetmap.org">Nominatim</a>
+                            <a class="dropdown-item" href="https://www.bka.de/DE/Home/home_node.html">Bundeskriminalamt</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" target="_blank" href="https://github.com/jvalue/open-data-service">Jvalue by FAU</a>
+                            <a class="dropdown-item" href="#">Jvalue by FAU</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/Kexplx/CrimeView/tree/master">Github</a>
+                        <a class="nav-link" href="#">Github</a>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -56,28 +55,30 @@
         <div class="container">
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
-                    <h1>Stay save on german routes</h1>
-                    <p>CrimeView analyses your car-travel route and generates an overview of all german-counties (Landkreise) on the route, inluding their current crime rates. </p>
-                    <p>CrimeView displays a map of your route below and mark the counties you should avoid if possible.</p>
-                    <p>We retrieve our data from a variety of open data sources.</p>
+                    <h1>CrimeView</h1>
+                    <p>CrimeView analyses your car-travel route and generates an overview of all german-counties
+                        (Landkreise) on the route, inluding their current crime rates. </p>
+                    <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
                 </div>
                 <div class="col-md-8 col-lg-5">
-                    <img class="main-img" src="assets/images/bka_logo.png" alt="The BKA logo">
-                    <img class="main-img" src="assets/images/osm_logo.png" alt="The OSM Logo">
+                    <img class="main-img-small" src="assets/images/osm_logo.png" alt="The OSM Logo">
                     <img class="main-img" src="assets/images/leaflet_logo.png" alt="The leaflet logo">
                     <img class="main-img" src="assets/images/opendatasoft_logo.png" alt="the Opendatasoft logo">
+                    <img class="main-img" src="assets/images/bka_logo.png" alt="The BKA logo">
                 </div>
             </div>
             <hr>
             <div class="row justify-content-between align-items-stretch" style="margin-bottom: 40px;">
                 <div class="col-md-6 col-lg-5 mb-md-0">
-                    <h2>Get started here</h2>
-                    <p>Submit your travel route below to get started.</p>
+                    <h2>Submit route here</h2>
+                    <p>Submit your travel route below to get started.
+
+                        After valid input, we'll display a map of your route and mark the counties you should avoid if possible.</p>
                     <form id="formRoute" class="form-search " method="POST ">
-                        <input id="inputDeparture" required type="text " name="from" placeholder="Departure">
+                        <input id="inputDeparture" required type="text " name="from" placeholder="Departure city">
                         <img src="assets/images/exchange-arrows.svg" title="Exchange Cities" onclick="exchangeInputs()">
-                        <input id="inputDestination" required type="text " name="to" placeholder="Destination">
-                        <button type="submit" style="display: block;" class="button button-hero mt-4" href="#">Stay save</button>
+                        <input id="inputDestination" required type="text " name="to" placeholder="Destination city">
+                        <button type="submit" class="btn btn-danger">Analyze</button>
                     </form>
                     <div class="map-content card-container">
 
