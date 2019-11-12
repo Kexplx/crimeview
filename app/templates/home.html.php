@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home / CrimeView</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./analytics.ico">
     <script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
     <script src="assets/js/vendor/bootstrap.min.js"></script>
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
@@ -45,7 +45,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Github</a>
+                        <a class="nav-link" href="https://github.com/Kexplx/CrimeView">Github</a>
                     </li>
                 </ul>
             </div>
@@ -61,10 +61,7 @@
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
                 </div>
                 <div class="col-md-8 col-lg-5">
-                    <img class="main-img-small" src="assets/images/osm_logo.png" alt="The OSM Logo">
-                    <img class="main-img" src="assets/images/leaflet_logo.png" alt="The leaflet logo">
-                    <img class="main-img" src="assets/images/opendatasoft_logo.png" alt="the Opendatasoft logo">
-                    <img class="main-img" src="assets/images/bka_logo.png" alt="The BKA logo">
+                    <img class="main-img" src="assets/images/analytics.svg" alt="CrimeView Logo">
                 </div>
             </div>
             <hr>
