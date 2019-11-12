@@ -8,14 +8,8 @@
  */
 class OriginDataProvider implements IDataProvider
 {
-    public function getCountyCrimeStats(string $countyName, string $countyType = "county", int $countDistribution = 3): CrimeStats
+    public function getCountyCrimeStats(string $id, int $countDistribution = 3): CrimeStats
     {
-        if ($countyType == "city") {
-            $countyType = "KfS";
-        } else {
-            $countyType = "LK";
-        }
-
         $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
 
         $rows = explode("\n", $data);
@@ -26,8 +20,8 @@ class OriginDataProvider implements IDataProvider
             $county = utf8_encode($rowAsArray[3]);
             $type = $rowAsArray[4];
 
-            if ($rowAsArray[0] != "------") {
-                if ($county == $countyName && $type == $countyType) {
+            if ($rowAsArray[2] == $id) {
+                if ($rowAsArray[0] != "------") {
                     $crime = utf8_encode($rowAsArray[1]);
 
                     if (strpos($crime, 'insgesamt') === false) {
@@ -35,9 +29,7 @@ class OriginDataProvider implements IDataProvider
                         $crimes["Type"] = $type;
                         $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
                     }
-                }
-            } else {
-                if ($county == $countyName && $type == $countyType) {
+                } else {
                     $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                 }
             }
@@ -56,7 +48,7 @@ class OriginDataProvider implements IDataProvider
         $toLat = $to->getLat();
         $toLon = $to->getLon();
 
-        $fromLatAdjusted = $fromLat + 0.0000000000001;
+        $fromLatAdjusted = $fromLat + 0.0000001;
         $pathToGeoJson = "https://public.opendatasoft.com/explore/dataset/landkreise-in-germany/download?format=geojson&geofilter.polygon=(" . $fromLat . "," . $fromLon . "),(" . $toLat . "," . $toLon . "),(" . $fromLatAdjusted . "," . $fromLon . "),(" . $fromLat . "," . $fromLon . ")";
 
         $geoJson = file_get_contents($pathToGeoJson);
@@ -66,12 +58,14 @@ class OriginDataProvider implements IDataProvider
         $counties = array();
 
         foreach ($features as $feature) {
+
             $name = $feature["properties"]["name_2"];
             $type = $feature["properties"]["type_2"];
             $stateName = $feature["properties"]["name_1"];
+            $id = $feature["properties"]["cca_2"];
             $geo = json_encode($feature);
 
-            $crimeStats = $this->getCountyCrimeStats($name, $type);
+            $crimeStats = $this->getCountyCrimeStats($id, 3);
 
             $counties[] = new County($name, $type, $stateName, $geo, $crimeStats);
         }
