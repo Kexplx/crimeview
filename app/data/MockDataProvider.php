@@ -11,17 +11,17 @@ class MockDataProvider implements IDataProvider
     {
         switch (strtolower($countyName)) {
             case "neumarkt in der oberpfalz":
-                return new CrimeStats(0.2, ["Diebstahl" => 58, "Mord" => 1]);
+                return new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]);
             case "regensburg":
-                return new CrimeStats(0.3, ["Diebstahl" => 200, "Körperverletzung" => 30]);
+                return new CrimeStats(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]);
             case "nürnberger land":
-                return new CrimeStats(0.13, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]);
+                return new CrimeStats(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]);
             case "erlangen":
-                return new CrimeStats(0.25, ["Diebstahl" => 90, "Raub" => 43]);
+                return new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]);
             case "erlangen-höchstadt":
-                return new CrimeStats(0.2, ["Diebstahl" => 180]);
+                return new CrimeStats(0.02, ["Diebstahl" => 180]);
             default:
-                return new CrimeStats(0.4, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]);
+                return new CrimeStats(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]);
         }
     }
 
