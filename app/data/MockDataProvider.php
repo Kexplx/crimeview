@@ -9,18 +9,6 @@ class MockDataProvider implements IDataProvider
 {
     public function getCountyCrimeStats(string $id, int $countDistribution = 3): CrimeStats
     {
-<<<<<<< HEAD
-        switch (strtolower($countyName)) {
-            case "neumarkt in der oberpfalz":
-                return new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]);
-            case "regensburg":
-                return new CrimeStats(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]);
-            case "nürnberger land":
-                return new CrimeStats(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]);
-            case "erlangen":
-                return new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]);
-            case "erlangen-höchstadt":
-=======
         switch ($id) {
             case '09373':
                 return new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]);
@@ -31,7 +19,6 @@ class MockDataProvider implements IDataProvider
             case '09562':
                 return new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]);
             case '09375':
->>>>>>> new.dataAccess
                 return new CrimeStats(0.02, ["Diebstahl" => 180]);
             default:
                 return new CrimeStats(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]);
