@@ -10,10 +10,16 @@ class DataProviderTest extends TestCase
      */
     public function testGetCountyCrimeRate(IDataProvider $provider)
     {
-        $countyNames = ["Regensburg", "Erlangen", "München"];
+        $counties = array(
+            'Nürnberg' => '09564',
+            'Erlangen' => '09562',
+            'München' => '09174',
+            'Regensburg' => '09362',
+            'Regensburg' => '09375'
+        );
 
-        foreach ($countyNames as $countyName) {
-            $crimeStats = $provider->getCountyCrimeStats($countyName);
+        foreach ($counties as $name => $id) {
+            $crimeStats = $provider->getCountyCrimeStats($id, 3);
             $this->assertInstanceOf('CrimeStats', $crimeStats);
         }
     }
@@ -23,10 +29,9 @@ class DataProviderTest extends TestCase
      */
     public function testGetCountiesOnRoute(IDataProvider $provider)
     {
-        // Route data
-        $regensburgCity = new City("Regensburg", "city", 59.000, 43.02);
-        $erlangenCity = new City("Erlangen", "city", 46.0123, 40.10213);
-        $nuernbergCity = new City("Nürnberg", "city", 45.0123, 41.10213);
+        $regensburgCity = new City("Regensburg, Oberpfalz, Bayern, 93047, Deutschland", "city", 49.0195333, 12.0974869);
+        $erlangenCity = new City("Erlangen, Mittelfranken, Bayern, 91052, Deutschland", "city", 49.5981187, 11.003645);
+        $nuernbergCity = new City("Nürnberg, Mittelfranken, Bayern, Deutschland", "city", 49.453872, 11.077298);
 
         $routeRegensburgErlangen["from"] = $regensburgCity;
         $routeRegensburgErlangen["to"] = $erlangenCity;
@@ -51,7 +56,7 @@ class DataProviderTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testMockGetCityByName(IDataProvider $provider)
+    public function testGetCityByName(IDataProvider $provider)
     {
         $cityNames = ["Regensburg", "Erlangen", "München"];
 
@@ -63,7 +68,7 @@ class DataProviderTest extends TestCase
     public function dataProvider()
     {
         return array(
-            array(new MockDataProvider)
+            array(new MockDataProvider()), array(new OriginDataProvider())
         );
     }
 }
