@@ -2,6 +2,7 @@
 
 class County implements JsonSerializable
 {
+    private $id;
     private $name;
     private $type;
     private $state_name;
@@ -9,8 +10,9 @@ class County implements JsonSerializable
     private $crimeStats;
 
 
-    function __construct(string $name, string $type, string $state_name, string $geoJson, CrimeStats $crimeStats)
+    function __construct(string $id, string $name, string $type, string $state_name, string $geoJson, CrimeStats $crimeStats)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->type = $type;
         $this->geoJson = $geoJson;
@@ -22,6 +24,7 @@ class County implements JsonSerializable
     {
         return [
             'county' => [
+                'id' => $this->id,
                 'name' => $this->name,
                 'type' => $this->type,
                 'state_name' => $this->state_name,

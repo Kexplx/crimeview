@@ -67,7 +67,7 @@ class OriginDataProvider implements IDataProvider
 
             $crimeStats = $this->getCountyCrimeStats($id, 3);
 
-            $counties[] = new County($name, $type, $stateName, $geo, $crimeStats);
+            $counties[] = new County($id, $name, $type, $stateName, $geo, $crimeStats);
         }
 
         return $counties;

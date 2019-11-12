@@ -38,10 +38,12 @@ class MockDataProvider implements IDataProvider
             $name = $feature["properties"]["name_2"];
             $type = $feature["properties"]["type_2"];
             $stateName = $feature["properties"]["name_1"];
+            $id = $feature["properties"]["cca_2"];
             $geo = json_encode($feature);
-            $crimeStats = $this->getCountyCrimeStats($name);
 
-            $counties[] = new County($name, $type, $stateName, $geo, $crimeStats);
+            $crimeStats = $this->getCountyCrimeStats($id);
+
+            $counties[] = new County($id, $name, $type, $stateName, $geo, $crimeStats);
         }
 
         return $counties;
