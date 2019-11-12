@@ -42,19 +42,15 @@ h5 {
 }
 
 .main-img {
-    width: 150px;
+    width: 200px;
 }
 
 .navbar img {
     width: 40px;
 }
 
-.img-main {
-    border-radius: 20%;
-}
-
 h1 {
-    font-size: 50px;
+    font-size: 45px;
 }
 
 h2 {
@@ -141,36 +137,10 @@ h2 {
     position: relative;
 }
 
-.bg-shape::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 595px;
-    height: 660px;
-    background: url(../img/home/bg-shape-left.png) left center no-repeat;
-    background-size: cover;
-    z-index: -1;
-}
-
 @media (max-width: 620px) {
     .bg-shape::before {
         display: none;
     }
-}
-
-.bg-shape::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 755px;
-    height: 860px;
-    background: url(../img/home/bg-shape-right.png) left center no-repeat;
-    background-size: cover;
-    z-index: -1;
 }
 
 @media (max-width: 620px) {
@@ -210,28 +180,10 @@ h2 {
     }
 }
 
-.button {
-    display: inline-block;
-    background-color: #6059f6;
-    color: #fff;
-    border-radius: 20px;
-    padding: 8px 25px;
-    text-transform: capitalize;
-    -webkit-transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-
 @media (min-width: 600px) {
     .button {
         padding: 12px 45px;
     }
-}
-
-.button:hover {
-    background-color: #201aa3;
-    color: #fff;
 }
 
 .button-hero {
@@ -248,7 +200,7 @@ h2 {
 }
 
 .form-search img {
-    max-width: 30px;
+    max-width: 25px;
     margin-right: 10px;
     margin-left: 10px;
     cursor: pointer;
@@ -262,7 +214,9 @@ h2 {
 }
 
 .form-search button {
-    flex-basis: 60%;
+    flex: 0 0 50%;
+    width: 100px;
+    margin-top: 10px;
 }
 
 .button-hero {
