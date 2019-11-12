@@ -7,18 +7,18 @@
  */
 class MockDataProvider implements IDataProvider
 {
-    public function getCountyCrimeStats(string $countyName): CrimeStats
+    public function getCountyCrimeStats(string $id, int $countDistribution = 3): CrimeStats
     {
-        switch (strtolower($countyName)) {
-            case "neumarkt in der oberpfalz":
+        switch ($id) {
+            case '09373':
                 return new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]);
-            case "regensburg":
+            case '09362':
                 return new CrimeStats(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]);
-            case "nürnberger land":
+            case '09574':
                 return new CrimeStats(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]);
-            case "erlangen":
+            case '09562':
                 return new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]);
-            case "erlangen-höchstadt":
+            case '09375':
                 return new CrimeStats(0.02, ["Diebstahl" => 180]);
             default:
                 return new CrimeStats(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]);
@@ -38,10 +38,12 @@ class MockDataProvider implements IDataProvider
             $name = $feature["properties"]["name_2"];
             $type = $feature["properties"]["type_2"];
             $stateName = $feature["properties"]["name_1"];
+            $id = $feature["properties"]["cca_2"];
             $geo = json_encode($feature);
-            $crimeStats = $this->getCountyCrimeStats($name);
 
-            $counties[] = new County($name, $type, $stateName, $geo, $crimeStats);
+            $crimeStats = $this->getCountyCrimeStats($id);
+
+            $counties[] = new County($id, $name, $type, $stateName, $geo, $crimeStats);
         }
 
         return $counties;

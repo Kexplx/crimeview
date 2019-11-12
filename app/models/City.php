@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class City implements JsonSerializable
 {
@@ -25,5 +25,15 @@ class City implements JsonSerializable
                 'type' => $this->type
             ]
         ];
+    }
+
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    public function getLon()
+    {
+        return $this->lon;
     }
 }
