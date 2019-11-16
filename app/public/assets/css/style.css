@@ -41,7 +41,7 @@ h5 {
 }
 
 .main-img {
-    width: 200px;
+    width: 230px;
 }
 
 .navbar img {
@@ -249,8 +249,4 @@ h2 {
 
 .card-green {
     background-color: rgb(117, 216, 130);
-}
-
-.btn:focus .btn:active:focus {
-    outline: none;
 }
