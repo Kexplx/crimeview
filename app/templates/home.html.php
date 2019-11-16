@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home / CrimeView</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./analytics.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
     <script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
     <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.17.0"></script>
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
     <script src="assets/js/vendor/leaflet-providers.js"></script>
@@ -69,12 +70,10 @@
                 <div class="col-md-6 col-lg-5 mb-md-0">
                     <h2>Submit route here</h2>
                     <p>Submit your travel route below to get started.
-
                         After valid input, we'll display a map of your route and mark the counties you should avoid if possible.</p>
                     <form id="formRoute" class="form-search " method="POST ">
-                        <input id="inputDeparture" required type="text " name="from" placeholder="Departure city">
-                        <img src="assets/images/exchange-arrows.svg" title="Exchange Cities" onclick="exchangeInputs()">
-                        <input id="inputDestination" required type="text " name="to" placeholder="Destination city">
+                        <input class="lala" id="inputDeparture" required type="text " name="from" placeholder="Departure city">
+                        <input class="lala" id="inputDestination" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" class="btn btn-danger">Analyze</button>
                     </form>
                     <div class="map-content card-container">
@@ -82,6 +81,9 @@
                     </div>
                 </div>
                 <div class="map-content map-container col-md-8 col-lg-7">
+                    <div id="progressBar" class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
                     <div id="osm_map"></div>
                 </div>
             </div>
@@ -89,8 +91,9 @@
     </section>
 
     <script type="text/javascript">
+        initPlacesApi();
         var map = null;
-
+        var pbUsed = false;
         class County {
             constructor(geoJson, crimeRate, color) {
                 this.geoJson = geoJson;
@@ -116,7 +119,7 @@
                         '<div class="card">' +
                         '<div class="card-body ">' +
                         '<h5 class="card-title ">   Route information</h5>' +
-                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val() + ' to ' + $("#inputDestination").val() + ' you will pass ' +
+                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.*,.*$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.*,.*$/g, '') + ' you will pass ' +
                         json.counties.length + ' german counties.</p>' +
                         '<p class="card-text "><small class="text-muted ">Geocoding provided by Nominatim: <a href=https://nominatim.openstreetmap.org>See data source</a></small></p>' +
                         '<p class="card-text "><small class="text-muted ">Crime statistics provided by BKA: <a href=https://www.bka.de/DE/Home/home_node.html>See data source</a></small></p>' +
@@ -160,31 +163,77 @@
             $(".map-content").css("visibility", "visible");
         });
 
+        function initPlacesApi() {
+            var placesContainerDeparture = places({
+                appId: "plXRD1IMI80E",
+                apiKey: "00f22d317e3469a60acffe3d3e316f6f",
+                container: document.querySelector('#inputDestination'),
+            });
+
+            var placesContainerDestination = places({
+                appId: "plXRD1IMI80E",
+                apiKey: "00f22d317e3469a60acffe3d3e316f6f",
+                container: document.querySelector('#inputDeparture'),
+            });
+
+            const reconfigurableOptions = {
+                countries: ['de'],
+                type: 'city',
+                aroundLatLngViaIP: false
+            };
+
+            placesContainerDeparture.configure(reconfigurableOptions);
+            placesContainerDestination.configure(reconfigurableOptions);
+        }
+
         function addRouting(from_lat, from_lng, to_lat, to_lng) {
-            new L.Routing.control({
-                waypoints: [
-                    L.latLng(from_lat, from_lng),
-                    L.latLng(to_lat, to_lng)
-                ],
-                draggableWaypoints: false,
-                addWaypoints: false,
-                show: false,
-                lineOptions: {
-                    styles: [{
-                        color: 'black',
-                        opacity: 0.15,
-                        weight: 9
-                    }, {
-                        color: 'white',
-                        opacity: 0.8,
-                        weight: 6
-                    }, {
-                        color: '#2c3e50',
-                        opacity: 1,
-                        weight: 2
-                    }]
-                },
-            }).addTo(map)
+            pbUsed = false;
+            var routingProvider = new L.Routing.control({
+                    waypoints: [
+                        L.latLng(from_lat, from_lng),
+                        L.latLng(to_lat, to_lng)
+                    ],
+                    draggableWaypoints: false,
+                    addWaypoints: false,
+                    show: false,
+                    lineOptions: {
+                        styles: [{
+                            color: 'black',
+                            opacity: 0.15,
+                            weight: 9
+                        }, {
+                            color: 'white',
+                            opacity: 0.8,
+                            weight: 6
+                        }, {
+                            color: '#2c3e50',
+                            opacity: 1,
+                            weight: 2
+                        }]
+                    },
+                })
+                .on('routingstart', showPb)
+                .on('routesfound', hidePb)
+                .on('routingerror', function() {
+
+                    this.on('routingstart', function() {});
+                    setTimeout(function() {
+                        routingProvider.addTo(map);
+                    }, 4000);
+                });
+
+            routingProvider.addTo(map);
+        }
+
+        function showPb() {
+            if (!pbUsed) {
+                $("#progressBar").show();
+                pbUsed = true;
+            }
+        }
+
+        function hidePb() {
+            $("#progressBar").hide();
         }
 
         function initMap() {
@@ -201,6 +250,10 @@
                 attribution: 'OpenStreetMap',
                 maxZoom: 13
             }).addTo(map);
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         function polystyle(color) {
@@ -239,12 +292,6 @@
                 default:
                     return "We reccommend heavy artiellery";
             }
-        }
-
-        function exchangeInputs() {
-            var hold = $("#inputDeparture").val();
-            $("#inputDeparture").val($("#inputDestination").val());
-            $("#inputDestination").val(hold);
         }
     </script>
 </body>
