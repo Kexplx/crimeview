@@ -11,7 +11,6 @@
 
 @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
-
 body {
     color: #888888;
     font-family: "Roboto", sans-serif;
@@ -191,12 +190,8 @@ h2 {
 }
 
 .form-search {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     margin: 0 auto 20px auto;
     max-width: 500px;
-    justify-content: space-between;
 }
 
 .form-search img {
@@ -208,14 +203,13 @@ h2 {
 
 .form-search input {
     border: none;
-    flex-grow: 1;
-    width: 160px;
+    width: 100%;
+    padding-left: 0px;
     border-bottom: solid 1px rgb(212, 212, 212);
 }
 
-.form-search button {
-    flex: 0 0 50%;
-    width: 100px;
+.form-search .btn {
+    width: 30%;
     margin-top: 10px;
 }
 
@@ -229,10 +223,12 @@ h2 {
     flex-grow: 1;
     border: solid 1px var(--border);
     min-height: 400px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.container-cards> :last-child {
-    margin-bottom: 0px;
+.card-container * {
+    margin-bottom: 3px;
 }
 
 .card-title {
@@ -241,10 +237,6 @@ h2 {
 
 .map-content {
     visibility: hidden;
-}
-
-.map-content * {
-    margin-bottom: 5px;
 }
 
 .card-red {
@@ -257,4 +249,8 @@ h2 {
 
 .card-green {
     background-color: rgb(117, 216, 130);
+}
+
+.btn:focus .btn:active:focus {
+    outline: none;
 }
