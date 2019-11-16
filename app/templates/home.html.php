@@ -37,16 +37,16 @@
                             Data Sources
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://leafletjs.com">Leaflet</a>
-                            <a class="dropdown-item" href="https://www.opendatasoft.com/de">OpenDataSoft</a>
-                            <a class="dropdown-item" href="https://nominatim.openstreetmap.org">Nominatim</a>
-                            <a class="dropdown-item" href="https://www.bka.de/DE/Home/home_node.html">Bundeskriminalamt</a>
+                            <a class="dropdown-item" href="https://leafletjs.com" target="_blank">Leaflet</a>
+                            <a class="dropdown-item" href="https://www.opendatasoft.com/de" target="_blank">OpenDataSoft</a>
+                            <a class="dropdown-item" href="https://nominatim.openstreetmap.org" target="_blank">Nominatim</a>
+                            <a class="dropdown-item" href="https://www.bka.de/DE/Home/home_node.html" target="_blank">Bundeskriminalamt</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Jvalue by FAU</a>
+                            <a class="dropdown-item" href="https://github.com/georg-schwarz/open-data-service" target="_blank">Jvalue ODS</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/Kexplx/CrimeView">Github</a>
+                        <a class="nav-link" href="https://github.com/Kexplx/CrimeView" target="_blank">Github</a>
                     </li>
                 </ul>
             </div>
@@ -58,11 +58,12 @@
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
                     <h1>CrimeView</h1>
                     <p>CrimeView analyses your car-travel route and generates an overview of all german-counties
-                        (Landkreise) on the route, inluding their current crime rates. </p>
+                        and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
+                    <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> @ FAU.</p>
                 </div>
                 <div class="col-md-8 col-lg-5">
-                    <img class="main-img" src="assets/images/analytics.svg" alt="CrimeView Logo">
+                    <img class="main-img" src="assets/images/fau.png" alt="CrimeView Logo">
                 </div>
             </div>
             <hr>
@@ -74,7 +75,7 @@
                     <form id="formRoute" class="form-search " method="POST ">
                         <input class="lala" id="inputDeparture" required type="text " name="from" placeholder="Departure city">
                         <input class="lala" id="inputDestination" required type="text " name="to" placeholder="Destination city">
-                        <button type="submit" class="btn btn-danger">Analyze</button>
+                        <button type="submit" class="btn btn-dark">Analyze</button>
                     </form>
                     <div class="map-content card-container">
 
@@ -82,7 +83,7 @@
                 </div>
                 <div class="map-content map-container col-md-8 col-lg-7">
                     <div id="progressBar" class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                     </div>
                     <div id="osm_map"></div>
                 </div>
@@ -121,10 +122,10 @@
                         '<h5 class="card-title ">   Route information</h5>' +
                         '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.*,.*$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.*,.*$/g, '') + ' you will pass ' +
                         json.counties.length + ' german counties.</p>' +
-                        '<p class="card-text "><small class="text-muted ">Geocoding provided by Nominatim: <a href=https://nominatim.openstreetmap.org>See data source</a></small></p>' +
-                        '<p class="card-text "><small class="text-muted ">Crime statistics provided by BKA: <a href=https://www.bka.de/DE/Home/home_node.html>See data source</a></small></p>' +
-                        '<p class="card-text "><small class="text-muted ">County information provided by OpenDataSoft: <a href=https://www.opendatasoft.com/de>See data source</a></small></p>' +
-                        '<p class="card-text "><small class="text-muted ">Map provided by OpenStreetMap and displayed with Leaflet: <a href=https://leafletjs.com>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">Geocoding provided by Nominatim: <a target="_blank" href=https://nominatim.openstreetmap.org>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">Crime statistics provided by BKA: <a target="_blank" href=https://www.bka.de/DE/Home/home_node.html>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">County information provided by OpenDataSoft: <a target="_blank" href=https://www.opendatasoft.com/de>See data source</a></small></p>' +
+                        '<p class="card-text "><small class="text-muted ">Map provided by OpenStreetMap and displayed with Leaflet: <a target="_blank" href=https://leafletjs.com>See data source</a></small></p>' +
                         '</div>' +
                         '</div>'
                     );
@@ -135,7 +136,7 @@
                         L.geoJson($.parseJSON(element.county.geoJson), {
                             style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate))
                         }).addTo(map);
-                        var dist_string = "<strong>Crime distribution: </strong>";
+                        var dist_string = "Crime distribution: ";
                         element.county.crimeStats.distribution.forEach(dist => {
                             dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
                         });
