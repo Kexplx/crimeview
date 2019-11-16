@@ -24,7 +24,7 @@ class HomeControllerTest extends TestCase
     }
 
     /**
-     * Tests the correct output of the getCounties method in the home controller
+     * Tests valid json output of the getCounties method in the home controller
      * @method HomeController:testGetCounties()
      */
     public function testGetCounties()
