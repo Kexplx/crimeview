@@ -60,7 +60,7 @@
                     <p>CrimeView analyses your car-travel route and generates an overview of all german-counties
                         and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
-                    <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> @ FAU.</p>
+                    <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> at FAU.</p>
                 </div>
                 <div class="col-md-8 col-lg-5">
                     <img class="main-img" src="assets/images/fau.png" alt="CrimeView Logo">
@@ -71,14 +71,13 @@
                 <div class="col-md-6 col-lg-5 mb-md-0">
                     <h2>Submit route here</h2>
                     <p>Submit your travel route below to get started.
-                        After valid input, we'll display a map of your route and mark the counties you should avoid if possible.</p>
+                        After valid input, we'll display a map of your route and mark the counties on the way based on their current crime-rate.</p>
                     <form id="formRoute" class="form-search " method="POST ">
                         <input class="lala" id="inputDeparture" required type="text " name="from" placeholder="Departure city">
                         <input class="lala" id="inputDestination" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" class="btn btn-dark">Analyze</button>
                     </form>
                     <div class="map-content card-container">
-
                     </div>
                 </div>
                 <div class="map-content map-container col-md-8 col-lg-7">
@@ -122,10 +121,6 @@
                         '<h5 class="card-title ">   Route information</h5>' +
                         '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.*,.*$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.*,.*$/g, '') + ' you will pass ' +
                         json.counties.length + ' german counties.</p>' +
-                        '<p class="card-text "><small class="text-muted ">Geocoding provided by Nominatim: <a target="_blank" href=https://nominatim.openstreetmap.org>See data source</a></small></p>' +
-                        '<p class="card-text "><small class="text-muted ">Crime statistics provided by BKA: <a target="_blank" href=https://www.bka.de/DE/Home/home_node.html>See data source</a></small></p>' +
-                        '<p class="card-text "><small class="text-muted ">County information provided by OpenDataSoft: <a target="_blank" href=https://www.opendatasoft.com/de>See data source</a></small></p>' +
-                        '<p class="card-text "><small class="text-muted ">Map provided by OpenStreetMap and displayed with Leaflet: <a target="_blank" href=https://leafletjs.com>See data source</a></small></p>' +
                         '</div>' +
                         '</div>'
                     );
@@ -147,7 +142,7 @@
                             $(".card-container").append(
                                 '<div class="card">' +
                                 '<div class="card-body ">' +
-                                '<h5 class="card-title " style=" color: ' + getColorByCrimeRate(element.county.crimeStats.rate) + '; ">' + element.county.name + ' (' +
+                                '<h5 class="card-title ">' + element.county.name + ' (' +
                                 element.county.type + ') - ' + element.county.crimeStats.rate + '</h5>' +
                                 '<p class="card-text ">' + dist_string + '</p>' +
                                 '<p class="card-text "><small class="text-muted ">' + getSuggestionByCrimeRate(element.county.crimeStats.rate) + '</small></p>' +
