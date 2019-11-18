@@ -8,44 +8,24 @@ class DataProviderTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetCountyCrimeRate(IDataProvider $provider)
-    {
-        $counties = array(
-            'Nürnberg' => '09564',
-            'Erlangen' => '09562',
-            'München' => '09174',
-            'Regensburg' => '09362',
-            'Regensburg' => '09375'
-        );
+    public function testCrimeDataProvider(CrimeViewDataProvider $provider) {
 
-        foreach ($counties as $name => $id) {
-            $crimeStats = $provider->getCountyCrimeStats($id, 3);
-            $this->assertInstanceOf('CrimeStats', $crimeStats);
-        }
-    }
+        $route1["from"] = 'Regensburg';
+        $route1["to"] = 'Erlangen';
 
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testGetCountiesOnRoute(IDataProvider $provider)
-    {
-        $regensburgCity = new City("Regensburg, Oberpfalz, Bayern, 93047, Deutschland", "city", 49.0195333, 12.0974869);
-        $erlangenCity = new City("Erlangen, Mittelfranken, Bayern, 91052, Deutschland", "city", 49.5981187, 11.003645);
-        $nuernbergCity = new City("Nürnberg, Mittelfranken, Bayern, Deutschland", "city", 49.453872, 11.077298);
+        $route2["from"] = 'Erlangen';
+        $route2["to"] = 'Nürnberg';
 
-        $routeRegensburgErlangen["from"] = $regensburgCity;
-        $routeRegensburgErlangen["to"] = $erlangenCity;
+        $route3["from"] = 'Nürnberg';
+        $route3["to"] = 'Regensburg';
 
-        $routeErlangenNuernberg["from"] = $erlangenCity;
-        $routeErlangenNuernberg["to"] = $nuernbergCity;
+        $route4["from"] = 'München';
+        $route4["to"] = 'Berlin';
 
-        $routeNuernbergRegensburg["from"] = $nuernbergCity;
-        $routeNuernbergRegensburg["to"] = $regensburgCity;
-
-        $cites = [$routeRegensburgErlangen, $routeErlangenNuernberg, $routeNuernbergRegensburg];
+        $cites = [$route1, $route2, $route3, $route4];
 
         foreach ($cites as $route) {
-            $counties = $provider->getCountiesOnRoute($route["from"], $route["to"]);
+            $counties = $provider->getRouteData($route["from"], $route["to"], 3);
             $this->assertIsArray($counties);
             foreach ($counties as $county) {
                 $this->assertInstanceOf('County', $county);
@@ -53,22 +33,10 @@ class DataProviderTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testGetCityByName(IDataProvider $provider)
-    {
-        $cityNames = ["Regensburg", "Erlangen", "München"];
-
-        foreach ($cityNames as $cityName) {
-            $this->assertInstanceOf('City', $provider->getCityByName($cityName));
-        }
-    }
-
     public function dataProvider()
     {
         return array(
-            array(new MockDataProvider()), array(new OriginDataProvider())
+            array(new CrimeViewDataProvider(new OriginDataProvider, new OriginDataProvider, new OriginDataProvider)), array(new CrimeViewDataProvider(new MockDataProvider, new MockDataProvider, new MockDataProvider))
         );
     }
 }

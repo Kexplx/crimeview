@@ -6,42 +6,47 @@
  * A OriginDataProvider is used to get live data sets via easy API calls.
  * Therefore the data is deliverd directly from a API without using the ODS.
  */
-class OriginDataProvider implements IDataProvider
+class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, IGeoDataProvider
 {
-    public function getCountyCrimeStats(string $id, int $countDistribution = 3): CrimeStats
+    public function getCountyCrimeStats(array $counties, int $countDistribution = 3): array
     {
         $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
 
         $rows = explode("\n", $data);
         $crimes = array();
 
-        foreach ($rows as $row) {
-            $rowAsArray = str_getcsv($row, ";");
+        foreach ($counties as $county) {
+            $id = $county->getId();
 
-            if (sizeof($rowAsArray) == 18) {
-                $county = utf8_encode($rowAsArray[3]);
-                $type = $rowAsArray[4];
+            foreach ($rows as $row) {
+                $rowAsArray = str_getcsv($row, ";");
+                if (sizeof($rowAsArray) == 18) {
+                    $countyName = utf8_encode($rowAsArray[3]);
+                    $type = $rowAsArray[4];
 
-                if ($rowAsArray[2] == $id) {
-                    if ($rowAsArray[0] != "------") {
-                        $crime = utf8_encode($rowAsArray[1]);
+                    if ($rowAsArray[2] == $id) {
+                        if ($rowAsArray[0] != "------") {
+                            $crime = utf8_encode($rowAsArray[1]);
 
-                        if (strpos($crime, 'insgesamt') === false) {
-                            $crimes["Name"] = $county;
-                            $crimes["Type"] = $type;
-                            $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                            if (strpos($crime, 'insgesamt') === false) {
+                                $crimes["Name"] = $countyName;
+                                $crimes["Type"] = $type;
+                                $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                            }
+                        } else {
+                            $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                         }
-                    } else {
-                        $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                     }
                 }
             }
+
+            arsort($crimes["Crimes"]);
+            $crimes["Crimes"] = array_slice($crimes["Crimes"], 0, $countDistribution);
+
+            $county->setCrimeStats(CrimeStats::withRate($crimes["Frequency"] / 100000, $crimes["Crimes"]));
         }
 
-        arsort($crimes["Crimes"]);
-        $crimes["Crimes"] = array_slice($crimes["Crimes"], 0, $countDistribution);
-
-        return new CrimeStats($crimes["Frequency"] / 100000, $crimes["Crimes"]);
+        return $counties;
     }
 
     public function getCountiesOnRoute(City $from, City $to): array
@@ -68,9 +73,7 @@ class OriginDataProvider implements IDataProvider
             $id = $feature["properties"]["cca_2"];
             $geo = json_encode($feature);
 
-            $crimeStats = $this->getCountyCrimeStats($id, 3);
-
-            $counties[] = new County($id, $name, $type, $stateName, $geo, $crimeStats);
+            $counties[] = new County($id, $name, $type, $stateName, $geo);
         }
 
         return $counties;
