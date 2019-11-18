@@ -21,8 +21,8 @@ final class HomeController extends AbstractController
 
     public function getCounties()
     {
-        $from = $_GET["from"] ?? "regensburg";
-        $to = $_GET["to"] ?? "erlangen";
+        $from = $_POST["from"] ?? "regensburg";
+        $to = $_POST["to"] ?? "erlangen";
 
         $from_city = $this->dataProvider->getCityByName($from);
         $to_city = $this->dataProvider->getCityByName($to);
