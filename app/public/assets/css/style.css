@@ -37,7 +37,6 @@ h5 {
 
 .main_menu {
     padding: 10px;
-    border-bottom: 1px solid var(--border);
 }
 
 .main-img {
@@ -227,26 +226,6 @@ h2 {
     margin-bottom: 5px;
 }
 
-.card-container * {
-    margin-bottom: 3px;
-}
-
-.card-title {
-    font-size: 18px;
-}
-
 .map-content {
     visibility: hidden;
-}
-
-.card-red {
-    background-color: rgb(245, 153, 153);
-}
-
-.card-yellow {
-    background-color: rgb(245, 153, 153);
-}
-
-.card-green {
-    background-color: rgb(117, 216, 130);
 }

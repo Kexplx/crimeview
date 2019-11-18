@@ -56,7 +56,7 @@
         <div class="container">
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
-                    <h1>CrimeView</h1>
+                    <h1>CrimeView </h1>
                     <p>CrimeView analyses your car-travel route and generates an overview of all german-counties
                         and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
@@ -68,16 +68,16 @@
             </div>
             <hr>
             <div class="row justify-content-between align-items-stretch" style="margin-bottom: 40px;">
-                <div class="col-md-6 col-lg-5 mb-md-0">
+                <div class="col-md-6 col-lg-5">
                     <h2>Submit route here</h2>
                     <p>Submit your travel route below to get started.
-                        After valid input, we'll display a map of your route and mark the counties on the way based on their current crime-rate.</p>
+                        After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
                     <form id="formRoute" class="form-search " method="POST ">
                         <input class="lala" id="inputDeparture" required type="text " name="from" placeholder="Departure city">
                         <input class="lala" id="inputDestination" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" class="btn btn-dark">Analyze</button>
                     </form>
-                    <div class="map-content card-container">
+                    <div class="map-content accordion" id="card-container">
                     </div>
                 </div>
                 <div class="map-content map-container col-md-8 col-lg-7">
@@ -103,15 +103,15 @@
         }
 
         $("#formRoute").submit(function(e) {
-            e.preventDefault()
-
+            e.preventDefault();
+            initMap();
+            $("#progressBar").show();
             var data = new FormData($("#formRoute")[0]);
             fetch('/?c=Home&a=getCounties', {
                 method: 'POST',
                 body: data,
             }).then(data => {
                 data.json().then(json => {
-                    initMap();
                     addRouting(json.from.city.lat, json.from.city.lon, json.to.city.lat, json.to.city.lon);
                     $(".card").remove();
 
@@ -120,44 +120,53 @@
                         '<div class="card-body ">' +
                         '<h5 class="card-title ">   Route information</h5>' +
                         '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.*,.*$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.*,.*$/g, '') + ' you will pass ' +
-                        json.counties.length + ' german counties.</p>' +
+                        json.counties.length + ' german counties.' +
+                        'The counties colors stem from their current crime rate (cr).</p> <p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
+                        '<span style="color:#ff7e29">Orange</span>: cr <= 0.07%, ' +
+                        '<span style="color:#c0392b">Red</span>: cr > 0.07%</p>' +
+                        '<p>After trying a few routes you\'ll see that most cities are marked red.</p>' +
                         '</div>' +
                         '</div>'
                     );
-
-                    var countyAdded = 0;
 
                     json.counties.forEach(element => {
                         L.geoJson($.parseJSON(element.county.geoJson), {
                             style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate))
                         }).addTo(map);
-                        var dist_string = "Crime distribution: ";
+                        let dist_string = "";
                         element.county.crimeStats.distribution.forEach(dist => {
                             dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
                         });
 
                         dist_string = dist_string.replace(/,\s$/g, '');
+                        let card_id = makeid(5);
+                        let header_id = makeid(5);
 
-                        if (countyAdded < 3) {
-                            $(".card-container").append(
-                                '<div class="card">' +
-                                '<div class="card-body ">' +
-                                '<h5 class="card-title ">' + element.county.name + ' (' +
-                                element.county.type + ') - ' + element.county.crimeStats.rate + '</h5>' +
-                                '<p class="card-text ">' + dist_string + '</p>' +
-                                '<p class="card-text "><small class="text-muted ">' + getSuggestionByCrimeRate(element.county.crimeStats.rate) + '</small></p>' +
-                                '</div>' +
-                                '</div>'
-                            );
-
-                            countyAdded++;
-                        }
+                        $("#card-container").append(
+                            '<div class="card"><div class="card-header" id="' + header_id +
+                            '"><h2 class="mb-0"><button style="color:#34495e" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#' + card_id +
+                            '" aria-expanded="false" aria-controls="' + header_id +
+                            '">' + element.county.name + ' (' +
+                            element.county.type + ') - ' + element.county.crimeStats.rate + '</button></h2></div><div data-parent="#card-container" id="' + card_id +
+                            '" class="collapse" aria-labelledby="' + header_id +
+                            '"><div class="card-body">' + dist_string + '</div></div>'
+                        );
                     });
                 })
             });
 
             $(".map-content").css("visibility", "visible");
         });
+
+        function makeid(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
 
         function initPlacesApi() {
             var placesContainerDeparture = places({
@@ -265,28 +274,12 @@
         function getColorByCrimeRate(crimeRate) {
             var x = crimeRate;
             switch (true) {
-                case (crimeRate <= 0.02):
+                case (crimeRate <= 0.04):
                     return "#27ae60";
-                case (crimeRate <= 0.05):
-                    return "#d35400";
-                case (crimeRate <= 0.06):
+                case (crimeRate <= 0.07):
+                    return "#ff7e29";
+                default:
                     return "#c0392b";
-                default:
-                    return "#27ae60";
-            }
-        }
-
-        function getSuggestionByCrimeRate(crimeRate) {
-            var x = crimeRate;
-            switch (true) {
-                case (crimeRate <= 0.02):
-                    return "A pepperspray should be enough.";
-                case (crimeRate <= 0.05):
-                    return "Maybe bring a knife";
-                case (crimeRate <= 0.06):
-                    return "We reccommend heavy artiellery";
-                default:
-                    return "We reccommend heavy artiellery";
             }
         }
     </script>
