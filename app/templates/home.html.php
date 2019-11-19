@@ -131,8 +131,14 @@
 
                     json.counties.forEach(element => {
                         L.geoJson($.parseJSON(element.county.geoJson), {
-                            style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate))
-                        }).addTo(map);
+                                style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate)),
+                                onEachFeature: function onEachFeature(feature, layer) {
+                                    var popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
+                                    layer.bindPopup(popupContent);
+                                }
+                            })
+                            .addTo(map);
+
                         let dist_string = "";
                         element.county.crimeStats.distribution.forEach(dist => {
                             dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
@@ -222,6 +228,7 @@
             polyline.setStyle({
                 color: '#000',
                 weight: 3,
+                dashArray: "10 10",
                 stroke: true,
             });
 
@@ -235,7 +242,7 @@
             return {
                 fillColor: color,
                 weight: 2,
-                opacity: 1,
+                opacity: 0.4,
                 color: '#fff',
                 fillOpacity: 0.4
             };
