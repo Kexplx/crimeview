@@ -144,7 +144,7 @@
                             dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
                         });
 
-                        dist_string = dist_string.replace(/§+[^§]*:{1,2}\s/g, '').replace(/[\s,]*$/, '');
+                        dist_string = dist_string.replace(/[\s,]*$/, '');
                         let card_id = makeid(5);
                         let header_id = makeid(5);
 
