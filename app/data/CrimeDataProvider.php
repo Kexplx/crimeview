@@ -2,22 +2,22 @@
 
 class CrimeViewDataProvider
 {
-    private $strategyCrime;
-    private $strategyGeo;
-    private $strategyCity;
+    private $crimeDataProvider;
+    private $geoDataProvider;
+    private $cityDataProvider;
 
-    public function __construct(ICrimeDataProvider $strategyCrime, IGeoDataProvider $strategyGeo, ICountyDataProvider $strategyCity)
+    public function __construct(ICrimeDataProvider $crimeDataProvider, IGeoDataProvider $geoDataProvider, ICountyDataProvider $cityDataProvider)
     {
-        $this->strategyCrime = $strategyCrime;
-        $this->strategyGeo = $strategyGeo;
-        $this->strategyCity = $strategyCity;
+        $this->crimeDataProvider = $crimeDataProvider;
+        $this->geoDataProvider = $geoDataProvider;
+        $this->cityDataProvider = $cityDataProvider;
     }
 
     public function getRouteData(string $from, string $to, $countDistribution): array
     {
-        $fromCity = $this->strategyCity->getCityByName($from);
-        $toCity = $this->strategyCity->getCityByName($to);
-        $countiesOnRoute = $this->strategyGeo->getCountiesOnRoute($fromCity, $toCity);
+        $fromCity = $this->cityDataProvider->getCityByName($from);
+        $toCity = $this->cityDataProvider->getCityByName($to);
+        $countiesOnRoute = $this->geoDataProvider->getCountiesOnRoute($fromCity, $toCity);
 
         $result = $this->strategyCrime->getCountyCrimeStats($countiesOnRoute, $countDistribution);
         return $result;
