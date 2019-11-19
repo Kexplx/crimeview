@@ -1,11 +1,40 @@
-<?php 
+<?php
 
-ini_set('display_errors', 'on');
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../Logging.php';
 
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../Logging.php';
+$c = ucfirst($_GET['c']);
+$a = $_GET['a'];
 
-$log->info('info log');
+try {
+    validateParams($c, $a);
 
+    $controllerName = $c . 'Controller';
 
-echo "Hello World";
+    $controller = new $controllerName(new OriginDataProvider());
+    $controller->$a();
+} catch (InvalidArgumentException $e) {
+    $log->error($e);
+    $controller = new NotFoundController();
+    $controller->serve();
+} catch (Throwable $th) {
+    $log->error($th);
+}
+
+function validateParams(string $c = null, string $a = null)
+{
+    if (!isset($c) || !isset($a)) {
+        header("Location: ?c=Home&a=serve");
+        exit;
+    }
+
+    if (!class_exists($c . 'Controller')) {
+        $msg = sprintf('Controller %s not found.', "$c");
+        throw new InvalidArgumentException($msg);
+    }
+
+    if (!method_exists($c . 'Controller', $a)) {
+        $msg = sprintf('Action %s not defined in Controller %sController.', $a, $c);
+        throw new InvalidArgumentException($msg);
+    }
+}
