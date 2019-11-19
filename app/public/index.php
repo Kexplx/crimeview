@@ -11,7 +11,7 @@ try {
 
     $controllerName = $c . 'Controller';
 
-    $controller = new $controllerName(new MockDataProvider());
+    $controller = new $controllerName(new OriginDataProvider());
     $controller->$a();
 } catch (InvalidArgumentException $e) {
     $log->error($e);

@@ -57,7 +57,7 @@
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
                     <h1>CrimeView </h1>
-                    <p>CrimeView analyses your car-travel route and generates an overview of all german-counties
+                    <p>CrimeView analyses your travel route and generates an overview of all german-counties
                         and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
                     <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> at FAU.</p>
@@ -93,7 +93,6 @@
     <script type="text/javascript">
         initPlacesApi();
         var map = null;
-        var pbUsed = false;
         class County {
             constructor(geoJson, crimeRate, color) {
                 this.geoJson = geoJson;
@@ -104,27 +103,28 @@
 
         $("#formRoute").submit(function(e) {
             e.preventDefault();
-            initMap();
+
             $("#progressBar").show();
+
             var data = new FormData($("#formRoute")[0]);
             fetch('/?c=Home&a=getCounties', {
                 method: 'POST',
                 body: data,
             }).then(data => {
                 data.json().then(json => {
-                    addRouting(json.from.city.lat, json.from.city.lon, json.to.city.lat, json.to.city.lon);
+                    initMap(json.from.city.lat, json.from.city.lon, json.to.city.lat, json.to.city.lon);
                     $(".card").remove();
 
                     $(".map-container").append(
                         '<div class="card">' +
                         '<div class="card-body ">' +
                         '<h5 class="card-title ">   Route information</h5>' +
-                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.*,.*$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.*,.*$/g, '') + ' you will pass ' +
+                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.+,?$/g, '') + ' you will pass ' +
                         json.counties.length + ' german counties.' +
-                        'The counties colors stem from their current crime rate (cr).</p> <p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
+                        'The county colors stem from their current crime rate (cr).</p> <p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
                         '<span style="color:#ff7e29">Orange</span>: cr <= 0.07%, ' +
                         '<span style="color:#c0392b">Red</span>: cr > 0.07%</p>' +
-                        '<p>After trying a few routes you\'ll see that most cities are marked red.</p>' +
+                        '<p>After trying a few routes you\'ll see that most cities are marked red (high cr) while most counties are marked green (low cr).</p>' +
                         '</div>' +
                         '</div>'
                     );
@@ -138,7 +138,7 @@
                             dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
                         });
 
-                        dist_string = dist_string.replace(/,\s$/g, '');
+                        dist_string = dist_string.replace(/§+[^§]*:{1,2}\s/g, '').replace(/[\s,]*$/, '');
                         let card_id = makeid(5);
                         let header_id = makeid(5);
 
@@ -151,22 +151,14 @@
                             '" class="collapse" aria-labelledby="' + header_id +
                             '"><div class="card-body">' + dist_string + '</div></div>'
                         );
+
                     });
+                    $("#progressBar").hide();
                 })
             });
 
             $(".map-content").css("visibility", "visible");
         });
-
-        function makeid(length) {
-            var result = '';
-            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            var charactersLength = characters.length;
-            for (var i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-            return result;
-        }
 
         function initPlacesApi() {
             var placesContainerDeparture = places({
@@ -191,57 +183,7 @@
             placesContainerDestination.configure(reconfigurableOptions);
         }
 
-        function addRouting(from_lat, from_lng, to_lat, to_lng) {
-            pbUsed = false;
-            var routingProvider = new L.Routing.control({
-                    waypoints: [
-                        L.latLng(from_lat, from_lng),
-                        L.latLng(to_lat, to_lng)
-                    ],
-                    draggableWaypoints: false,
-                    addWaypoints: false,
-                    show: false,
-                    lineOptions: {
-                        styles: [{
-                            color: 'black',
-                            opacity: 0.15,
-                            weight: 9
-                        }, {
-                            color: 'white',
-                            opacity: 0.8,
-                            weight: 6
-                        }, {
-                            color: '#2c3e50',
-                            opacity: 1,
-                            weight: 2
-                        }]
-                    },
-                })
-                .on('routingstart', showPb)
-                .on('routesfound', hidePb)
-                .on('routingerror', function() {
-
-                    this.on('routingstart', function() {});
-                    setTimeout(function() {
-                        routingProvider.addTo(map);
-                    }, 4000);
-                });
-
-            routingProvider.addTo(map);
-        }
-
-        function showPb() {
-            if (!pbUsed) {
-                $("#progressBar").show();
-                pbUsed = true;
-            }
-        }
-
-        function hidePb() {
-            $("#progressBar").hide();
-        }
-
-        function initMap() {
+        function initMap(from_lat, from_lng, to_lat, to_lng) {
             if (map != null) {
                 map.off();
                 map.remove();
@@ -251,14 +193,42 @@
                 zoomControl: false
             });
 
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+            layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
                 attribution: 'OpenStreetMap',
                 maxZoom: 13
             }).addTo(map);
-        }
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+            var blackIcon = new L.Icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-black.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            L.marker([from_lat, from_lng], {
+                icon: blackIcon
+            }).addTo(map);
+            L.marker([to_lat, to_lng], {
+                icon: blackIcon
+            }).addTo(map);
+
+            polyline = L.polyline([
+                [from_lat, from_lng],
+                [to_lat, to_lng]
+            ]);
+
+            polyline.setStyle({
+                color: '#000',
+                weight: 3,
+                stroke: true,
+            });
+
+            polyline.bringToFront();
+
+            polyline.addTo(map)
+            map.fitBounds(polyline.getBounds());
         }
 
         function polystyle(color) {
@@ -266,8 +236,8 @@
                 fillColor: color,
                 weight: 2,
                 opacity: 1,
-                color: '#ffff',
-                fillOpacity: 0.5
+                color: '#fff',
+                fillOpacity: 0.4
             };
         }
 
@@ -281,6 +251,16 @@
                 default:
                     return "#c0392b";
             }
+        }
+
+        function makeid(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
         }
     </script>
 </body>
