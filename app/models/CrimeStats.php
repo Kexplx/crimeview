@@ -3,10 +3,6 @@
 class CrimeStats implements JsonSerializable
 {
     private $rate;
-
-    /**
-     * ["Diebstahl" => 291, "Mord" => 129, "Körperverletzung" => 88]
-     */
     private $distribution;
 
     public function __construct()

@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Represents a OriginDataProvider used to return live data without using the ODS.
+ * Represents a OriginDataProvider used to return live data without using the JValue ODS.
  * 
  * A OriginDataProvider is used to get live data sets via easy API calls.
- * Therefore the data is deliverd directly from a API without using the ODS.
  */
 class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, IGeoDataProvider
 {
