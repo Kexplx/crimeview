@@ -11,12 +11,13 @@
 </head>
 
 <body class="bg-shape">
-    <section class="hero-banner">
+    <section class="hero-banner" style="margin-top: 100px;">
         <div class="container">
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
-                    <h1>You're lost buddy</h1>
-                    <p>Go back to our <a href="/?c=Home&a=serve">main page</a></p>
+                    <h1>You're lost buddy.</h1>
+                    <p>It's important to stay save while traveling. Thats why you should use CrimeCiew.</p>
+                    <button onclick="location.href='?c=Home&a=serve'" type="link" href="https://google.de" class="btn btn-dark">Beam me home</button>
                 </div>
                 <div class="col-md-8 col-lg-5">
                     <img class="main-img" src="assets/images/not-found.svg" alt="Not found image">
