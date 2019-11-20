@@ -3,11 +3,11 @@
 interface ICrimeDataProvider
 {
     /**
-     * Gets the latest crime stats of a county
+     * Fill given counties with the latest crime stats of each county
      * 
-     * @param string $id ID of the county
+     * @param array $counties to fill with crime stats
+     * @param int $countDistribution select the amount of distributions
      *
-     * @return float The countie's crime stats that hold (amount of crimes / inhabitants) and its distribution
      */
-    public function getCountyCrimeStats(array $counties, int $countDistribution): array;
+    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution);
 }
