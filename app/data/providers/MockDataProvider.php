@@ -5,9 +5,9 @@
  * 
  * A MockDataProvider is used to increase development speed since no external API calls are needed.
  */
-class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, IGeoDataProvider
+class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
-    public function getCountyCrimeStats(array $counties, int $countDistribution = 3): array
+    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3): array
     {
         foreach ($counties as $county) {
             $id = $county->getId();

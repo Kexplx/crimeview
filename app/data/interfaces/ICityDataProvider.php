@@ -1,6 +1,6 @@
 <?php
 
-interface IGeoDataProvider
+interface ICityDataProvider
 {
     /**
      * Gets city by name

@@ -8,7 +8,8 @@ class DataProviderTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testCrimeDataProvider(CrimeViewDataProvider $provider) {
+    public function testCrimeDataProvider(CrimeViewDataProvider $provider)
+    {
 
         $route1["from"] = 'Regensburg';
         $route1["to"] = 'Erlangen';
@@ -25,9 +26,12 @@ class DataProviderTest extends TestCase
         $cites = [$route1, $route2, $route3, $route4];
 
         foreach ($cites as $route) {
-            $counties = $provider->getRouteData($route["from"], $route["to"], 3);
-            $this->assertIsArray($counties);
-            foreach ($counties as $county) {
+            $data = $provider->getRouteData($route["from"], $route["to"], 3);
+            $this->assertIsArray($data);
+            $this->assertInstanceOf('City', $data['from']);
+            $this->assertInstanceOf('City', $data['to']);
+            $this->assertIsArray($data['counties']);
+            foreach ($data['counties'] as $county) {
                 $this->assertInstanceOf('County', $county);
             }
         }

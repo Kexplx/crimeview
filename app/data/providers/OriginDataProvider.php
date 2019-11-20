@@ -5,9 +5,9 @@
  * 
  * A OriginDataProvider is used to get live data sets via easy API calls.
  */
-class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, IGeoDataProvider
+class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
-    public function getCountyCrimeStats(array $counties, int $countDistribution = 3): array
+    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3): array
     {
         $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
 
