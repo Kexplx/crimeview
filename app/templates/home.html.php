@@ -55,14 +55,14 @@
     <section class="hero-banner">
         <div class="container">
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
-                <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
+                <div class="col-md-6 col-lg-5 mb-5">
                     <h1>CrimeView </h1>
                     <p>CrimeView analyses your travel route and generates an overview of all german-counties
                         and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
                     <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> at FAU.</p>
                 </div>
-                <div class="col-md-8 col-lg-5">
+                <div class="col-md-8 col-lg-7" style="text-align: center;">
                     <img class="main-img" src="assets/images/fau.png" alt="CrimeView Logo">
                 </div>
             </div>
@@ -73,26 +73,45 @@
                     <p>Submit your travel route below to get started.
                         After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
                     <form id="formRoute" class="form-search " method="POST ">
-                        <input class="lala" id="inputDeparture" required type="text " name="from" placeholder="Departure city">
-                        <input class="lala" id="inputDestination" required type="text " name="to" placeholder="Destination city">
+                        <input id="inputDeparture" required type="text " name="from" placeholder="Departure city">
+                        <input id="inputDestination" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" class="btn btn-dark">Analyze</button>
                     </form>
                     <div class="map-content accordion" id="card-container">
                     </div>
                 </div>
                 <div class="map-content map-container col-md-8 col-lg-7">
-                    <div id="progressBar" class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    <div id="container-spinner">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-dark" role="status" style="width: 6rem; height: 6rem;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <p style="padding-top: 15px;">Loading route data...</p>
                     </div>
-                    <div id="osm_map"></div>
+                    <div id="map-container">
+                        <div id="osm_map"></div>
+                    </div>
+                    <div id="container-status-fail">
+                        <img src="assets/images/error.svg" alt="">
+                        <p>Something went wrong. <br>
+                            Please try again later with a valid input.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <script type="text/javascript">
+        $("#container-spinner").hide();
+        $("#map-container").hide();
+        $("#card-container").hide();
+        $("#container-status-fail").hide();
+
         initPlacesApi();
         var map = null;
+        var polyline;
+
         class County {
             constructor(geoJson, crimeRate, color) {
                 this.geoJson = geoJson;
@@ -103,20 +122,21 @@
 
         $("#formRoute").submit(function(e) {
             e.preventDefault();
-
-            $("#progressBar").show();
-
+            showSearch();
             var data = new FormData($("#formRoute")[0]);
             fetch('/?c=Home&a=getCounties', {
                 method: 'POST',
                 body: data,
             }).then(data => {
+                if (data.status != 200) {
+                    showFail();
+                    return;
+                }
+
                 data.json().then(json => {
                     initMap(json.from.city.lat, json.from.city.lon, json.to.city.lat, json.to.city.lon);
-                    $(".card").remove();
-
                     $(".map-container").append(
-                        '<div class="card">' +
+                        '<div class="card" id="cardRouteInformation">' +
                         '<div class="card-body ">' +
                         '<h5 class="card-title ">   Route information</h5>' +
                         '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.+,?$/g, '') + ' you will pass ' +
@@ -158,12 +178,10 @@
                             '"><div class="card-body">' + dist_string + '</div></div>'
                         );
 
+                        showSuccess();
                     });
-                    $("#progressBar").hide();
                 })
             });
-
-            $(".map-content").css("visibility", "visible");
         });
 
         function initPlacesApi() {
@@ -198,6 +216,8 @@
             map = new L.map('osm_map', {
                 zoomControl: false
             });
+
+            map.invalidateSize();
 
             layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
                 attribution: 'OpenStreetMap',
@@ -236,6 +256,32 @@
 
             polyline.addTo(map)
             map.fitBounds(polyline.getBounds());
+        }
+
+
+        function showSuccess() {
+            $("#container-spinner").hide();
+            $("#map-container").show();
+            $("#card-container").show();
+            $("#container-status-fail").hide();
+            map.invalidateSize();
+            map.fitBounds(polyline.getBounds());
+        }
+
+        function showFail() {
+            $("#container-spinner").hide();
+            $("#card-container").hide();
+            $("#map-container").hide();
+            $("#container-status-fail").show();
+            $(".card").remove();
+        }
+
+        function showSearch() {
+            $(".card").remove();
+            $("#container-spinner").show();
+            $("#card-container").hide();
+            $("#map-container").hide();
+            $("#container-status-fail").hide();
         }
 
         function polystyle(color) {

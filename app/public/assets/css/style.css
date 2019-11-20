@@ -40,7 +40,7 @@ h5 {
 }
 
 .main-img {
-    width: 230px;
+    width: 180px;
 }
 
 .navbar img {
@@ -226,6 +226,24 @@ h2 {
     margin-bottom: 5px;
 }
 
-.map-content {
-    visibility: hidden;
+#container-spinner {
+    text-align: center;
+    padding-top: 40px;
+}
+
+#container-spinner p {
+    padding-top: 20px;
+}
+
+#container-status-fail {
+    text-align: center;
+    padding-top: 40px;
+}
+
+#container-status-fail img {
+    width: 120px;
+}
+
+#container-status-fail p {
+    padding-top: 20px;
 }
