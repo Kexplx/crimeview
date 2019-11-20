@@ -7,7 +7,7 @@
  */
 class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
-    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3): array
+    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
         foreach ($counties as $county) {
             $id = $county->getId();
@@ -32,8 +32,6 @@ class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICity
                     break;
             }
         }
-
-        return $counties;
     }
 
     public function getCountiesOnRoute(City $from, City $to): array
