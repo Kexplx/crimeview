@@ -4,6 +4,7 @@
  * Represents a OriginDataProvider used to return live data without using the ODS.
  * 
  * A OriginDataProvider is used to get live data sets via easy API calls.
+ * 
  * Therefore the data is deliverd directly from a API without using the ODS.
  */
 class OriginDataProvider implements IDataProvider
@@ -17,20 +18,23 @@ class OriginDataProvider implements IDataProvider
 
         foreach ($rows as $row) {
             $rowAsArray = str_getcsv($row, ";");
-            $county = utf8_encode($rowAsArray[3]);
-            $type = $rowAsArray[4];
 
-            if ($rowAsArray[2] == $id) {
-                if ($rowAsArray[0] != "------") {
-                    $crime = utf8_encode($rowAsArray[1]);
+            if (sizeof($rowAsArray) == 18) {
+                $county = utf8_encode($rowAsArray[3]);
+                $type = $rowAsArray[4];
 
-                    if (strpos($crime, 'insgesamt') === false) {
-                        $crimes["Name"] = $county;
-                        $crimes["Type"] = $type;
-                        $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                if ($rowAsArray[2] == $id) {
+                    if ($rowAsArray[0] != "------") {
+                        $crime = utf8_encode($rowAsArray[1]);
+
+                        if (strpos($crime, 'insgesamt') === false) {
+                            $crimes["Name"] = $county;
+                            $crimes["Type"] = $type;
+                            $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                        }
+                    } else {
+                        $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                     }
-                } else {
-                    $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                 }
             }
         }
@@ -75,7 +79,7 @@ class OriginDataProvider implements IDataProvider
 
     public function getCityByName(string $name): City
     {
-        $lowerCityName = strtolower($name);
+        $lowerCityName = urlencode($name);
         $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&limit=1&countrycodes=de";
 
         $json = $this->curlGetJson($url);
@@ -92,6 +96,8 @@ class OriginDataProvider implements IDataProvider
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
         $output = curl_exec($ch);

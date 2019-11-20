@@ -8,22 +8,24 @@ $a = $_GET['a'];
 
 try {
     validateParams($c, $a);
+
     $controllerName = $c . 'Controller';
 
-    $controller = new $controllerName();
+    $controller = new $controllerName(new OriginDataProvider());
     $controller->$a();
 } catch (InvalidArgumentException $e) {
     $log->error($e);
-    // Redirect
+    $controller = new NotFoundController();
+    $controller->serve();
 } catch (Throwable $th) {
     $log->error($th);
 }
 
-
-function validateParams(string $c, string $a)
+function validateParams(string $c = null, string $a = null)
 {
     if (!isset($c) || !isset($a)) {
-        redirect('Home', 'serve');
+        header("Location: ?c=Home&a=serve");
+        exit;
     }
 
     if (!class_exists($c . 'Controller')) {
