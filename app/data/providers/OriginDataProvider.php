@@ -13,7 +13,6 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 
         $rows = explode("\n", $data);
         $crimes = array();
-
         foreach ($counties as $county) {
             $id = $county->getId();
 
