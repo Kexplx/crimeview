@@ -258,7 +258,6 @@
             map.fitBounds(polyline.getBounds());
         }
 
-
         function showSuccess() {
             $("#container-spinner").hide();
             $("#map-container").show();

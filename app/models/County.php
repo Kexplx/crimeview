@@ -10,13 +10,23 @@ class County implements JsonSerializable
     private $crimeStats;
 
 
-    function __construct(string $id, string $name, string $type, string $state_name, string $geoJson, CrimeStats $crimeStats)
+    function __construct(string $id, string $name, string $type, string $state_name, string $geoJson)
     {
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
         $this->geoJson = $geoJson;
         $this->state_name = $state_name;
+        $this->crimeStats = new CrimeStats();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setCrimeStats(CrimeStats $crimeStats)
+    {
         $this->crimeStats = $crimeStats;
     }
 

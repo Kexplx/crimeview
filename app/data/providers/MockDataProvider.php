@@ -5,23 +5,32 @@
  * 
  * A MockDataProvider is used to increase development speed since no external API calls are needed.
  */
-class MockDataProvider implements IDataProvider
+class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
-    public function getCountyCrimeStats(string $id, int $countDistribution = 3): CrimeStats
+    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
-        switch ($id) {
-            case '09373':
-                return new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]);
-            case '09362':
-                return new CrimeStats(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]);
-            case '09574':
-                return new CrimeStats(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]);
-            case '09562':
-                return new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]);
-            case '09375':
-                return new CrimeStats(0.02, ["Diebstahl" => 180]);
-            default:
-                return new CrimeStats(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]);
+        foreach ($counties as $county) {
+            $id = $county->getId();
+            switch ($id) {
+                case '09373':
+                    $county->setCrimeStats(CrimeStats::withRate(0.06, ["Diebstahl" => 58, "Mord" => 1]));
+                    break;
+                case '09362':
+                    $county->setCrimeStats(CrimeStats::withRate(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]));
+                    break;
+                case '09574':
+                    $county->setCrimeStats(CrimeStats::withRate(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]));
+                    break;
+                case '09562':
+                    $county->setCrimeStats(CrimeStats::withRate(0.03, ["Diebstahl" => 90, "Raub" => 43]));
+                    break;
+                case '09375':
+                    $county->setCrimeStats(CrimeStats::withRate(0.02, ["Diebstahl" => 180]));
+                    break;
+                default:
+                    $county->setCrimeStats(CrimeStats::withRate(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]));
+                    break;
+            }
         }
     }
 
@@ -41,9 +50,7 @@ class MockDataProvider implements IDataProvider
             $id = $feature["properties"]["cca_2"];
             $geo = json_encode($feature);
 
-            $crimeStats = $this->getCountyCrimeStats($id);
-
-            $counties[] = new County($id, $name, $type, $stateName, $geo, $crimeStats);
+            $counties[] = new County($id, $name, $type, $stateName, $geo);
         }
 
         return $counties;
