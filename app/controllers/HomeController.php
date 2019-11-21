@@ -9,7 +9,7 @@ final class HomeController extends AbstractController
 {
     private $dataProvider;
 
-    public function __construct(IDataProvider $dataProvider)
+    public function __construct(CrimeViewDataProvider $dataProvider)
     {
         $this->dataProvider = $dataProvider;
     }
@@ -21,15 +21,11 @@ final class HomeController extends AbstractController
 
     public function getCounties()
     {
-        $from = $_POST["from"] ?? "regensburg";
-        $to = $_POST["to"] ?? "erlangen";
+        $from = htmlspecialchars($_POST["from"]);
+        $to = htmlspecialchars($_POST["to"]);
 
-        $from_city = $this->dataProvider->getCityByName($from);
-        $to_city = $this->dataProvider->getCityByName($to);
-
-        $counties = $this->dataProvider->getCountiesOnRoute($from_city, $to_city);
-
-        $json = json_encode(["from" => $from_city, "to" => $to_city, "counties" => $counties]);
+        $counties = $this->dataProvider->getRouteData($from, $to, 3);
+        $json = json_encode($counties);
         echo $json;
     }
 }
