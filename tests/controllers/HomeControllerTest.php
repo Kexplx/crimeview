@@ -16,8 +16,8 @@ class HomeControllerTest extends TestCase
         $expected = file_get_contents(__DIR__ . "/../../app/templates/home.html.php");
 
         ob_start();
-        $homeController = new HomeController(new MockDataProvider());
-        $homeController->serve();
+        $c = new HomeController(new CrimeViewDataProvider(new MockDataProvider, new MockDataProvider, new MockDataProvider));
+        $c->serve();
         $actual = ob_get_clean();
 
         $this->assertSame($expected, $actual);
@@ -29,10 +29,10 @@ class HomeControllerTest extends TestCase
      */
     public function testGetCounties()
     {
-        $c = new HomeController(new MockDataProvider());
+        $c = new HomeController(new CrimeViewDataProvider(new MockDataProvider, new MockDataProvider, new MockDataProvider));
 
-        $_GET["from"] = "regensburg";
-        $_GET["to"] = "erlangen";
+        $_POST["from"] = "regensburg";
+        $_POST["to"] = "erlangen";
         ob_start();
         $c->getCounties();
         $response = ob_get_clean();
