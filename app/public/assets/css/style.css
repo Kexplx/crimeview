@@ -12,7 +12,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
 body {
-    color: #888888;
+    color: #707070;
     font-family: "Roboto", sans-serif;
     font-size: 15px;
     font-weight: 400;
@@ -24,8 +24,7 @@ a:hover {
 }
 
 h1,
-h2,
-h5 {
+h2 {
     font-family: "Roboto Condensed", sans-serif;
     color: #484750;
     line-height: 1.25;
@@ -35,16 +34,8 @@ h5 {
     font-size: 17px;
 }
 
-.main_menu {
-    padding: 10px;
-}
-
 .main-img {
     width: 180px;
-}
-
-.navbar img {
-    width: 40px;
 }
 
 h1 {
@@ -59,49 +50,6 @@ h2 {
     h2 {
         font-size: 36px;
     }
-}
-
-.pb-90px {
-    padding-bottom: 60px;
-}
-
-@media (min-width: 992px) {
-    .pb-90px {
-        padding-bottom: 90px;
-    }
-}
-
-@media (min-width: 992px) {
-    .generic-margin {
-        margin-top: 20px;
-    }
-}
-
-.leaflet-control-container .leaflet-routing-container-hide {
-    display: none;
-}
-
-.header_area {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 99;
-    transition: background 0.4s, all 0.3s linear;
-}
-
-.header_area .navbar-brand {
-    margin-right: 30px;
-    padding: 0;
-}
-
-.header_area .navbar {
-    background: transparent;
-    border: 0px;
-    border-radius: 0px;
-    width: 100%;
-    padding-top: 0;
-    padding-bottom: 0;
 }
 
 .hero-banner {
@@ -147,57 +95,9 @@ h2 {
     }
 }
 
-.section-intro {
-    max-width: 640px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.section-intro p {
-    margin-bottom: 0;
-}
-
-.section-intro-img {
-    margin-bottom: 10px;
-}
-
-@media (min-width: 768px) {
-    .magic-ball::before {
-        width: 70px;
-        height: 70px;
-        left: -35px;
-        border: 15px solid #6059f6;
-    }
-}
-
-@media (min-width: 768px) {
-    .magic-ball::after {
-        width: 98px;
-        height: 98px;
-        left: 165px;
-    }
-}
-
-@media (min-width: 600px) {
-    .button {
-        padding: 12px 45px;
-    }
-}
-
-.button-hero {
-    font-weight: 500;
-}
-
 .form-search {
     margin: 0 auto 20px auto;
     max-width: 500px;
-}
-
-.form-search img {
-    max-width: 25px;
-    margin-right: 10px;
-    margin-left: 10px;
-    cursor: pointer;
 }
 
 .form-search input {
@@ -210,10 +110,6 @@ h2 {
 .form-search .btn {
     width: 30%;
     margin-top: 10px;
-}
-
-.button-hero {
-    text-align: center;
 }
 
 #osm_map {

@@ -7,7 +7,7 @@
     <title>Home / CrimeView</title>
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
     <script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/places.js@1.17.0"></script>
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap ">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -77,7 +76,9 @@
                         <input id="inputDestination" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" class="btn btn-dark">Analyze</button>
                     </form>
-                    <div class="map-content accordion" id="card-container">
+                    <select id="selectionCounties" class="form-control" onchange="changeSelectedCounty()">
+                    </select>
+                    <div id="containerCards">
                     </div>
                 </div>
                 <div class="map-content map-container col-md-8 col-lg-7">
@@ -105,12 +106,14 @@
     <script type="text/javascript">
         $("#container-spinner").hide();
         $("#map-container").hide();
+        $("#selectionCounties").hide();
         $("#card-container").hide();
         $("#container-status-fail").hide();
 
         initPlacesApi();
         var map = null;
         var polyline;
+        var lastSelectedCardId = "";
 
         class County {
             constructor(geoJson, crimeRate, color) {
@@ -138,13 +141,11 @@
                     $(".map-container").append(
                         '<div class="card" id="cardRouteInformation">' +
                         '<div class="card-body ">' +
-                        '<h5 class="card-title ">   Route information</h5>' +
-                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.+,?$/g, '') + ' you will pass ' +
-                        json.counties.length + ' german counties.' +
-                        'The county colors stem from their current crime rate (cr).</p> <p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
+                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.+,?$/g, '') + ' you will pass <strong>' +
+                        json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
+                        '<p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
                         '<span style="color:#ff7e29">Orange</span>: cr <= 0.07%, ' +
                         '<span style="color:#c0392b">Red</span>: cr > 0.07%</p>' +
-                        '<p>After trying a few routes you\'ll see that most cities are marked red (high cr) while most counties are marked green (low cr).</p>' +
                         '</div>' +
                         '</div>'
                     );
@@ -168,14 +169,18 @@
                         let card_id = makeid(5);
                         let header_id = makeid(5);
 
-                        $("#card-container").append(
-                            '<div class="card"><div class="card-header" id="' + header_id +
-                            '"><h2 class="mb-0"><button style="color:#34495e" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#' + card_id +
-                            '" aria-expanded="false" aria-controls="' + header_id +
-                            '">' + element.county.name + ' (' +
-                            element.county.type + ') - ' + element.county.crimeStats.rate + '</button></h2></div><div data-parent="#card-container" id="' + card_id +
-                            '" class="collapse" aria-labelledby="' + header_id +
-                            '"><div class="card-body">' + dist_string + '</div></div>'
+                        $("#selectionCounties").append(
+                            '<option value="' + card_id + '">' + element.county.name + " - " + element.county.type + '</option>'
+                        );
+
+                        $("#containerCards").append(
+                            '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">' +
+                            '<div class="card-header">' + element.county.name + " - " + element.county.type + '</div>' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + element.county.crimeStats.rate + '</h5>' +
+                            '<p class="card-text">' + dist_string + '</p>' +
+                            '</div>' +
+                            '</div>'
                         );
 
                         showSuccess();
@@ -205,6 +210,15 @@
 
             placesContainerDeparture.configure(reconfigurableOptions);
             placesContainerDestination.configure(reconfigurableOptions);
+        }
+
+        function changeSelectedCounty() {
+            debugger;
+            if (lastSelectedCardId != "") {
+                $("#" + lastSelectedCardId).hide();
+            }
+            $("#" + $("#selectionCounties :selected").val()).show();
+            lastSelectedCardId = $("#selectionCounties :selected").val();
         }
 
         function initMap(from_lat, from_lng, to_lat, to_lng) {
@@ -259,9 +273,10 @@
         }
 
         function showSuccess() {
+            changeSelectedCounty();
             $("#container-spinner").hide();
             $("#map-container").show();
-            $("#card-container").show();
+            $("#selectionCounties").show();
             $("#container-status-fail").hide();
             map.invalidateSize();
             map.fitBounds(polyline.getBounds());
@@ -273,13 +288,16 @@
             $("#map-container").hide();
             $("#container-status-fail").show();
             $(".card").remove();
+            $("#selectionCounties").hide();
         }
 
         function showSearch() {
             $(".card").remove();
+            $("#selectionCounties").empty();
             $("#container-spinner").show();
             $("#card-container").hide();
             $("#map-container").hide();
+            $("#selectionCounties").hide();
             $("#container-status-fail").hide();
         }
 
