@@ -14,40 +14,42 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         $rows = explode("\n", $data);
         $crimes = array();
 
-        foreach ($counties as $county) {
-            $id = $county->getId();
-
-            foreach ($rows as $row) {
-                $rowAsArray = str_getcsv($row, ";");
-                if (sizeof($rowAsArray) == 18) {
-                    $countyName = utf8_encode($rowAsArray[3]);
-                    $type = $rowAsArray[4];
-
+        foreach ($rows as $row) {
+            $rowAsArray = str_getcsv($row, ";");
+            if (sizeof($rowAsArray) == 18) {
+                foreach ($counties as $county) {
+                    $id = $county->getId();
                     if ($rowAsArray[2] == $id) {
                         if ($rowAsArray[0] != "------") {
                             $crime = utf8_encode($rowAsArray[1]);
-
                             if (strpos($crime, 'insgesamt') === false) {
-                                $crimes["Name"] = $countyName;
-                                $crimes["Type"] = $type;
-                                $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                                $crimes[$id]["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
                             }
                         } else {
-                            $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
+                            $crimes[$id]["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                         }
                     }
                 }
             }
+        }
 
-            arsort($crimes["Crimes"]);
-            $crimes["Crimes"] = array_slice($crimes["Crimes"], 0, $countDistribution);
-
-            $county->setCrimeStats(CrimeStats::withRate($crimes["Frequency"] / 100000, $crimes["Crimes"]));
+        foreach ($counties as $county) {
+            $id = $county->getId();
+            $currentCrime = $crimes[$id];
+            if (sizeof($currentCrime) > 0) {
+                arsort($currentCrime["Crimes"]);
+                $currentCrime["Crimes"] = array_slice($currentCrime["Crimes"], 0, $countDistribution);
+                $county->setCrimeStats(CrimeStats::withRate($currentCrime["Frequency"] / 100000, $currentCrime["Crimes"]));
+            }
         }
     }
 
     public function getCountiesOnRoute(City $from, City $to): array
     {
+        if ($from->getName() == $to->getName()) {
+            throw new InvalidArgumentException("City names are equal");
+        }
+
         $fromLat = $from->getLat();
         $fromLon = $from->getLon();
         $toLat = $to->getLat();
@@ -79,16 +81,25 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
     public function getCityByName(string $name): City
     {
         $lowerCityName = urlencode($name);
-        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&limit=1&countrycodes=de";
+        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&addressdetails=1&limit=1";
 
         $json = $this->curlGetJson($url);
+
+        if (sizeof($json) == 0) {
+            throw new InvalidArgumentException("City not found: $name");
+        }
 
         $name = $json[0]["display_name"];
         $lat = $json[0]["lat"];
         $lon = $json[0]["lon"];
         $type = $json[0]["type"];
+        $countryCode = $json[0]["address"]["country_code"];
 
-        return new City($name, $type, $lat, $lon);
+        if ($countryCode == 'de') {
+            return new City($name, $type, $lat, $lon);
+        } else {
+            throw new InvalidArgumentException("City not in Germany: $countryCode");
+        }
     }
 
     private function curlGetJson($url)
