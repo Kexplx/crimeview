@@ -23,10 +23,6 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
                         if ($rowAsArray[0] != "------") {
                             $crime = utf8_encode($rowAsArray[1]);
                             if (strpos($crime, 'insgesamt') === false) {
-                                $countyName = utf8_encode($rowAsArray[3]);
-                                $type = $rowAsArray[4];
-                                $crimes[$id]["Name"] = $countyName;
-                                $crimes[$id]["Type"] = $type;
                                 $crimes[$id]["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
                             }
                         } else {
