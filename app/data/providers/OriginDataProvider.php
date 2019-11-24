@@ -14,35 +14,37 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         $rows = explode("\n", $data);
         $crimes = array();
 
-        foreach ($counties as $county) {
-            $id = $county->getId();
-
-            foreach ($rows as $row) {
-                $rowAsArray = str_getcsv($row, ";");
-                if (sizeof($rowAsArray) == 18) {
-                    $countyName = utf8_encode($rowAsArray[3]);
-                    $type = $rowAsArray[4];
-
+        foreach ($rows as $row) {
+            $rowAsArray = str_getcsv($row, ";");
+            if (sizeof($rowAsArray) == 18) {
+                foreach ($counties as $county) {
+                    $id = $county->getId();
                     if ($rowAsArray[2] == $id) {
                         if ($rowAsArray[0] != "------") {
                             $crime = utf8_encode($rowAsArray[1]);
-
                             if (strpos($crime, 'insgesamt') === false) {
-                                $crimes["Name"] = $countyName;
-                                $crimes["Type"] = $type;
-                                $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                                $countyName = utf8_encode($rowAsArray[3]);
+                                $type = $rowAsArray[4];
+                                $crimes[$id]["Name"] = $countyName;
+                                $crimes[$id]["Type"] = $type;
+                                $crimes[$id]["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
                             }
                         } else {
-                            $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
+                            $crimes[$id]["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
                         }
                     }
                 }
             }
+        }
 
-            arsort($crimes["Crimes"]);
-            $crimes["Crimes"] = array_slice($crimes["Crimes"], 0, $countDistribution);
-
-            $county->setCrimeStats(CrimeStats::withRate($crimes["Frequency"] / 100000, $crimes["Crimes"]));
+        foreach ($counties as $county) {
+            $id = $county->getId();
+            $currentCrime = $crimes[$id];
+            if (sizeof($currentCrime) > 0) {
+                arsort($currentCrime["Crimes"]);
+                $currentCrime["Crimes"] = array_slice($currentCrime["Crimes"], 0, $countDistribution);
+                $county->setCrimeStats(CrimeStats::withRate($currentCrime["Frequency"] / 100000, $currentCrime["Crimes"]));
+            }
         }
     }
 
