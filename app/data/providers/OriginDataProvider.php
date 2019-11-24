@@ -48,6 +48,10 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 
     public function getCountiesOnRoute(City $from, City $to): array
     {
+        if ($from->getName() == $to->getName()) {
+            throw new InvalidArgumentException("City names are equal");
+        }
+
         $fromLat = $from->getLat();
         $fromLon = $from->getLon();
         $toLat = $to->getLat();
@@ -79,16 +83,25 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
     public function getCityByName(string $name): City
     {
         $lowerCityName = urlencode($name);
-        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&limit=1&countrycodes=de";
+        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&addressdetails=1&limit=1";
 
         $json = $this->curlGetJson($url);
+
+        if (sizeof($json) == 0) {
+            throw new InvalidArgumentException("City not found: $name");
+        }
 
         $name = $json[0]["display_name"];
         $lat = $json[0]["lat"];
         $lon = $json[0]["lon"];
         $type = $json[0]["type"];
+        $countryCode = $json[0]["address"]["country_code"];
 
-        return new City($name, $type, $lat, $lon);
+        if ($countryCode == 'de') {
+            return new City($name, $type, $lat, $lon);
+        } else {
+            throw new InvalidArgumentException("City not in Germany: $countryCode");
+        }
     }
 
     private function curlGetJson($url)
