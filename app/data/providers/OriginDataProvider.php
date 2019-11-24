@@ -7,26 +7,61 @@
  */
 class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
+    // public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
+    // {
+    //     $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
+    //     $rows = explode("\n", $data);
+    //     $dd = [];
+
+    //     foreach ($rows as $row) {
+    //         $rowAsArray = str_getcsv($row, ";");
+    //         if (count($rowAsArray) != 18) continue;
+    //         $dd[strval($rowAsArray[2])][$rowAsArray[1]] = $this->csvNumberToFoat($rowAsArray[5]);
+    //     }
+
+    //     foreach ($counties as $county) {
+    //         $id = ltrim($county->getId(), '0');
+    //         $county->setCrimeStats(new CrimeStats($dd[$id]["Straftaten insgesamt"] / 100000, array_slice($dd[$id], 1, 4)));
+    //     }
+    // }
+
     public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
         $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
+        $time_pre = microtime(true);
         $rows = explode("\n", $data);
+        $crimes = array();
 
-        foreach ($counties as $county) {
-            foreach ($rows as $row) {
-                $row = str_getcsv($row, ";");
-                if ($row[2] == $county->getId()) {
-                    if ($row[0] != "------") {
-                        $crimeType = utf8_encode($row[1]);
-                        $crimeDistribution[$crimeType] = $this->csvNumberToFoat($row[5]);
-                    } else {
-                        $crimeRate = $this->csvNumberToFoat($row[6]) / 100000;
+        foreach ($rows as $row) {
+            $rowAsArray = str_getcsv($row, ";");
+            if (sizeof($rowAsArray) == 18) {
+                foreach ($counties as $county) {
+                    $id = $county->getId();
+                    if ($rowAsArray[2] == $id) {
+                        if ($rowAsArray[0] != "------") {
+                            $crime = utf8_encode($rowAsArray[1]);
+                            if (strpos($crime, 'insgesamt') === false) {
+                                $crimes[$id]["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
+                            }
+                        } else {
+                            $crimes[$id]["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
+                        }
                     }
                 }
             }
-            arsort($crimeDistribution);
-            $county->setCrimeStats(new CrimeStats($crimeRate, array_slice($crimeDistribution, 0, $countDistribution)));
         }
+
+        foreach ($counties as $county) {
+            $id = $county->getId();
+            $currentCrime = $crimes[$id];
+            if (sizeof($currentCrime) > 0) {
+                arsort($currentCrime["Crimes"]);
+                $currentCrime["Crimes"] = array_slice($currentCrime["Crimes"], 0, $countDistribution);
+                $county->setCrimeStats(CrimeStats::withRate($currentCrime["Frequency"] / 100000, $currentCrime["Crimes"]));
+            }
+        }
+        $time_post = microtime(true);
+        error_log($time_post - $time_pre);
     }
 
     public function getCountiesOnRoute(City $from, City $to): array
