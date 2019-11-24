@@ -5,17 +5,7 @@ class CrimeStats implements JsonSerializable
     private $rate;
     private $distribution;
 
-    public function __construct()
-    { }
-
-    public static function withRate(float $rate, array $distribution): CrimeStats
-    {
-        $instance = new self();
-        $instance->initWithRate($rate, $distribution);
-        return $instance;
-    }
-
-    protected function initWithRate(float $rate, array $distribution)
+    public function __construct($rate = null, $distribution = null)
     {
         $this->rate = $rate;
         $this->distribution = $distribution;
