@@ -74,7 +74,7 @@
                     <form id="formRoute" class="form-search " method="POST ">
                         <input id="inputDeparture" required type="text " name="from" placeholder="Departure city">
                         <input id="inputDestination" required type="text " name="to" placeholder="Destination city">
-                        <button type="submit" class="btn btn-dark">Analyze</button>
+                        <button type="submit" id="buttonSubmit" class="btn btn-dark">Analyze</button>
                     </form>
                     <select id="selectionCounties" class="form-control" onchange="changeSelectedCounty()">
                     </select>
@@ -276,6 +276,7 @@
             $("#container-spinner").hide();
             $("#map-container").show();
             $("#selectionCounties").show();
+            $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").hide();
             map.invalidateSize();
             map.fitBounds(polyline.getBounds());
@@ -285,6 +286,7 @@
             $("#container-spinner").hide();
             $("#card-container").hide();
             $("#map-container").hide();
+            $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").show();
             $(".card").remove();
             $("#selectionCounties").hide();
@@ -292,6 +294,7 @@
 
         function showSearch() {
             $(".card").remove();
+            $('#buttonSubmit').attr("disabled", true);
             $("#selectionCounties").empty();
             $("#container-spinner").show();
             $("#card-container").hide();
