@@ -160,12 +160,11 @@
                             })
                             .addTo(map);
 
-                        let dist_string = "";
+                        let dist_string = "<p>Last year's most common crimes.</p><ul>";
                         element.county.crimeStats.distribution.forEach(dist => {
-                            dist_string += Object.keys(dist)[0] + ": " + Object.values(dist)[0] + ", ";
+                            dist_string += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
                         });
 
-                        dist_string = dist_string.replace(/[\s,]*$/, '');
                         let card_id = makeid(5);
                         let header_id = makeid(5);
 
