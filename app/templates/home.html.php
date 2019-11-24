@@ -213,7 +213,6 @@
         }
 
         function changeSelectedCounty() {
-            debugger;
             if (lastSelectedCardId != "") {
                 $("#" + lastSelectedCardId).hide();
             }

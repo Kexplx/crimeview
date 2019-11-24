@@ -10,38 +10,22 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
     public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
         $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
-
         $rows = explode("\n", $data);
-        $crimes = array();
+
         foreach ($counties as $county) {
-            $id = $county->getId();
-
             foreach ($rows as $row) {
-                $rowAsArray = str_getcsv($row, ";");
-                if (sizeof($rowAsArray) == 18) {
-                    $countyName = utf8_encode($rowAsArray[3]);
-                    $type = $rowAsArray[4];
-
-                    if ($rowAsArray[2] == $id) {
-                        if ($rowAsArray[0] != "------") {
-                            $crime = utf8_encode($rowAsArray[1]);
-
-                            if (strpos($crime, 'insgesamt') === false) {
-                                $crimes["Name"] = $countyName;
-                                $crimes["Type"] = $type;
-                                $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
-                            }
-                        } else {
-                            $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
-                        }
+                $row = str_getcsv($row, ";");
+                if ($row[2] == $county->getId()) {
+                    if ($row[0] != "------") {
+                        $crimeType = utf8_encode($row[1]);
+                        $crimeDistribution[$crimeType] = $this->csvNumberToFoat($row[5]);
+                    } else {
+                        $crimeRate = $this->csvNumberToFoat($row[6]) / 100000;
                     }
                 }
             }
-
-            arsort($crimes["Crimes"]);
-            $crimes["Crimes"] = array_slice($crimes["Crimes"], 0, $countDistribution);
-
-            $county->setCrimeStats(CrimeStats::withRate($crimes["Frequency"] / 100000, $crimes["Crimes"]));
+            arsort($crimeDistribution);
+            $county->setCrimeStats(new CrimeStats($crimeRate, array_slice($crimeDistribution, 0, $countDistribution)));
         }
     }
 
