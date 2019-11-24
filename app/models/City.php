@@ -36,4 +36,9 @@ class City implements JsonSerializable
     {
         return $this->lon;
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }
