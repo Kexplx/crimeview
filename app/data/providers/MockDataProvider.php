@@ -13,22 +13,22 @@ class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICity
             $id = $county->getId();
             switch ($id) {
                 case '09373':
-                    $county->setCrimeStats(CrimeStats::withRate(0.06, ["Diebstahl" => 58, "Mord" => 1]));
+                    $county->setCrimeStats(new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]));
                     break;
                 case '09362':
-                    $county->setCrimeStats(CrimeStats::withRate(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]));
+                    $county->setCrimeStats(new CrimeStats(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]));
                     break;
                 case '09574':
-                    $county->setCrimeStats(CrimeStats::withRate(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]));
+                    $county->setCrimeStats(new CrimeStats(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]));
                     break;
                 case '09562':
-                    $county->setCrimeStats(CrimeStats::withRate(0.03, ["Diebstahl" => 90, "Raub" => 43]));
+                    $county->setCrimeStats(new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]));
                     break;
                 case '09375':
-                    $county->setCrimeStats(CrimeStats::withRate(0.02, ["Diebstahl" => 180]));
+                    $county->setCrimeStats(new CrimeStats(0.02, ["Diebstahl" => 180]));
                     break;
                 default:
-                    $county->setCrimeStats(CrimeStats::withRate(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]));
+                    $county->setCrimeStats(new CrimeStats(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]));
                     break;
             }
         }
