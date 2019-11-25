@@ -26,9 +26,11 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 
         foreach ($counties as $county) {
             $id = ltrim($county->getId(), '0');
-            arsort($dd[$id]);
-            $crimeDistribution = array_slice($dd[$id], 1, $countDistribution);
-            $county->setCrimeStats(new CrimeStats($dd[$id]["Straftaten insgesamt"] / 100000, $crimeDistribution));
+            if (array_key_exists($id, $dd)) {
+                arsort($dd[$id]);
+                $crimeDistribution = array_slice($dd[$id], 1, $countDistribution);
+                $county->setCrimeStats(new CrimeStats($dd[$id]["Straftaten insgesamt"] / 100000, $crimeDistribution));
+            }
         }
     }
 
