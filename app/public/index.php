@@ -10,11 +10,13 @@ $a = htmlspecialchars($_GET['a']);
 
 try {
     validateParams($c, $a);
-
     $controllerName = $c . 'Controller';
 
-    $controller = new $controllerName(new CrimeViewDataProvider(new OriginDataProvider(), new OriginDataProvider(), new OriginDataProvider()));
-    $controller->$a();
+    (new $controllerName(new CrimeViewDataProvider(
+        new OriginDataProvider(),
+        new OriginDataProvider(),
+        new OriginDataProvider()
+    )))->$a();
 } catch (InvalidUrlException $e) {
     $log->error($e);
     $controller = new NotFoundController();
