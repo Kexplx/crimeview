@@ -94,7 +94,7 @@
                         <div id="osm_map"></div>
                     </div>
                     <div id="container-status-fail">
-                        <img src="assets/images/error.svg" alt="">
+                        <img src="assets/images/warning.svg" alt="">
                         <p>Something went wrong. <br>
                             Please try again later with a valid input.</p>
                     </div>
