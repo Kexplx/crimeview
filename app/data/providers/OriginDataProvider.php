@@ -1,52 +1,43 @@
 <?php
 
 /**
- * Represents a OriginDataProvider used to return live data without using the ODS.
- * 
- * A OriginDataProvider is used to get live data sets via easy API calls.
- * 
- * Therefore the data is deliverd directly from a API without using the ODS.
+ * Represents a OriginDataProvider used to return live data without using the JValue ODS.
  */
-class OriginDataProvider implements IDataProvider
+class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
-    public function getCountyCrimeStats(string $id, int $countDistribution = 3): CrimeStats
+    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
         $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
-
         $rows = explode("\n", $data);
-        $crimes = array();
+        $dd = [];
 
         foreach ($rows as $row) {
             $rowAsArray = str_getcsv($row, ";");
+            if (count($rowAsArray) != 18) continue;
 
-            if (sizeof($rowAsArray) == 18) {
-                $county = utf8_encode($rowAsArray[3]);
-                $type = $rowAsArray[4];
+            $crimeType = utf8_encode($rowAsArray[1]);
 
-                if ($rowAsArray[2] == $id) {
-                    if ($rowAsArray[0] != "------") {
-                        $crime = utf8_encode($rowAsArray[1]);
-
-                        if (strpos($crime, 'insgesamt') === false) {
-                            $crimes["Name"] = $county;
-                            $crimes["Type"] = $type;
-                            $crimes["Crimes"][$crime] = $this->csvNumberToFoat($rowAsArray[5]);
-                        }
-                    } else {
-                        $crimes["Frequency"] = $this->csvNumberToFoat($rowAsArray[6]);
-                    }
-                }
+            if ($rowAsArray[0] == "------") {
+                $dd[$rowAsArray[2]]["Straftaten insgesamt"] = $this->csvNumberToFloat($rowAsArray[6]);
+            } else if (strpos($crimeType, "insgesamt") === false) {
+                $dd[$rowAsArray[2]][$crimeType] = $this->csvNumberToFloat($rowAsArray[5]);
             }
         }
 
-        arsort($crimes["Crimes"]);
-        $crimes["Crimes"] = array_slice($crimes["Crimes"], 0, $countDistribution);
-
-        return new CrimeStats($crimes["Frequency"] / 100000, $crimes["Crimes"]);
+        foreach ($counties as $county) {
+            $id = ltrim($county->getId(), '0');
+            arsort($dd[$id]);
+            $crimeDistribution = array_slice($dd[$id], 1, $countDistribution);
+            $county->setCrimeStats(new CrimeStats($dd[$id]["Straftaten insgesamt"] / 100000, $crimeDistribution));
+        }
     }
 
     public function getCountiesOnRoute(City $from, City $to): array
     {
+        if ($from->getName() == $to->getName()) {
+            throw new InvalidArgumentException("City names are equal");
+        }
+
         $fromLat = $from->getLat();
         $fromLon = $from->getLon();
         $toLat = $to->getLat();
@@ -69,9 +60,7 @@ class OriginDataProvider implements IDataProvider
             $id = $feature["properties"]["cca_2"];
             $geo = json_encode($feature);
 
-            $crimeStats = $this->getCountyCrimeStats($id, 3);
-
-            $counties[] = new County($id, $name, $type, $stateName, $geo, $crimeStats);
+            $counties[] = new County($id, $name, $type, $stateName, $geo);
         }
 
         return $counties;
@@ -80,16 +69,25 @@ class OriginDataProvider implements IDataProvider
     public function getCityByName(string $name): City
     {
         $lowerCityName = urlencode($name);
-        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&limit=1&countrycodes=de";
+        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&addressdetails=1&limit=1";
 
         $json = $this->curlGetJson($url);
+
+        if (sizeof($json) == 0) {
+            throw new InvalidArgumentException("City not found: $name");
+        }
 
         $name = $json[0]["display_name"];
         $lat = $json[0]["lat"];
         $lon = $json[0]["lon"];
         $type = $json[0]["type"];
+        $countryCode = $json[0]["address"]["country_code"];
 
-        return new City($name, $type, $lat, $lon);
+        if ($countryCode == 'de') {
+            return new City($name, $type, $lat, $lon);
+        } else {
+            throw new InvalidArgumentException("City not in Germany: $countryCode");
+        }
     }
 
     private function curlGetJson($url)
@@ -106,7 +104,7 @@ class OriginDataProvider implements IDataProvider
         return json_decode($output, true);
     }
 
-    private function csvNumberToFoat(string $number): float
+    private function csvNumberToFloat(string $number): float
     {
         $number = str_replace(',', '', $number);
         return floatval($number);
