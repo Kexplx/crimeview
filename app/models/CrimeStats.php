@@ -11,6 +11,11 @@ class CrimeStats implements JsonSerializable
         $this->distribution = $distribution;
     }
 
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
     public function jsonSerialize()
     {
         foreach ($this->distribution as $key => $value) {
