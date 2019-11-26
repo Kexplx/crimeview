@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * Handles requests for static pages.
+ * 
+ * Every function serves a single view without modifying it.
+ */
 class PagesController
 {
     public function __construct(CrimeViewDataProvider $crimeViewDataProvider)
-    {
-        $this->crimeViewDataProvider = $crimeViewDataProvider;
-    }
+    { }
 
     public function home()
     {
