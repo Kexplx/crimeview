@@ -126,10 +126,11 @@
         $("#formRoute").submit(function(e) {
             e.preventDefault();
             showSearch();
-            var data = new FormData($("#formRoute")[0]);
-            fetch('/?c=Home&a=getCounties', {
-                method: 'POST',
-                body: data,
+
+            let from = $("#inputFrom").val();
+            let to = $("#inputTo").val();
+            fetch('/routeData' + '?from=' + from + '&to=' + to, {
+                method: 'GET',
             }).then(data => {
                 if (data.status != 200) {
                     showFail();
@@ -154,7 +155,7 @@
                         L.geoJson($.parseJSON(element.county.geoJson), {
                                 style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate)),
                                 onEachFeature: function onEachFeature(feature, layer) {
-                                    var popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
+                                    let popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
                                     layer.bindPopup(popupContent);
                                 }
                             })
