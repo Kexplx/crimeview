@@ -12,7 +12,7 @@ class RouteDataController
     public function getRouteData()
     {
         echo json_encode(
-            $this->dataProvider->getRouteData($_POST["from"], $_POST["to"], 3)
+            $this->crimeViewDataProvider->getRouteData($_GET["from"], $_GET["to"], 3)
         );
     }
 }
