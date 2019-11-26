@@ -278,8 +278,7 @@
             $("#selectionCounties").show();
             $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").hide();
-            location.href = "#";
-            location.href = "#map-container";
+            goToByScroll("map-container");
             map.invalidateSize();
             map.fitBounds(polyline.getBounds());
         }
@@ -318,6 +317,8 @@
         function getColorByCrimeRate(crimeRate) {
             var x = crimeRate;
             switch (true) {
+                case (crimeRate == 0):
+                    return "#777";
                 case (crimeRate <= 0.04):
                     return "#27ae60";
                 case (crimeRate <= 0.07):
@@ -335,6 +336,10 @@
                 result += characters.charAt(Math.floor(Math.random() * charactersLength));
             }
             return result;
+        }
+
+        function goToByScroll(id) {
+            document.getElementById(id).scrollIntoView(true);
         }
     </script>
 </body>
