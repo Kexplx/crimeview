@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
                     <h1>You're lost buddy.</h1>
                     <p>It's important to stay save while traveling. Thats why you should use CrimeCiew.</p>
-                    <button onclick="location.href='?c=Home&a=serve'" type="link" href="https://google.de" class="btn btn-dark">Beam me home</button>
+                    <button onclick="location.href='/home'" type="link" class="btn btn-dark">Beam me home</button>
                 </div>
                 <div class="col-md-8 col-lg-5">
                     <img class="main-img" src="assets/images/not-found.svg" alt="Not found image">

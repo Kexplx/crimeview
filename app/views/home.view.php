@@ -72,8 +72,8 @@
                     <p>Submit your travel route below to get started.
                         After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
                     <form id="formRoute" class="form-search " method="POST ">
-                        <input id="inputDeparture" required type="text " name="from" placeholder="Departure city">
-                        <input id="inputDestination" required type="text " name="to" placeholder="Destination city">
+                        <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
+                        <input id="inputTo" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" id="buttonSubmit" class="btn btn-dark">Analyze</button>
                     </form>
                     <select id="selectionCounties" class="form-control" onchange="changeSelectedCounty()">
@@ -126,10 +126,11 @@
         $("#formRoute").submit(function(e) {
             e.preventDefault();
             showSearch();
-            var data = new FormData($("#formRoute")[0]);
-            fetch('/?c=Home&a=getCounties', {
-                method: 'POST',
-                body: data,
+
+            let from = $("#inputFrom").val();
+            let to = $("#inputTo").val();
+            fetch('/routeData' + '?from=' + from + '&to=' + to, {
+                method: 'GET',
             }).then(data => {
                 if (data.status != 200) {
                     showFail();
@@ -141,7 +142,7 @@
                     $(".map-container").append(
                         '<div class="card" id="cardRouteInformation">' +
                         '<div class="card-body ">' +
-                        '<p class="card-text "> On your way from ' + $("#inputDeparture").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputDestination").val().replace(/,.+,?$/g, '') + ' you will pass <strong>' +
+                        '<p class="card-text "> On your way from ' + $("#inputFrom").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputTo").val().replace(/,.+,?$/g, '') + ' you will pass <strong>' +
                         json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
                         '<p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
                         '<span style="color:#ff7e29">Orange</span>: cr <= 0.07%, ' +
@@ -154,7 +155,7 @@
                         L.geoJson($.parseJSON(element.county.geoJson), {
                                 style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate)),
                                 onEachFeature: function onEachFeature(feature, layer) {
-                                    var popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
+                                    let popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
                                     layer.bindPopup(popupContent);
                                 }
                             })
@@ -192,13 +193,13 @@
             var placesContainerDeparture = places({
                 appId: "plXRD1IMI80E",
                 apiKey: "00f22d317e3469a60acffe3d3e316f6f",
-                container: document.querySelector('#inputDestination'),
+                container: document.querySelector('#inputTo'),
             });
 
             var placesContainerDestination = places({
                 appId: "plXRD1IMI80E",
                 apiKey: "00f22d317e3469a60acffe3d3e316f6f",
-                container: document.querySelector('#inputDeparture'),
+                container: document.querySelector('#inputFrom'),
             });
 
             const reconfigurableOptions = {
