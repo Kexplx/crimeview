@@ -277,6 +277,8 @@
             $("#selectionCounties").show();
             $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").hide();
+            location.href = "#";
+            location.href = "#map-container";
             map.invalidateSize();
             map.fitBounds(polyline.getBounds());
         }
