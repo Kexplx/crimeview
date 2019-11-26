@@ -28,6 +28,10 @@ class CrimeViewRouter
      */
     public function direct(string $url)
     {
+        if ($url == "") {
+            return header("Location: /home");
+        }
+
         if (array_key_exists($url, $this->routes)) {
             try {
                 return $this->callAction(
