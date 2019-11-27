@@ -1,35 +1,39 @@
 <?php
 
 /**
- * Represents a MockDataProvider used to return sample data.
+ * Represents a SampleDataProvider used to return sample data.
  * 
- * A MockDataProvider is used to increase development speed since no external API calls are needed.
+ * A SampleDataProvider is used to increase development speed since no external API calls are needed.
  */
-class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
+class SampleDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
     public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
+        $data = file_get_contents(__DIR__ . "/../samples/BKA-LKS-F-03-T01-Kreise_csv.csv");
+        $rows = explode("\n", $data);
+        $dd = [];
+
+        foreach ($rows as $row) {
+            $rowAsArray = str_getcsv($row, ";");
+            if (count($rowAsArray) != 18) continue;
+
+            $crimeType = utf8_encode($rowAsArray[1]);
+
+            if ($rowAsArray[0] == "------") {
+                $dd[$rowAsArray[2]]["Straftaten insgesamt"] = $this->csvNumberToFloat($rowAsArray[6]);
+            } else if (strpos($crimeType, "insgesamt") === false) {
+                $dd[$rowAsArray[2]][$crimeType] = $this->csvNumberToFloat($rowAsArray[5]);
+            }
+        }
+
         foreach ($counties as $county) {
-            $id = $county->getId();
-            switch ($id) {
-                case '09373':
-                    $county->setCrimeStats(new CrimeStats(0.06, ["Diebstahl" => 58, "Mord" => 1]));
-                    break;
-                case '09362':
-                    $county->setCrimeStats(new CrimeStats(0.05, ["Diebstahl" => 200, "Körperverletzung" => 30]));
-                    break;
-                case '09574':
-                    $county->setCrimeStats(new CrimeStats(0.04, ["Diebstahl" => 50, "Körperverletzung" => 48, "Mord" => 2]));
-                    break;
-                case '09562':
-                    $county->setCrimeStats(new CrimeStats(0.03, ["Diebstahl" => 90, "Raub" => 43]));
-                    break;
-                case '09375':
-                    $county->setCrimeStats(new CrimeStats(0.02, ["Diebstahl" => 180]));
-                    break;
-                default:
-                    $county->setCrimeStats(new CrimeStats(0.01, ["Diebstahl" => 143, "Raub" => 83, "Mord" => 40]));
-                    break;
+            $id = ltrim($county->getId(), '0');
+            if (array_key_exists($id, $dd)) {
+                arsort($dd[$id]);
+                $crimeDistribution = array_slice($dd[$id], 1, $countDistribution);
+                $county->setCrimeStats(new CrimeStats($dd[$id]["Straftaten insgesamt"] / 100000, $crimeDistribution));
+            } else {
+                $county->setCrimeStats(new CrimeStats(0, ['No crime distribution available' => 0]));
             }
         }
     }
@@ -68,5 +72,11 @@ class MockDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICity
             default:
                 return new City("Hamburg, 20095, Deutschland", "city", 53.550341, 10.000654);
         }
+    }
+
+    private function csvNumberToFloat(string $number): float
+    {
+        $number = str_replace(',', '', $number);
+        return floatval($number);
     }
 }
