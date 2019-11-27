@@ -4,71 +4,84 @@ use PHPUnit\Framework\TestCase;
 
 class DataProviderTest extends TestCase
 {
-
     /**
      * @dataProvider dataProvider
      */
-    public function testGetCountyCrimeRate(IDataProvider $provider)
+    public function testCrimeDataProvider(CrimeViewDataProvider $provider, array $cites)
     {
-        $counties = array(
-            'Nürnberg' => '09564',
-            'Erlangen' => '09562',
-            'München' => '09174',
-            'Regensburg' => '09362',
-            'Regensburg' => '09375'
-        );
-
-        foreach ($counties as $name => $id) {
-            $crimeStats = $provider->getCountyCrimeStats($id, 3);
-            $this->assertInstanceOf('CrimeStats', $crimeStats);
-        }
-    }
-
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testGetCountiesOnRoute(IDataProvider $provider)
-    {
-        $regensburgCity = new City("Regensburg, Oberpfalz, Bayern, 93047, Deutschland", "city", 49.0195333, 12.0974869);
-        $erlangenCity = new City("Erlangen, Mittelfranken, Bayern, 91052, Deutschland", "city", 49.5981187, 11.003645);
-        $nuernbergCity = new City("Nürnberg, Mittelfranken, Bayern, Deutschland", "city", 49.453872, 11.077298);
-
-        $routeRegensburgErlangen["from"] = $regensburgCity;
-        $routeRegensburgErlangen["to"] = $erlangenCity;
-
-        $routeErlangenNuernberg["from"] = $erlangenCity;
-        $routeErlangenNuernberg["to"] = $nuernbergCity;
-
-        $routeNuernbergRegensburg["from"] = $nuernbergCity;
-        $routeNuernbergRegensburg["to"] = $regensburgCity;
-
-        $cites = [$routeRegensburgErlangen, $routeErlangenNuernberg, $routeNuernbergRegensburg];
-
         foreach ($cites as $route) {
-            $counties = $provider->getCountiesOnRoute($route["from"], $route["to"]);
-            $this->assertIsArray($counties);
-            foreach ($counties as $county) {
+            $data = $provider->getRouteData($route["from"], $route["to"], 3);
+
+            $this->assertIsArray($data);
+            $this->assertInstanceOf('City', $data['from']);
+            $this->assertInstanceOf('City', $data['to']);
+            $this->assertIsArray($data['counties']);
+
+            $lastCrimeRate = 1.0;
+            foreach ($data['counties'] as $county) {
                 $this->assertInstanceOf('County', $county);
+
+                $id = $county->getId();
+                $this->assertIsString($id);
+
+                $crimeStats = $county->getCrimeStats();
+                $this->assertInstanceOf('CrimeStats', $crimeStats);
+
+                $crimeRate = $crimeStats->getRate();
+                $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
+                $this->assertLessThanOrEqual($lastCrimeRate, $crimeRate);
+                $lastCrimeRate = $crimeRate;
             }
         }
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider errordataProvider
      */
-    public function testGetCityByName(IDataProvider $provider)
+    public function testErrorCrimeDataProvider(CrimeViewDataProvider $provider, array $dataSet)
     {
-        $cityNames = ["Regensburg", "Erlangen", "München"];
+        $cites = array();
 
-        foreach ($cityNames as $cityName) {
-            $this->assertInstanceOf('City', $provider->getCityByName($cityName));
+        $i = 0;
+        foreach ($dataSet as $from) {
+            $cites[$i]["from"] = $from;
+            foreach ($dataSet as $to) {
+                $cites[$i]["to"] = $to;
+            }
+            $i++;
+        }
+
+        foreach ($cites as $route) {
+            $this->expectException(InvalidArgumentException::class);
+            $data = $provider->getRouteData($route["from"], $route["to"], 3);
         }
     }
 
     public function dataProvider()
     {
+        $dataSet = array(
+            ["from" => 'Regensburg', "to" => 'Erlangen'],
+            ["from" => 'Köln', "to" => 'Berlin'],
+            ["from" => 'Hamburg', "to" => 'Würzburg'],
+            ["from" => 'Dortmund', "to" => 'Nürnberg']
+        );
+
+        $originDataProvider = new CrimeViewDataProvider(new OriginDataProvider, new OriginDataProvider, new OriginDataProvider);
+        $sampleDataProvider = new CrimeViewDataProvider(new SampleDataProvider, new SampleDataProvider, new SampleDataProvider);
+
         return array(
-            array(new MockDataProvider()), array(new OriginDataProvider())
+            array($originDataProvider, $dataSet), array($sampleDataProvider, $dataSet)
+        );
+    }
+
+
+    public function errorDataProvider()
+    {
+        $originDataProvider = new CrimeViewDataProvider(new OriginDataProvider, new OriginDataProvider, new OriginDataProvider);
+        $errorDataSet = array("abcdefg", "", " ", "New York");
+
+        return array(
+            array($originDataProvider, $errorDataSet)
         );
     }
 }

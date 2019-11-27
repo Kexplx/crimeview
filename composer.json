@@ -1,7 +1,7 @@
 {
     "autoload": {
         "classmap": [
-            "app/models",
+            "app/core",
             "app/controllers",
             "app/data"
         ]
