@@ -177,7 +177,7 @@
                             '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">' +
                             '<div class="card-header">' + element.county.name + " - " + element.county.type + '</div>' +
                             '<div class="card-body">' +
-                            '<h5 class="card-title">' + element.county.crimeStats.rate + '%' + '</h5>' +
+                            '<h5 class="card-title" style="color:' + getColorByCrimeRate(element.county.crimeStats.rate) + ';">' + element.county.crimeStats.rate + ' % ' + ' </h5>' +
                             '<p class="card-text">' + dist_string + '</p>' +
                             '</div>' +
                             '</div>'
