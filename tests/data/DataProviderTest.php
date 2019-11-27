@@ -67,10 +67,10 @@ class DataProviderTest extends TestCase
         );
 
         $originDataProvider = new CrimeViewDataProvider(new OriginDataProvider, new OriginDataProvider, new OriginDataProvider);
-        $mockDataProvider = new CrimeViewDataProvider(new MockDataProvider, new MockDataProvider, new MockDataProvider);
+        $sampleDataProvider = new CrimeViewDataProvider(new SampleDataProvider, new SampleDataProvider, new SampleDataProvider);
 
         return array(
-            array($originDataProvider, $dataSet), array($mockDataProvider, $dataSet)
+            array($originDataProvider, $dataSet), array($sampleDataProvider, $dataSet)
         );
     }
 

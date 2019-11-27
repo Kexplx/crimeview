@@ -17,9 +17,9 @@ class PagesControllerTest extends TestCase
         ob_start();
         $controller = new PagesController(
             new CrimeViewDataProvider(
-                new MockDataProvider,
-                new MockDataProvider,
-                new MockDataProvider
+                new SampleDataProvider,
+                new SampleDataProvider,
+                new SampleDataProvider
             )
         );
 
@@ -39,9 +39,9 @@ class PagesControllerTest extends TestCase
         ob_start();
         $controller = new PagesController(
             new CrimeViewDataProvider(
-                new MockDataProvider,
-                new MockDataProvider,
-                new MockDataProvider
+                new SampleDataProvider,
+                new SampleDataProvider,
+                new SampleDataProvider
             )
         );
 

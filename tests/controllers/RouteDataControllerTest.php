@@ -13,9 +13,9 @@ class RouteDataControllerTest extends TestCase
     public function testGetRouteData()
     {
         $controller = new RouteDataController(new CrimeViewDataProvider(
-            new MockDataProvider,
-            new MockDataProvider,
-            new MockDataProvider
+            new SampleDataProvider,
+            new SampleDataProvider,
+            new SampleDataProvider
         ));
 
         $_GET["from"] = "regensburg";
