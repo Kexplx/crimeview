@@ -124,6 +124,10 @@ h2 {
     box-shadow: none;
 }
 
+.ap-input-icon{
+    display: none;
+}
+
 .bootstrap-select .btn:focus {
     outline: none !important;
 }
