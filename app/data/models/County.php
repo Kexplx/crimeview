@@ -16,6 +16,8 @@ class County implements JsonSerializable
         $this->type = $type;
         $this->geoJson = $geoJson;
         $this->state_name = $state_name;
+
+        $this->crimeStats = new CrimeStats();
     }
 
     public function getId(): string
