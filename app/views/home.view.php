@@ -12,7 +12,6 @@
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
     <script src="assets/js/vendor/leaflet-providers.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap ">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
@@ -69,8 +68,9 @@
             <div class="row justify-content-between align-items-stretch" style="margin-bottom: 40px;">
                 <div class="col-md-6 col-lg-5">
                     <h2>Submit route here</h2>
-                    <p>Submit your travel route below to get started.</p>
-                    <p>After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
+                    <p>
+                        After a valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate (CR).</p>
+                    <p>Last years CR of county = <strong> Commited crimes / Population</strong>.</p>
                     <form id="formRoute" class="form-search " method="POST ">
                         <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
                         <input id="inputTo" required type="text " name="to" placeholder="Destination city">
@@ -104,7 +104,6 @@
     <script type="text/javascript">
         $("#container-spinner").hide();
         $("#map-container").hide();
-        $("#selectionCounties").hide();
         $("#card-container").hide();
         $("#container-status-fail").hide();
 
@@ -141,11 +140,11 @@
                     $(".map-container").append(
                         '<div class="card" id="cardRouteInformation">' +
                         '<div class="card-body ">' +
-                        '<p class="card-text "> On your way from ' + $("#inputFrom").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputTo").val().replace(/,.+,?$/g, '') + ' you will pass <strong>' +
+                        '<p class="card-text "> On your way from ' + $("#inputFrom").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputTo").val().replace(/,.+,?$/g, '') + ' you will pass ' +
                         json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
-                        '<p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
-                        '<span style="color:#ff7e29">Orange</span>: cr <= 0.07%, ' +
-                        '<span style="color:#c0392b">Red</span>: cr > 0.07%</p>' +
+                        '<p><span style="color:#27ae60">Green</span>: CR <= 0.04, ' +
+                        '<span style="color:#ff7e29">Orange</span>: CR <= 0.07, ' +
+                        '<span style="color:#c0392b">Red</span>: CR > 0.07</p>' +
                         '</div>' +
                         '</div>'
                     );
@@ -197,7 +196,7 @@
                             '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">' +
                             '<div class="card-header">' + element.county.name + " - " + element.county.type + '</div>' +
                             '<div class="card-body">' +
-                            '<h5 class="card-title" style="color:' + getColorByCrimeRate(element.county.crimeStats.rate) + ';">' + element.county.crimeStats.rate + ' % ' + ' </h5>' +
+                            '<h5 class="card-title">CR = <span style="color:' + getColorByCrimeRate(element.county.crimeStats.rate) + ';">' + element.county.crimeStats.rate + '</span></h5>' +
                             '<p class="card-text">' + dist_string + '</p>' +
                             '</div>' +
                             '</div>'
@@ -294,7 +293,6 @@
         function showSuccess() {
             $("#container-spinner").hide();
             $("#map-container").show();
-            $("#selectionCounties").show();
             $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").hide();
             goToByScroll("map-container");
@@ -309,17 +307,14 @@
             $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").show();
             $(".card").remove();
-            $("#selectionCounties").hide();
         }
 
         function showSearch() {
             $(".card").remove();
             $('#buttonSubmit').attr("disabled", true);
-            $("#selectionCounties").empty();
             $("#container-spinner").show();
             $("#card-container").hide();
             $("#map-container").hide();
-            $("#selectionCounties").hide();
             $("#container-status-fail").hide();
         }
 
