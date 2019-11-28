@@ -3,4 +3,4 @@
 # CrimeView
 The CrimeView Web App for Advanced Methods of Software Engineering (AMSE) at FAU in winter 2019.
 
-![CrimeView Demo](crimeview-demo.gif)
+[We're live on Heroku!](https://crime-view.herokuapp.com/home)
