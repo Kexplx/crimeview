@@ -69,15 +69,13 @@
             <div class="row justify-content-between align-items-stretch" style="margin-bottom: 40px;">
                 <div class="col-md-6 col-lg-5">
                     <h2>Submit route here</h2>
-                    <p>Submit your travel route below to get started.
-                        After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
+                    <p>Submit your travel route below to get started.</p>
+                    <p>After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
                     <form id="formRoute" class="form-search " method="POST ">
                         <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
                         <input id="inputTo" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" id="buttonSubmit" class="btn btn-dark">Analyze</button>
                     </form>
-                    <select id="selectionCounties" class="form-control" onchange="changeSelectedCounty()">
-                    </select>
                     <div id="containerCards">
                     </div>
                 </div>
@@ -114,6 +112,7 @@
         var map = null;
         var polyline;
         var lastSelectedCardId = "";
+        var lastSelectedGeoJsonLayer;
 
         class County {
             constructor(geoJson, crimeRate, color) {
@@ -151,12 +150,40 @@
                         '</div>'
                     );
 
+                    $("#containerCards").append(
+                        '<div id="placeholderCard" class="card bg-light mb-3" style="text-align:center; height:290px; width:100%; margin-top:20px">' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">Select a county on the map.</h5>' +
+                        '<p>For each selection we\'ll display a counties crime rate and it\'s crime contribution</p>' +
+                        '<img src="assets/images/select.svg" style="margin-top:30px; width:80px">' +
+                        '</div>' +
+                        '</div>'
+                    );
+
+                    lastSelectedCardId = "placeholderCard";
+
                     json.counties.forEach(element => {
+                        let card_id = makeid(5);
                         L.geoJson($.parseJSON(element.county.geoJson), {
                                 style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate)),
-                                onEachFeature: function onEachFeature(feature, layer) {
-                                    let popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
-                                    layer.bindPopup(popupContent);
+                                onEachFeature: function(feature, layer) {
+                                    layer.on({
+                                        click: function(e) {
+                                            if (lastSelectedGeoJsonLayer != null) {
+                                                lastSelectedGeoJsonLayer.setStyle({
+                                                    opacity: 0.4,
+                                                    fillOpacity: 0.4
+                                                });
+                                            }
+
+                                            layer.setStyle({
+                                                opacity: 1,
+                                                fillOpacity: 0.7
+                                            });
+                                            changeSelectedCounty(card_id);
+                                            lastSelectedGeoJsonLayer = layer;
+                                        }
+                                    });
                                 }
                             })
                             .addTo(map);
@@ -165,13 +192,6 @@
                         element.county.crimeStats.distribution.forEach(dist => {
                             dist_string += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
                         });
-
-                        let card_id = makeid(5);
-                        let header_id = makeid(5);
-
-                        $("#selectionCounties").append(
-                            '<option value="' + card_id + '">' + element.county.name + " - " + element.county.type + '</option>'
-                        );
 
                         $("#containerCards").append(
                             '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">' +
@@ -182,9 +202,8 @@
                             '</div>' +
                             '</div>'
                         );
-
-                        showSuccess();
                     });
+                    showSuccess();
                 })
             });
         });
@@ -212,12 +231,13 @@
             placesContainerDestination.configure(reconfigurableOptions);
         }
 
-        function changeSelectedCounty() {
+        function changeSelectedCounty(id) {
             if (lastSelectedCardId != "") {
                 $("#" + lastSelectedCardId).hide();
             }
-            $("#" + $("#selectionCounties :selected").val()).show();
-            lastSelectedCardId = $("#selectionCounties :selected").val();
+
+            $("#" + id).show();
+            lastSelectedCardId = id;
         }
 
         function initMap(from_lat, from_lng, to_lat, to_lng) {
@@ -272,7 +292,6 @@
         }
 
         function showSuccess() {
-            changeSelectedCounty();
             $("#container-spinner").hide();
             $("#map-container").show();
             $("#selectionCounties").show();
