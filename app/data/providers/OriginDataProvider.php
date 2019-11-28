@@ -7,7 +7,17 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 {
     public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
-        $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
+        $currentYear = date("Y");
+
+        while ($currentYear > 2000) {
+            $data = @file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/$currentYear/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
+            if ($data === FALSE) {
+                $currentYear--;
+            } else {
+                break;
+            }
+        }
+
         $rows = explode("\n", $data);
         $dd = [];
 
