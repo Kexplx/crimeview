@@ -12,11 +12,11 @@ class PagesController
 
     public function home()
     {
-        require __DIR__ . "/../views/home.view.php";
+        view('home');
     }
 
     public function notFound()
     {
-        require __DIR__ . "/../views/not-found.view.php";
+        view('not-found');
     }
 }
