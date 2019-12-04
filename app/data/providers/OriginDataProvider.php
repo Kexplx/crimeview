@@ -7,7 +7,17 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 {
     public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
     {
-        $data = file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
+        $currentYear = date("Y");
+
+        while ($currentYear > 2000) {
+            $data = @file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/$currentYear/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
+            if ($data === FALSE) {
+                $currentYear--;
+            } else {
+                break;
+            }
+        }
+
         $rows = explode("\n", $data);
         $dd = [];
 
@@ -72,10 +82,7 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 
     public function getCityByName(string $name): City
     {
-        $lowerCityName = urlencode($name);
-        $url = "https://nominatim.openstreetmap.org/search?q=" . $lowerCityName . "&format=json&addressdetails=1&limit=1";
-
-        $json = $this->curlGetJson($url);
+        $json = $this->getNominatimJson($name);
 
         if (sizeof($json) == 0) {
             throw new InvalidArgumentException("City not found: $name");
@@ -94,18 +101,22 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         }
     }
 
-    private function curlGetJson($url)
+    private function getNominatimJson($cityName)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $cityName = urlencode($cityName);
 
-        return json_decode($output, true);
+        $url = "http://nominatim.openstreetmap.org/search?q={$cityName}&format=json&addressdetails=1&limit=1";
+        $opts = [
+            'http' =>
+            [
+                'method' => "GET",
+                'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0\r\n"
+            ]
+        ];
+        $context = stream_context_create($opts);
+
+        $body = file_get_contents($url, false, $context);
+        return json_decode($body, true);
     }
 
     private function csvNumberToFloat(string $number): float

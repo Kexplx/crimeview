@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Represents a german 'Landkreis'.
+ */
 class County implements JsonSerializable
 {
     private $id;

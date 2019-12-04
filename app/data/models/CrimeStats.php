@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Contains information about a counties crime rate and it's crime-distribution from the last year.
+ */
 class CrimeStats implements JsonSerializable
 {
     private $rate;

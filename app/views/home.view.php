@@ -12,7 +12,6 @@
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
     <script src="assets/js/vendor/leaflet-providers.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap ">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
@@ -69,15 +68,14 @@
             <div class="row justify-content-between align-items-stretch" style="margin-bottom: 40px;">
                 <div class="col-md-6 col-lg-5">
                     <h2>Submit route here</h2>
-                    <p>Submit your travel route below to get started.
-                        After valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate.</p>
+                    <p>
+                        After a valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate (CR).</p>
+                    <p>Last years CR of county = <strong> Commited crimes / Population</strong>.</p>
                     <form id="formRoute" class="form-search " method="POST ">
                         <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
                         <input id="inputTo" required type="text " name="to" placeholder="Destination city">
                         <button type="submit" id="buttonSubmit" class="btn btn-dark">Analyze</button>
                     </form>
-                    <select id="selectionCounties" class="form-control" onchange="changeSelectedCounty()">
-                    </select>
                     <div id="containerCards">
                     </div>
                 </div>
@@ -106,7 +104,6 @@
     <script type="text/javascript">
         $("#container-spinner").hide();
         $("#map-container").hide();
-        $("#selectionCounties").hide();
         $("#card-container").hide();
         $("#container-status-fail").hide();
 
@@ -114,6 +111,7 @@
         var map = null;
         var polyline;
         var lastSelectedCardId = "";
+        var lastSelectedGeoJsonLayer;
 
         class County {
             constructor(geoJson, crimeRate, color) {
@@ -142,21 +140,49 @@
                     $(".map-container").append(
                         '<div class="card" id="cardRouteInformation">' +
                         '<div class="card-body ">' +
-                        '<p class="card-text "> On your way from ' + $("#inputFrom").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputTo").val().replace(/,.+,?$/g, '') + ' you will pass <strong>' +
+                        '<p class="card-text "> On your way from ' + $("#inputFrom").val().replace(/,.+,?$/g, '') + ' to ' + $("#inputTo").val().replace(/,.+,?$/g, '') + ' you will pass ' +
                         json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
-                        '<p><span style="color:#27ae60">Green</span>: cr <= 0.04%, ' +
-                        '<span style="color:#ff7e29">Orange</span>: cr <= 0.07%, ' +
-                        '<span style="color:#c0392b">Red</span>: cr > 0.07%</p>' +
+                        '<p><span style="color:#27ae60">Green</span>: CR <= 0.04, ' +
+                        '<span style="color:#ff7e29">Orange</span>: CR <= 0.07, ' +
+                        '<span style="color:#c0392b">Red</span>: CR > 0.07</p>' +
                         '</div>' +
                         '</div>'
                     );
 
+                    $("#containerCards").append(
+                        '<div id="placeholderCard" class="card bg-light mb-3" style="text-align:center; height:290px; width:100%; margin-top:20px">' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">Select a county on the map.</h5>' +
+                        '<p>For each selection we\'ll display a counties crime rate and it\'s crime contribution</p>' +
+                        '<img src="assets/images/select.svg" style="margin-top:30px; width:80px">' +
+                        '</div>' +
+                        '</div>'
+                    );
+
+                    lastSelectedCardId = "placeholderCard";
+
                     json.counties.forEach(element => {
+                        let card_id = makeid(5);
                         L.geoJson($.parseJSON(element.county.geoJson), {
                                 style: polystyle(getColorByCrimeRate(element.county.crimeStats.rate)),
-                                onEachFeature: function onEachFeature(feature, layer) {
-                                    let popupContent = feature.properties.name_2 + " (" + feature.properties.type_2 + ")";
-                                    layer.bindPopup(popupContent);
+                                onEachFeature: function(feature, layer) {
+                                    layer.on({
+                                        click: function(e) {
+                                            if (lastSelectedGeoJsonLayer != null) {
+                                                lastSelectedGeoJsonLayer.setStyle({
+                                                    opacity: 0.4,
+                                                    fillOpacity: 0.4
+                                                });
+                                            }
+
+                                            layer.setStyle({
+                                                opacity: 1,
+                                                fillOpacity: 0.7
+                                            });
+                                            changeSelectedCounty(card_id);
+                                            lastSelectedGeoJsonLayer = layer;
+                                        }
+                                    });
                                 }
                             })
                             .addTo(map);
@@ -166,25 +192,17 @@
                             dist_string += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
                         });
 
-                        let card_id = makeid(5);
-                        let header_id = makeid(5);
-
-                        $("#selectionCounties").append(
-                            '<option value="' + card_id + '">' + element.county.name + " - " + element.county.type + '</option>'
-                        );
-
                         $("#containerCards").append(
                             '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">' +
                             '<div class="card-header">' + element.county.name + " - " + element.county.type + '</div>' +
                             '<div class="card-body">' +
-                            '<h5 class="card-title">' + element.county.crimeStats.rate + '</h5>' +
+                            '<h5 class="card-title">CR = <span style="color:' + getColorByCrimeRate(element.county.crimeStats.rate) + ';">' + element.county.crimeStats.rate + '</span></h5>' +
                             '<p class="card-text">' + dist_string + '</p>' +
                             '</div>' +
                             '</div>'
                         );
-
-                        showSuccess();
                     });
+                    showSuccess();
                 })
             });
         });
@@ -212,12 +230,13 @@
             placesContainerDestination.configure(reconfigurableOptions);
         }
 
-        function changeSelectedCounty() {
+        function changeSelectedCounty(id) {
             if (lastSelectedCardId != "") {
                 $("#" + lastSelectedCardId).hide();
             }
-            $("#" + $("#selectionCounties :selected").val()).show();
-            lastSelectedCardId = $("#selectionCounties :selected").val();
+
+            $("#" + id).show();
+            lastSelectedCardId = id;
         }
 
         function initMap(from_lat, from_lng, to_lat, to_lng) {
@@ -272,10 +291,8 @@
         }
 
         function showSuccess() {
-            changeSelectedCounty();
             $("#container-spinner").hide();
             $("#map-container").show();
-            $("#selectionCounties").show();
             $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").hide();
             goToByScroll("map-container");
@@ -290,17 +307,14 @@
             $('#buttonSubmit').attr("disabled", false);
             $("#container-status-fail").show();
             $(".card").remove();
-            $("#selectionCounties").hide();
         }
 
         function showSearch() {
             $(".card").remove();
             $('#buttonSubmit').attr("disabled", true);
-            $("#selectionCounties").empty();
             $("#container-spinner").show();
             $("#card-container").hide();
             $("#map-container").hide();
-            $("#selectionCounties").hide();
             $("#container-status-fail").hide();
         }
 
