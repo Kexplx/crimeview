@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Represents a german city, containing it's the name, type and coordinates. 
+ */
 class City implements JsonSerializable
 {
     private $name;

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Represents a german 'Landkreis'.
+ */
 class County implements JsonSerializable
 {
     private $id;
@@ -8,7 +11,6 @@ class County implements JsonSerializable
     private $state_name;
     private $geoJson;
     private $crimeStats;
-
 
     function __construct(string $id, string $name, string $type, string $state_name, string $geoJson)
     {
