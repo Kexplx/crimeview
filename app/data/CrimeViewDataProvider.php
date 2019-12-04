@@ -21,16 +21,8 @@ class CrimeViewDataProvider
 
         $countiesOnRoute = $this->countyDataProvider->getCountiesOnRoute($result['from'],  $result['to']);
         $this->crimeDataProvider->fillCountiesWithCrimeStats($countiesOnRoute, $countDistribution);
-        $this->sortByCrimeRate($countiesOnRoute);
 
         $result['counties'] = $countiesOnRoute;
         return $result;
-    }
-
-    private function sortByCrimeRate(array &$counties)
-    {
-        usort($counties, function ($a, $b) {
-            return $b->getCrimeStats()->getRate() <=> $a->getCrimeStats()->getRate();
-        });
     }
 }
