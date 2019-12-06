@@ -131,7 +131,8 @@ h2 {
     outline: none !important;
 }
 
-#osm_map {
+#osm-map {
+    display: none;
     background: rgb(212, 212, 212);
     border-radius: 5px;
     flex-grow: 1;
@@ -142,6 +143,7 @@ h2 {
 }
 
 #container-spinner {
+    display: none;
     text-align: center;
     padding-top: 40px;
 }
@@ -152,6 +154,7 @@ h2 {
 
 #container-status-fail {
     text-align: center;
+    display: none;
     padding-top: 40px;
 }
 
@@ -161,4 +164,12 @@ h2 {
 
 #container-status-fail p {
     padding-top: 20px;
+}
+
+#card-container {
+    display: none;
+}
+
+.row {
+    margin-bottom: 40px;
 }
