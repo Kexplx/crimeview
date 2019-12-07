@@ -12,11 +12,17 @@ class PagesController
 
     public function home()
     {
-        $path = __DIR__ . '/clicks';
-        $clickCount = intval(file_get_contents($path));
-        file_put_contents($path, ++$clickCount);
+        $path = __DIR__ . '/hits';
 
-        view('home', ["clickCount" => $clickCount]);
+        if (file_exists($path)) {
+            $hits = intval(file_get_contents($path));
+        } else {
+            $hits = 1;
+            file_put_contents($path, '1');
+        }
+
+        file_put_contents($path, ++$hits);
+        view('home', ["hits" => $hits]);
     }
 
     public function notFound()
