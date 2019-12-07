@@ -16,7 +16,7 @@
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5">
                     <h1>CrimeView </h1>
-                    <h4>Lives saved: <span style="color: green"><?php echo $viewData["clickCount"]; ?></span></h4>
+                    <h4>Lives saved: <span style="color: green"><?php echo $viewData["hits"]; ?></span></h4>
                     <p>CrimeView analyses your travel route and generates an overview of all german-counties
                         and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
