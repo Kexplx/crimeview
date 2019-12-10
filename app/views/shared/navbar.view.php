@@ -17,7 +17,7 @@
                         <a class="dropdown-item" href="https://leafletjs.com" target="_blank">Leaflet</a>
                         <a class="dropdown-item" href="https://www.opendatasoft.com/de" target="_blank">OpenDataSoft</a>
                         <a class="dropdown-item" href="https://nominatim.openstreetmap.org" target="_blank">Nominatim</a>
-                        <a class="dropdown-item" href="https://www.bka.de/DE/Home/home_node.html" target="_blank">Bundeskriminalamt</a>
+                        <a class="dropdown-item" href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html" target="_blank">Bundeskriminalamt</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="https://github.com/georg-schwarz/open-data-service" target="_blank">Jvalue ODS</a>
                     </div>
