@@ -10,9 +10,9 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         $url = "https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/{year}/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3";
 
         $currentYear = date("Y");
-        if (!$data = file_get_contents(str_replace("{year}", $currentYear, $url))) {
+        if (!$data = @file_get_contents(str_replace("{year}", $currentYear, $url))) {
             $currentYear--;
-            $data = file_get_contents(str_replace("{year}", $currentYear, $url));
+            $data = @file_get_contents(str_replace("{year}", $currentYear, $url));
         }
 
         $this->fillCountiesWithCrimeStatsData($currentYear, $data, $counties, $countDistribution);
