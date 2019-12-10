@@ -1,10 +1,14 @@
 [![Build Status](https://travis-ci.com/Kexplx/CrimeView.svg?branch=develop)](https://travis-ci.com/Kexplx/CrimeView)
-<a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v0.6" alt="Activity">
+<a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v0.6" alt="Release Page">
     <img src="https://img.shields.io/badge/license-AGPLv3-e74c3c" />
 </a>
-<a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v0.6" alt="Activity">
+<a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v0.6" alt="License Page">
     <img src="https://img.shields.io/badge/version-v1.0-2980b9" />
 </a>
+<a href="https://crime-view.herokuapp.com/home" alt="Heroku Page">
+    <img src="https://img.shields.io/badge/live%20on-heroku-9b59b6" />
+</a>
+
 
 # CrimeView
 The CrimeView Web App for Advanced Methods of Software Engineering (AMSE) at FAU in winter 2019.
