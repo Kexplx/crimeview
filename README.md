@@ -9,7 +9,7 @@
 # CrimeView
 The CrimeView Web App for Advanced Methods of Software Engineering (AMSE) at FAU in winter 2019.
 
-[CrimeView @ Heroku](https://crime-view.herokuapp.com/home)
+[CrimeView on Heroku](https://crime-view.herokuapp.com/home)
 
 # License
 Copyright 2019 Oscar Rosner  
