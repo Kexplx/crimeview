@@ -5,19 +5,31 @@
  */
 class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICityDataProvider
 {
-    public function fillCountiesWithCrimeStats(array &$counties, int $countDistribution = 3)
+    public function fillCountiesWithCrimeStats(array &$counties,  int $countDistribution = 3)
     {
-        $currentYear = date("Y");
+        $url = "https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/{year}/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3";
 
-        while ($currentYear > 2000) {
-            $data = @file_get_contents("https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/$currentYear/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-03-T01-Kreise_csv.csv?__blob=publicationFile&v=3");
-            if ($data === FALSE) {
+        $currentYear = date("Y");
+        
+        while (true) {
+            if (!$data = @file_get_contents(str_replace("{year}", $currentYear, $url))) {
                 $currentYear--;
             } else {
                 break;
             }
         }
 
+        $this->fillCountiesWithCrimeStatsData($currentYear, $data, $counties, $countDistribution);
+        for ($i = 0; $i < 2; $i++) {
+            $currentYear--;
+            $data = file_get_contents(str_replace("{year}", $currentYear, $url));
+
+            $this->fillCountiesWithCrimeStatsData($currentYear, $data, $counties, $countDistribution);
+        }
+    }
+
+    private function fillCountiesWithCrimeStatsData(int $year, string $data, array &$counties, int $countDistribution = 3)
+    {
         $rows = explode("\n", $data);
         $dd = [];
 
@@ -39,9 +51,9 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
             if (array_key_exists($id, $dd)) {
                 arsort($dd[$id]);
                 $crimeDistribution = array_slice($dd[$id], 1, $countDistribution);
-                $county->setCrimeStats(new CrimeStats($dd[$id]["Straftaten insgesamt"] / 100000, $crimeDistribution));
+                $county->setCrimeStats(new CrimeStats($year, $dd[$id]["Straftaten insgesamt"] / 100000, $crimeDistribution));
             } else {
-                $county->setCrimeStats(new CrimeStats(0, ['No crime distribution available' => 0]));
+                $county->setCrimeStats(new CrimeStats(0, 0, ['No crime distribution available' => 0]));
             }
         }
     }

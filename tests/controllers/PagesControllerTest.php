@@ -10,13 +10,10 @@ require_once __DIR__ . '/../../app/core/helpers.php';
 class PagesControllerTest extends TestCase
 {
     /**
-     * Tests the correct output of PagesController::home.
+     * Tests if the hits value in /hits is incremented on action call
      */
-    public function testHome()
+    public function testCounterUpOnPageVisit()
     {
-        $expected = file_get_contents(__DIR__ . "/../../app/views/home.view.php");
-
-        ob_start();
         $controller = new PagesController(
             new CrimeViewDataProvider(
                 new SampleDataProvider,
@@ -25,31 +22,14 @@ class PagesControllerTest extends TestCase
             )
         );
 
+        $path = __DIR__ . "/../../app/controllers/hits";
+        file_put_contents($path, '0');
+        // visit page
+        ob_start();
         $controller->home();
-        $actual = ob_get_clean();
+        ob_get_clean();
+        $hits = file_get_contents($path);
 
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * Tests the correct output of PagesController::notFound.
-     */
-    public function testNotFound()
-    {
-        $expected = file_get_contents(__DIR__ . "/../../app/views/not-found.view.php");
-
-        ob_start();
-        $controller = new PagesController(
-            new CrimeViewDataProvider(
-                new SampleDataProvider,
-                new SampleDataProvider,
-                new SampleDataProvider
-            )
-        );
-
-        $controller->notFound();
-        $actual = ob_get_clean();
-
-        $this->assertSame($expected, $actual);
+        $this->assertEquals('1', $hits);
     }
 }

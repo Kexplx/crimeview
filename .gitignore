@@ -47,3 +47,4 @@ Thumbs.db
 /config
 /private
 /uploads
+app/controllers/hits

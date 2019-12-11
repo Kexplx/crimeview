@@ -5,11 +5,13 @@
  */
 class CrimeStats implements JsonSerializable
 {
+    private $year;
     private $rate;
     private $distribution;
 
-    public function __construct($rate = null, $distribution = null)
+    public function __construct(int $year = null, float $rate = null, array $distribution = null)
     {
+        $this->year = $year;
         $this->rate = $rate;
         $this->distribution = $distribution;
     }
@@ -26,6 +28,7 @@ class CrimeStats implements JsonSerializable
         }
 
         return [
+            'year' => $this->year,
             'rate' => $this->rate,
             'distribution' => $hold
         ];

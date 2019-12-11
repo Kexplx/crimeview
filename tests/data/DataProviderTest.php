@@ -17,20 +17,19 @@ class DataProviderTest extends TestCase
             $this->assertInstanceOf('City', $data['to']);
             $this->assertIsArray($data['counties']);
 
-            $lastCrimeRate = 1.0;
             foreach ($data['counties'] as $county) {
                 $this->assertInstanceOf('County', $county);
 
                 $id = $county->getId();
                 $this->assertIsString($id);
 
-                $crimeStats = $county->getCrimeStats();
-                $this->assertInstanceOf('CrimeStats', $crimeStats);
+                $crimeStatsArray = $county->getCrimeStats();
+                foreach ($crimeStatsArray as $crimeStats) {
+                    $this->assertInstanceOf('CrimeStats', $crimeStats);
 
-                $crimeRate = $crimeStats->getRate();
-                $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
-                // $this->assertLessThanOrEqual($lastCrimeRate, $crimeRate);
-                // $lastCrimeRate = $crimeRate;
+                    $crimeRate = $crimeStats->getRate();
+                    $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
+                }
             }
         }
     }

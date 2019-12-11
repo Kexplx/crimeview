@@ -19,8 +19,6 @@ class County implements JsonSerializable
         $this->type = $type;
         $this->geoJson = $geoJson;
         $this->state_name = $state_name;
-
-        $this->crimeStats = new CrimeStats();
     }
 
     public function getId(): string
@@ -33,9 +31,9 @@ class County implements JsonSerializable
         return $this->crimeStats;
     }
 
-    public function setCrimeStats(CrimeStats $crimeStats)
+    public function setCrimeStats($crimeStats)
     {
-        $this->crimeStats = $crimeStats;
+        $this->crimeStats[] = $crimeStats;
     }
 
     public function jsonSerialize()
@@ -47,7 +45,7 @@ class County implements JsonSerializable
                 'type' => $this->type,
                 'state_name' => $this->state_name,
                 'geoJson' => $this->geoJson,
-                'crimeStats' => $this->crimeStats->jsonSerialize()
+                'crimeStats' => $this->crimeStats
             ]
         ];
     }
