@@ -15,7 +15,7 @@ The CrimeView Web App for Advanced Methods of Software Engineering (AMSE) at FAU
 
 [CrimeView on Heroku](https://crime-view.herokuapp.com/home)
 
-# License
+## License
 Copyright 2019 Oscar Rosner  
 Copyright 2019 Sebastian Geitner  
 Copyright 2019 Friedrich-Alexander Universität Erlangen-Nürnberg
