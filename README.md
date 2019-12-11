@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Kexplx/CrimeView.svg?branch=develop)](https://travis-ci.com/Kexplx/CrimeView)
+[![Build Status](https://travis-ci.com/Kexplx/CrimeView.svg?branch=master)](https://travis-ci.com/Kexplx/CrimeView)
 <a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v0.6" alt="Release Page">
     <img src="https://img.shields.io/badge/license-AGPLv3-e74c3c" />
 </a>
