@@ -83,6 +83,7 @@
                         appendCountyCard("#container-cards", element, card_id);
                     });
                     showSuccess();
+                    document.getElementById("osm-map").scrollIntoView(true);
                 })
             });
         });
