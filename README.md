@@ -30,3 +30,10 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SPDX-License-Identifier: AGPL-3.0-only
+
+## Used services
+- [Bundeskriminalamt](https://www.bka.de/)
+- [Opendatasoft](https://www.opendatasoft.com/de/) 
+- [Nominatim](https://nominatim.openstreetmap.org/)
+- [Algolia](https://www.algolia.com/) 
+- [Leaflet](https://leafletjs.com/) 
