@@ -16,7 +16,6 @@
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5">
                     <h1>CrimeView </h1>
-                    <h5><span style="color: green"><?php echo $viewData["hits"]; ?></span> people are traveling safely.</h5>
                     <p>CrimeView analyses your travel route and generates an overview of all german-counties
                         and their current crime rates you'll pass. </p>
                     <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
@@ -99,7 +98,7 @@
 
         function showFail() {
             $('#buttonSubmit').attr("disabled", false);
-            $("#container-spinner #osm-map").hide();
+            $("#container-spinner, #osm-map").hide();
             $("#container-status-fail").show();
             $(".card").remove();
         }
