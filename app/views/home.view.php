@@ -99,7 +99,7 @@
 
         function showFail() {
             $('#buttonSubmit').attr("disabled", false);
-            $("#container-spinner #osm-map").hide();
+            $("#container-spinner, #osm-map").hide();
             $("#container-status-fail").show();
             $(".card").remove();
         }
