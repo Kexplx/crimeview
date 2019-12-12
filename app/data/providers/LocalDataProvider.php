@@ -55,7 +55,7 @@ class LocalDataProvider implements ICrimeDataProvider
             $crimeRow[$counter] => $crimeRow[$counter + 1],
             $crimeRow[$counter + 2] => $crimeRow[$counter + 3],
             $crimeRow[$counter + 4] => $crimeRow[$counter + 5],
-            $crimeRow[$counter + 6] => $crimeRow[$counter + 6],
+            $crimeRow[$counter + 6] => $crimeRow[$counter + 7],
         );
 
         $stats["distribution"] = array_slice($stats["distribution"], 0, $countDistribution);
