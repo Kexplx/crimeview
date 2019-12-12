@@ -38,6 +38,6 @@ class CrimeViewDataProvider
                 $count++;
             }
         }
-        return ($totalRate / $count);
+        return number_format(($totalRate / $count), 5);
     }
 }
