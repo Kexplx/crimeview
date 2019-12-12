@@ -23,6 +23,21 @@ class CrimeViewDataProvider
         $this->crimeDataProvider->fillCountiesWithCrimeStats($countiesOnRoute, $countDistribution);
 
         $result['counties'] = $countiesOnRoute;
+        $result['averageCrimeRate'] = $this->calcAverageCrimeRate($countiesOnRoute);
         return $result;
+    }
+
+    private function calcAverageCrimeRate(array &$counties)
+    {
+        $totalRate = 0;
+        $count = 0;
+        foreach ($counties as $county) {
+            $currentRate = $county->getCrimeStats()[0]->getRate();
+            if ($currentRate > 0) {
+                $totalRate += $currentRate;
+                $count++;
+            }
+        }
+        return ($totalRate / $count);
     }
 }

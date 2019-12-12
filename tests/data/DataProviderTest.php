@@ -31,6 +31,8 @@ class DataProviderTest extends TestCase
                     $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
                 }
             }
+
+            $this->assertEqualsWithDelta(0.5,  $data['averageCrimeRate'], 0.5);
         }
     }
 
