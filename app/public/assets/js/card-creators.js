@@ -2,11 +2,9 @@ function appendRouteInformationCard(container, from, to, json) {
     $(container).append(
         '<div class="card" id="cardRouteInformation">' +
         '<div class="card-body ">' +
+        '<h5 class="card-title">Average CR on route = <span style="color:' + getColorByCrimeRate(json.averageCrimeRate) + ';">' + json.averageCrimeRate + '</span></h5>' +
         '<p class="card-text "> On your way from ' + from.replace(/,.+,?$/g, '') + ' to ' + to.replace(/,.+,?$/g, '') + ' you will pass ' +
         json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
-        '<p><span style="color:#27ae60">Green</span>: CR <= 0.04, ' +
-        '<span style="color:#ff7e29">Orange</span>: CR <= 0.07, ' +
-        '<span style="color:#c0392b">Red</span>: CR > 0.07</p>' +
         '</div>' +
         '</div>'
     );
