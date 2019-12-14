@@ -38,7 +38,7 @@
                     <form id="formRoute" class="form-search " method="POST ">
                         <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
                         <input id="inputTo" required type="text " name="to" placeholder="Destination city">
-                        <button type="submit" id="buttonSubmit" class="btn btn-dark btn-sm">Analyze</button>
+                        <button onclick="this.blur();" type="submit" id="buttonSubmit" class="btn btn-outline-dark btn-sm">Analyze</button>
                     </form>
                     <div id="container-cards"></div>
                 </div>
