@@ -73,6 +73,7 @@ h5 {
     border: none;
     font-size: 13px;
     width: 100%;
+    border-radius: 0;
     padding-left: 0px;
     border-bottom: solid 1px rgb(212, 212, 212);
     margin-bottom: 8px;
