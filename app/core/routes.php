@@ -4,5 +4,6 @@ return
     [
         "" => "PagesController@home",
         "home" => "PagesController@home",
-        "routeData" => "RouteDataController@getRouteData"
+        "routeData" => "RouteDataController@getRouteData",
+        "compact" => "PagesController@compact",
     ];
