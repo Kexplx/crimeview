@@ -21,6 +21,16 @@ class County implements JsonSerializable
         $this->state_name = $state_name;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
     public function getId(): string
     {
         return $this->id;
