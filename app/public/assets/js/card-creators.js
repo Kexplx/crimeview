@@ -2,21 +2,32 @@ function appendRouteInformationCard(container, from, to, json) {
     $(container).append(
         '<div class="card" id="cardRouteInformation">' +
         '<div class="card-body ">' +
-        '<h5 class="card-title">Average CR on route = <span style="color:' + getColorByCrimeRate(json.averageCrimeRate) + ';">' + json.averageCrimeRate + '</span></h5>' +
+        '<div style="display:flex; justify-content:space-between; align-items:baseline;"><h5 class="card-title">Average CR on route = <span style="color:' + getColorByCrimeRate(json.averageCrimeRate) + ';">' + json.averageCrimeRate + '</span></h5><button id="btnCvCompact" style="width:135px" class="btn btn-outline-dark btn-sm" onclick="this.blur();">CrimeView <small style="color:gray">Compact</small></button></div>' +
         '<p class="card-text "> On your way from ' + from.replace(/,.+,?$/g, '') + ' to ' + to.replace(/,.+,?$/g, '') + ' you will pass ' +
         json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
         '</div>' +
         '</div>'
     );
+
+    $("#btnCvCompact").click(function() {
+        var $temp = $('<input>');
+        $('body').append($temp);
+        $temp.val("localhost:4040/compact?from=" + from.replace(/,.+,?$/g, '') + "&to=" + to.replace(/,.+,?$/g, '')).select();
+        document.execCommand('copy');
+        $temp.remove();
+        $("#btnCvCompact").html('Link copied!');
+        $("#btnCvCompact").removeClass("btn-outline-dark");
+        $("#btnCvCompact").addClass("btn-success");
+    })
 }
 
 function appendPlaceholderCard(container) {
     $(container).append(
-        '<div id="placeholderCard" class="card bg-light mb-3" style="text-align:center; height:327px; width:100%; margin-top:20px">' +
+        '<div id="placeholderCard" class="card bg-light mb-3" style="text-align:center; height:295px; width:100%; margin-top:20px">' +
         '<div class="card-body">' +
         '<h5 class="card-title">Select a county on the map.</h5>' +
-        '<p>For each selection we\'ll display a counties crime rate and it\'s crime contribution</p>' +
-        '<img src="assets/images/select.svg" style="margin-top:30px; width:80px">' +
+        '<small><p>For each selection we\'ll display a counties crime rate and it\'s crime contribution</p></small>' +
+        '<img src="assets/images/select.svg" style="margin-top:30px; width:70px">' +
         '</div>' +
         '</div>'
     );
