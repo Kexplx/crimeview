@@ -35,6 +35,8 @@ class LocalDataProvider implements ICrimeDataProvider
             }
 
             $county->setCrimeStats(new CrimeStats(0, 0, ['No crime distribution available' => 0]));
+            $county->setCrimeStats(new CrimeStats(0, 0, ['No crime distribution available' => 0]));
+            $county->setCrimeStats(new CrimeStats(0, 0, ['No crime distribution available' => 0]));
         }
     }
 
