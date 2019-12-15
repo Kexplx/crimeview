@@ -34,19 +34,13 @@ function appendPlaceholderCard(container) {
 }
 
 function appendCountyCard(container, element, card_id) {
-    if (element.county.crimeStats[0] == undefined || element.county.crimeStats[1] == undefined || element.county.crimeStats[2] == undefined) {
+    if (element.county.crimeStats[0].rate == 0) {
         $(container).append(
             '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; height:295px; display:none; margin-top:20px">' +
             '<div class="card-header"> ' +
             '<ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">' +
             '<li class="nav-item">' +
-            '<a class="nav-link active" style="color:black" id="year1-tab" data-toggle="tab" href="#year1' + card_id + '" role="tab" aria-controls="year1" aria-selected="true">-</a>' +
-            '</li>' +
-            '<li class="nav-item">' +
-            '    <a class="nav-link" style="color:black" id="year2-tab" data-toggle="tab" href="#year2' + card_id + '" role="tab" aria-controls="year2" aria-selected="false">-</a>' +
-            '</li>' +
-            '<li class="nav-item">' +
-            '    <a class="nav-link" style="color:black" id="year3-tab" data-toggle="tab" href="#year3' + card_id + '" role="tab" aria-controls="year3" aria-selected="false">-</a>' +
+            '<a class="nav-link active" style="color:black" id="year1-tab" data-toggle="tab" href="#year1' + card_id + '" role="tab" aria-controls="year1" aria-selected="true">No crime data</a>' +
             '</li>' +
             '</ul>' +
             '</div>' +
@@ -54,15 +48,8 @@ function appendCountyCard(container, element, card_id) {
             '<div class="tab-content">' +
             '<div class="tab-pane fade show active" id="year1' + card_id + '" role="tabpanel" aria-labelledby="year1-tab">' +
             '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">No crime data available.</p>' +
-            '</div>' +
-            '<div class="tab-pane fade" id="year2' + card_id + '" role="tabpanel" aria-labelledby="year2-tab">' +
-            '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">No crime data available.</p>' +
-            '</div>' +
-            '<div class="tab-pane fade" id="year3' + card_id + '" role="tabpanel" aria-labelledby="year3-tab">' +
-            '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">No crime data available.</p>' +
+            '<p class="card-title">Sorry, no crime data was available for this county.</p>' +
+            '<p class="card-text">We retrieve our crime data from the BKA which sometimes contains invalid data.</p>' +
             '</div>' +
             '</div>' +
             '</div>'
