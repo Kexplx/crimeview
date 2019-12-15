@@ -17,7 +17,7 @@ function appendRouteInformationCard(container, from, to, json) {
         $temp.remove();
         $("#btnCvCompact").html('Link copied!');
         $("#btnCvCompact").removeClass("btn-outline-dark");
-        $("#btnCvCompact").addClass("btn-success");
+        $("#btnCvCompact").addClass("btn-dark");
     })
 }
 
