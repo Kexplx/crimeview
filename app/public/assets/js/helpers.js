@@ -1,5 +1,4 @@
 function getColorByCrimeRate(crimeRate) {
-    var x = crimeRate;
     switch (true) {
         case (crimeRate == 0):
             return "#777";

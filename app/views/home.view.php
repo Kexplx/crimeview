@@ -33,12 +33,12 @@
                     <h3>Submit route here</h3>
                     <small>
                         <p>After a valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate (CR).</p>
-                        <p>Last years CR of county = <strong> Commited crimes / Population</strong>.</p>
+                        <p>Last years CR of a county = <strong> Commited crimes / Population</strong>.</p>
                     </small>
                     <form id="formRoute" class="form-search " method="POST ">
-                        <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
-                        <input id="inputTo" required type="text " name="to" placeholder="Destination city">
-                        <button onclick="this.blur();" type="submit" id="buttonSubmit" class="btn btn-outline-dark btn-sm">Analyze</button>
+                        <input id="inputFrom" required type="text " name="from" placeholder="Departure e.g. Regensburg">
+                        <input id="inputTo" required type="text " name="to" placeholder="Destination e.g. Erlangen">
+                        <button onclick="this.blur();" type="submit" id="buttonSubmit" class="btn btn-outline-dark btn-sm">Submit route</button>
                     </form>
                     <div id="container-cards"></div>
                 </div>
