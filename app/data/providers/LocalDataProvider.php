@@ -20,23 +20,21 @@ class LocalDataProvider implements ICrimeDataProvider
             $id = ltrim($county->getId(), '0');
             if (array_key_exists($id, $dd)) {
                 $crimeRow = $dd[$id];
-                if (array_key_exists(1, $crimeRow)) {
+                if (array_key_exists(1, $crimeRow) && array_key_exists(11, $crimeRow) && array_key_exists(21, $crimeRow)) {
                     $stats = $this->parseCrimeDb($crimeRow, 1, $countDistribution);
                     $county->setCrimeStats(new CrimeStats($stats["year"], $stats["rate"], $stats["distribution"]));
-                }
 
-                if (array_key_exists(11, $crimeRow)) {
                     $stats = $this->parseCrimeDb($crimeRow, 11, $countDistribution);
                     $county->setCrimeStats(new CrimeStats($stats["year"], $stats["rate"], $stats["distribution"]));
-                }
 
-                if (array_key_exists(21, $crimeRow)) {
                     $stats = $this->parseCrimeDb($crimeRow, 21, $countDistribution);
                     $county->setCrimeStats(new CrimeStats($stats["year"], $stats["rate"], $stats["distribution"]));
+
+                    continue;
                 }
-            } else {
-                $county->setCrimeStats(new CrimeStats(0, 0, ['No crime distribution available' => 0]));
             }
+
+            $county->setCrimeStats(new CrimeStats(0, 0, ['No crime distribution available' => 0]));
         }
     }
 
