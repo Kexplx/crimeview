@@ -2,7 +2,7 @@ function appendRouteInformationCard(container, from, to, json) {
     $(container).append(
         '<div class="card" id="cardRouteInformation">' +
         '<div class="card-body ">' +
-        '<div style="display:flex; justify-content:space-between; align-items:baseline;"><h5 class="card-title">Average CR on route = <span style="color:' + getColorByCrimeRate(json.averageCrimeRate) + ';">' + json.averageCrimeRate + '</span></h5><button id="btnCvCompact" style="width:135px" class="btn btn-outline-dark btn-sm" onclick="this.blur();">CrimeView <small style="color:gray">Compact</small></button></div>' +
+        '<div style="display:flex; align-items:baseline;"><h5 class="card-title">Average CR on route = <span style="color:' + getColorByCrimeRate(json.averageCrimeRate) + ';">' + json.averageCrimeRate + '</span></h5><a id="btnCvCompact" href="javascript:void(0);" style="margin-left: 7px;" class="badge badge-secondary">CrimeView <small>Compact</small></a></div>' +
         '<p class="card-text "> On your way from ' + from.replace(/,.+,?$/g, '') + ' to ' + to.replace(/,.+,?$/g, '') + ' you will pass ' +
         json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
         '</div>' +
@@ -12,12 +12,12 @@ function appendRouteInformationCard(container, from, to, json) {
     $("#btnCvCompact").click(function() {
         var $temp = $('<input>');
         $('body').append($temp);
-        $temp.val("localhost:4040/compact?from=" + from.replace(/,.+,?$/g, '') + "&to=" + to.replace(/,.+,?$/g, '')).select();
+        $temp.val(location.origin + "/compact?from=" + from.replace(/,.+,?$/g, '') + "&to=" + to.replace(/,.+,?$/g, '')).select();
         document.execCommand('copy');
         $temp.remove();
         $("#btnCvCompact").html('Link copied!');
-        $("#btnCvCompact").removeClass("btn-outline-dark");
-        $("#btnCvCompact").addClass("btn-dark");
+        $("#btnCvCompact").removeClass("badge-secondary");
+        $("#btnCvCompact").addClass("badge-success");
     })
 }
 
