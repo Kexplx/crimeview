@@ -7,26 +7,30 @@
  */
 class PagesController
 {
+    private $crimeViewDataProvider;
+
     public function __construct(CrimeViewDataProvider $crimeViewDataProvider)
-    { }
+    {
+        $this->crimeViewDataProvider = $crimeViewDataProvider;
+    }
 
     public function home()
     {
-        $path = __DIR__ . '/hits';
-
-        if (file_exists($path)) {
-            $hits = intval(file_get_contents($path));
-        } else {
-            $hits = 1;
-            file_put_contents($path, '1');
-        }
-
-        file_put_contents($path, ++$hits);
-        view('home', ["hits" => $hits]);
+        view('home');
     }
 
     public function notFound()
     {
         view('not-found');
+    }
+
+    public function compact()
+    {
+        try {
+            $data = $this->crimeViewDataProvider->getRouteData($_GET["from"], $_GET["to"], 0);
+        } catch (\Throwable $th) {
+            $data["fail"] = true;
+        }
+        view('compact', $data);
     }
 }

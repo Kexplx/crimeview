@@ -21,6 +21,11 @@ class CrimeStats implements JsonSerializable
         return $this->rate;
     }
 
+    public function getYear()
+    {
+        return $this->year;
+    }
+
     public function jsonSerialize()
     {
         foreach ($this->distribution as $key => $value) {
