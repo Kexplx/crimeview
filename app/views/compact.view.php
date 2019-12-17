@@ -31,8 +31,8 @@ function getColorByCrimeRate(float $crimeRate)
 
 <body>
     <?php require __DIR__ . "/shared/compact-navbar.view.php"; ?>
-    <div style="margin: 50 auto; max-width: 500px; text-align: center;">
-        <h2>CrimeView <span style="font-size: 20px; color: gray;">Compact</span></h2>
+    <div class="container-compact">
+        <h2>CrimeView <span class="compact-header">Compact</span></h2>
         <p>
             CrimeView compact displays criminal statistics for a route between two german cities.
             <br>
@@ -44,7 +44,7 @@ function getColorByCrimeRate(float $crimeRate)
             <p>Make sure to enter two valid names of german cities.</p>
         <?php else : ?>
             <h4><?php echo $data["from"]->getName() . " - " . $data["to"]->getName(); ?></h4>Average Crimerate = <span style="color: <?php echo getColorByCrimeRate($data["averageCrimeRate"]); ?>;"><?php echo $data["averageCrimeRate"]; ?></span></p>
-            <table class="table table-striped" style="font-size: 13px; color: rgb(75, 75, 75);">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

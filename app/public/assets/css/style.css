@@ -150,3 +150,19 @@ li {
 p {
     font-size: 13px;
 }
+
+.container-compact{
+    margin: 50 auto; 
+    max-width: 500px; 
+    text-align: center;
+}
+
+.compact-header{
+    font-size: 20px; 
+    color: gray;
+}
+
+table{
+    font-size: 13px; 
+    color: rgb(75, 75, 75);
+}
