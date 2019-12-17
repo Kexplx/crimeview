@@ -50,7 +50,7 @@ class CrimeViewRouter
         if (method_exists($controller, $action)) {
             return (new $controller(
                 new CrimeViewDataProvider(
-                    new SampleDataProvider(),
+                    new LocalDataProvider(),
                     new OriginDataProvider(),
                     new OriginDataProvider()
                 )

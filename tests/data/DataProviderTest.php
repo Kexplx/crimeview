@@ -31,6 +31,8 @@ class DataProviderTest extends TestCase
                     $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
                 }
             }
+
+            $this->assertEqualsWithDelta(0.5,  $data['averageCrimeRate'], 0.5);
         }
     }
 
@@ -66,10 +68,11 @@ class DataProviderTest extends TestCase
         );
 
         $originDataProvider = new CrimeViewDataProvider(new OriginDataProvider, new OriginDataProvider, new OriginDataProvider);
+        $localDataProvider = new CrimeViewDataProvider(new LocalDataProvider, new OriginDataProvider, new OriginDataProvider);
         $sampleDataProvider = new CrimeViewDataProvider(new SampleDataProvider, new SampleDataProvider, new SampleDataProvider);
 
         return array(
-            array($originDataProvider, $dataSet), array($sampleDataProvider, $dataSet)
+            array($originDataProvider, $dataSet), array($localDataProvider, $dataSet), array($sampleDataProvider, $dataSet)
         );
     }
 

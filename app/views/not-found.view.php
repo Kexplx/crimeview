@@ -16,8 +16,11 @@
             <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
                     <h1>You're lost buddy.</h1>
-                    <p>It's important to stay save while traveling. Thats why you should use CrimeCiew.</p>
-                    <button onclick="location.href='/home'" type="link" class="btn btn-dark">Beam me home</button>
+                    <p>It's important to stay save while traveling.
+                        <br>
+                        Thats why you should use CrimeCiew :)
+                    </p>
+                    <button onclick="location.href='/home'" type="link" class="btn btn-dark btn-sm">Beam me home</button>
                 </div>
                 <div class="col-md-8 col-lg-5">
                     <img class="main-img" src="assets/images/not-found.svg" alt="Not found image">

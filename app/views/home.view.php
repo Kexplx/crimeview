@@ -9,18 +9,19 @@
     <script src="assets/js/card-creators.js"></script>
 </head>
 
-<body class="bg-shape">
+<body>
     <?php require __DIR__ . "/shared/navbar.view.php"; ?>
     <section class="hero-banner">
         <div class="container">
-            <div class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
+            <div style="margin-top: 50px" class="row align-items-center align-items-xl-center justify-content-between text-center text-md-left">
                 <div class="col-md-6 col-lg-5 mb-5">
                     <h1>CrimeView </h1>
-                    <h5><span style="color: green"><?php echo $viewData["hits"]; ?></span> people are traveling safely.</h5>
-                    <p>CrimeView analyses your travel route and generates an overview of all german-counties
-                        and their current crime rates you'll pass. </p>
-                    <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
-                    <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> at FAU.</p>
+                    <small>
+                        <p>CrimeView analyses your travel route and generates an overview of all german-counties
+                            and their current crime rates you'll pass. </p>
+                        <p>We retrieve our data from a variety of open data sources. Use the navbar above to check them out.</p>
+                        <p>This project was built for the <a target="_blank" href="https://osr.cs.fau.de/teaching/specific/amse/">AMSE Course</a> at FAU.</p>
+                    </small>
                 </div>
                 <div class="col-md-8 col-lg-7" style="text-align: center;">
                     <img class="main-img" src="assets/images/fau.png" alt="CrimeView Logo">
@@ -29,20 +30,22 @@
             <hr>
             <div class="row justify-content-between align-items-stretch">
                 <div class="col-md-6 col-lg-5">
-                    <h2>Submit route here</h2>
-                    <p>After a valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate (CR).</p>
-                    <p>Last years CR of county = <strong> Commited crimes / Population</strong>.</p>
+                    <h3>Submit route here</h3>
+                    <small>
+                        <p>After a valid input, we'll display a map of your route and mark the counties on the way based on their current crime rate (CR).</p>
+                        <p>Last years CR of a county = <strong> Commited crimes / Population</strong>.</p>
+                    </small>
                     <form id="formRoute" class="form-search " method="POST ">
-                        <input id="inputFrom" required type="text " name="from" placeholder="Departure city">
-                        <input id="inputTo" required type="text " name="to" placeholder="Destination city">
-                        <button type="submit" id="buttonSubmit" class="btn btn-dark">Analyze</button>
+                        <input id="inputFrom" required type="text " name="from" placeholder="Departure e.g. Regensburg">
+                        <input id="inputTo" required type="text " name="to" placeholder="Destination e.g. Erlangen">
+                        <button onclick="this.blur();" type="submit" id="buttonSubmit" class="btn btn-outline-dark btn-sm">Submit route</button>
                     </form>
                     <div id="container-cards"></div>
                 </div>
                 <div class="container-right col-md-8 col-lg-7">
                     <div id="container-spinner">
                         <div class="d-flex justify-content-center">
-                            <div class="spinner-border text-dark" role="status" style="width: 5rem; height: 5rem;">
+                            <div class="spinner-border text-dark" role="status" style="width: 4rem; height: 4rem;">
                                 <span class="sr-only">Loading...</span>
                             </div>
                         </div>
@@ -99,7 +102,7 @@
 
         function showFail() {
             $('#buttonSubmit').attr("disabled", false);
-            $("#container-spinner #osm-map").hide();
+            $("#container-spinner, #osm-map").hide();
             $("#container-status-fail").show();
             $(".card").remove();
         }

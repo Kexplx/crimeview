@@ -9,78 +9,43 @@
     --border: #dadada;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:700");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
 html {
     scroll-behavior: smooth;
 }
 
 body {
     color: #707070;
-    font-family: "Roboto", sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.667;
 }
 
 a:hover {
     text-decoration: none;
 }
 
-h1,
-h2 {
-    font-family: "Roboto Condensed", sans-serif;
-    color: #484750;
-    line-height: 1.25;
-}
-
-.navbar {
-    font-size: 17px;
-}
-
 .main-img {
     width: 180px;
 }
 
-h1 {
-    font-size: 45px;
-}
-
+h1,
 h2 {
-    font-size: 26px;
-}
-
-@media (min-width: 768px) {
-    h2 {
-        font-size: 36px;
-    }
-}
-
-.hero-banner {
-    padding-top: 50px;
-}
-
-@media (min-width: 992px) {
-    .hero-banner {
-        padding-top: 50px;
-    }
-}
-
-.hero-banner h1 {
+    font-family: "Roboto Condensed", sans-serif;
     color: #484750;
-    margin-bottom: 15px;
+    font-size: 30px;
 }
 
-@media (max-width: 1200px) {
-    .hero-banner h1 {
-        font-size: 40px;
-    }
+h3 {
+    font-family: "Roboto Condensed", sans-serif;
+    color: #484750;
+    font-size: 25px;
 }
 
-@media (max-width: 991px) {
-    .hero-banner h1 {
-        font-size: 30px;
-    }
+h4 {
+    font-family: "Roboto Condensed", sans-serif;
+    color: #484750;
+    font-size: 20px;
+}
+
+h5 {
+    font-size: 17px;
 }
 
 .bg-shape {
@@ -106,13 +71,16 @@ h2 {
 
 .form-search input {
     border: none;
+    font-size: 13px;
     width: 100%;
+    border-radius: 0;
     padding-left: 0px;
     border-bottom: solid 1px rgb(212, 212, 212);
+    margin-bottom: 8px;
 }
 
 .form-search .btn {
-    width: 30%;
+    width: 27%;
     margin-top: 10px;
 }
 
@@ -137,7 +105,7 @@ h2 {
     border-radius: 5px;
     flex-grow: 1;
     border: solid 1px var(--border);
-    min-height: 475px;
+    min-height: 454px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -170,6 +138,31 @@ h2 {
     display: none;
 }
 
+.card p,
+li {
+    font-size: 14px;
+}
+
 .row {
     margin-bottom: 40px;
+}
+
+p {
+    font-size: 13px;
+}
+
+.container-compact{
+    margin: 50 auto; 
+    max-width: 500px; 
+    text-align: center;
+}
+
+.compact-header{
+    font-size: 20px; 
+    color: gray;
+}
+
+table{
+    font-size: 13px; 
+    color: rgb(75, 75, 75);
 }

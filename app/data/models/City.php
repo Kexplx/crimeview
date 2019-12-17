@@ -42,6 +42,6 @@ class City implements JsonSerializable
 
     public function getName()
     {
-        return $this->name;
+        return explode(",", $this->name)[0];
     }
 }
