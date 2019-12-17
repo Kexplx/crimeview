@@ -2,8 +2,8 @@
 <a href="https://github.com/Kexplx/CrimeView/blob/master/LICENSE" alt="Release Page">
     <img src="https://img.shields.io/badge/license-AGPL 3.0-e74c3c" />
 </a>
-<a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v0.6" alt="License Page">
-    <img src="https://img.shields.io/badge/version-v1.0-2980b9" />
+<a href="https://github.com/Kexplx/CrimeView/releases/tag/amse-cw03-release-v1.2" alt="License Page">
+    <img src="https://img.shields.io/badge/version-v1.2-2980b9" />
 </a>
 <a href="https://crime-view.herokuapp.com/home" alt="Heroku Page">
     <img src="https://img.shields.io/badge/live%20on-heroku-9b59b6" />
