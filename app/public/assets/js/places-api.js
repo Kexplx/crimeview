@@ -20,12 +20,12 @@ function initializeAlgoliaInputs(inputIds) {
     places({
         appId: appId,
         apiKey: publicApiKey,
-        container: document.querySelector(inputIds[0]),
+        container: document.querySelector('#' + inputIds[0]),
     }).configure(reconfigurableOptions);
 
     places({
         appId: appId,
         apiKey: publicApiKey,
-        container: document.querySelector(inputIds[1]),
+        container: document.querySelector('#' + inputIds[1]),
     }).configure(reconfigurableOptions);
 }
