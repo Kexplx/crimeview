@@ -1,13 +1,13 @@
 /**
  * Generates a bootstrap card for the given values which 
  * displays general information about the route.
- * Then appends the card to the given elementId.
+ * Then appends the card to the given container.
  * 
- * @param {string} elementId The html element to append to.
+ * @param {string} container The html element to append to.
  * @param {string} json The json object containing the route information.
  */
-function appendRouteInformationCard(elementId, json) {
-    append(elementId, routeInformationCardTemplate, ([
+function appendRouteInformationCard(container, json) {
+    append(container, routeInformationCardTemplate, ([
         ["to", json.to.city.name.replace(/,.+,?$/g, '')],
         ["from", json.from.city.name.replace(/,.+,?$/g, '')],
         ["averageCrimeRate", json.averageCrimeRate],
@@ -18,23 +18,23 @@ function appendRouteInformationCard(elementId, json) {
 
 /**
  * Generates a placeholder bootstrap card for the given values.
- * Then appends the card to the given elementId.
+ * Then appends the card to the given container.
  * 
- * @param {string} elementId The html element to append to.
+ * @param {string} container The html element to append to.
  */
-function appendPlaceholderCard(elementId) {
-    append(elementId, countyPlaceholderCardTemplate);
+function appendPlaceholderCard(container) {
+    append(container, countyPlaceholderCardTemplate);
 }
 
 /**
  * Generates a bootstrap card for the given values.
- * Then appends the card to the given elementId.
+ * Then appends the card to the given container.
  * 
- * @param {string} elementId The html element to append to.
+ * @param {string} container The html element to append to.
  * @param {string} json The json object containing the route information.
  * @param {string} card_id The id randomly generated ID this card will receive.
  */
-function appendCountyCard(elementId, json, card_id) {
+function appendCountyCard(container, json, card_id) {
     let distributionYear0 = "",
         distributionYear1 = "",
         distributionYear2 = "";
@@ -51,7 +51,7 @@ function appendCountyCard(elementId, json, card_id) {
         distributionYear2 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
     });
 
-    append(elementId, countyCardTemplate, ([
+    append(container, countyCardTemplate, ([
         ["card-id", card_id],
         ["countyName", json.county.name],
         ["countyType", json.county.type],
@@ -72,18 +72,18 @@ function appendCountyCard(elementId, json, card_id) {
 
 /**
  * Interpolates a template string with given values in the interPolateMap.
- * Then appends the interpolated string to the elementId.
+ * Then appends the interpolated string to the container.
  * 
- * @param {string} elementId The html element to append to.
+ * @param {string} container The html element to append to.
  * @param {string} template The template string to interpolate.
  * @param {Map<string, any>} interPolateMap The Map to interpolate with.
  */
-function append(elementId, template, interPolateMap) {
+function append(container, template, interPolateMap) {
     if (interPolateMap) {
         interPolateMap.forEach((values, _) => {
             template = template.replace(new RegExp(`{{${values[0]}}}`, 'g'), values[1]);
         })
     }
 
-    $(elementId).append(template);
+    $('.' + container).append(template);
 }
