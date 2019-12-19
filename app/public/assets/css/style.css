@@ -22,7 +22,7 @@ a:hover {
 }
 
 .main-img {
-    width: 180px;
+    width: 150px;
 }
 
 h1,
@@ -105,7 +105,7 @@ h5 {
     border-radius: 5px;
     flex-grow: 1;
     border: solid 1px var(--border);
-    min-height: 454px;
+    min-height: 450px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -151,18 +151,30 @@ p {
     font-size: 13px;
 }
 
-.container-compact{
-    margin: 50 auto; 
-    max-width: 500px; 
+.container-compact {
+    margin: 50 auto;
+    max-width: 500px;
     text-align: center;
 }
 
-.compact-header{
-    font-size: 20px; 
+.compact-header {
+    font-size: 20px;
     color: gray;
 }
 
-table{
-    font-size: 13px; 
+table {
+    font-size: 13px;
     color: rgb(75, 75, 75);
+}
+
+.card-placeholder {
+    text-align: center;
+    height: 291px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.placeholder-img {
+    margin-top: 30px;
+    width: 70px;
 }

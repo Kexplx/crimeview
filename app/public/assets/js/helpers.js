@@ -1,3 +1,10 @@
+/**
+ * Returns a color as string for the given CrimeRate.
+ * 
+ * @param {number} crimeRate The crime rate to generate a color for.
+ * 
+ * @returns {string} The Hexvalue of the color.
+ */
 function getColorByCrimeRate(crimeRate) {
     switch (true) {
         case (crimeRate == 0):
@@ -11,6 +18,13 @@ function getColorByCrimeRate(crimeRate) {
     }
 }
 
+/**
+ * Returns a random string with the given length in the Range [a-zA-Z]
+ * 
+ * @param {number} length The length of the generated string.
+ * 
+ * @returns {string} The random string.
+ */
 function makeid(length) {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
