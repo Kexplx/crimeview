@@ -1,110 +1,89 @@
-function appendRouteInformationCard(container, from, to, json) {
-    $(container).append(
-        '<div class="card" id="cardRouteInformation">' +
-        '<div class="card-body ">' +
-        '<div style="display:flex; align-items:baseline;"><h5 class="card-title">Average CR on route = <span style="color:' + getColorByCrimeRate(json.averageCrimeRate) + ';">' + json.averageCrimeRate + '</span></h5><a id="btnCvCompact" href="javascript:void(0);" style="margin-left: 7px;" class="badge badge-secondary">CrimeView <small>Compact</small></a></div>' +
-        '<p class="card-text "> On your way from ' + from.replace(/,.+,?$/g, '') + ' to ' + to.replace(/,.+,?$/g, '') + ' you will pass ' +
-        json.counties.length + ' german counties.</strong> The colors on the map stem from the counties crime rate (cr).</p>' +
-        '</div>' +
-        '</div>'
-    );
-
-    $("#btnCvCompact").click(function() {
-        var $temp = $('<input>');
-        $('body').append($temp);
-        $temp.val(location.origin + "/compact?from=" + from.replace(/,.+,?$/g, '') + "&to=" + to.replace(/,.+,?$/g, '')).select();
-        document.execCommand('copy');
-        $temp.remove();
-        $("#btnCvCompact").html('Link copied!');
-        $("#btnCvCompact").removeClass("badge-secondary");
-        $("#btnCvCompact").addClass("badge-success");
-    })
+/**
+ * Generates a bootstrap card for the given values which 
+ * displays general information about the route.
+ * Then appends the card to the given elementId.
+ * 
+ * @param {string} elementId The html element to append to.
+ * @param {string} json The json object containing the route information.
+ */
+function appendRouteInformationCard(elementId, json) {
+    append(elementId, routeInformationCardTemplate, ([
+        ["to", json.to.city.name.replace(/,.+,?$/g, '')],
+        ["from", json.from.city.name.replace(/,.+,?$/g, '')],
+        ["averageCrimeRate", json.averageCrimeRate],
+        ["countCounties", json.counties.length],
+        ["averageCrimeRateColor", getColorByCrimeRate(json.averageCrimeRate)],
+    ]));
 }
 
-function appendPlaceholderCard(container) {
-    $(container).append(
-        '<div id="placeholderCard" class="card bg-light mb-3" style="text-align:center; height:295px; width:100%; margin-top:20px">' +
-        '<div class="card-body">' +
-        '<h5 class="card-title">Select a county on the map.</h5>' +
-        '<small><p>For each selection we\'ll display a counties crime rate and it\'s crime contribution</p></small>' +
-        '<img src="assets/images/select.svg" style="margin-top:30px; width:70px">' +
-        '</div>' +
-        '</div>'
-    );
+/**
+ * Generates a placeholder bootstrap card for the given values.
+ * Then appends the card to the given elementId.
+ * 
+ * @param {string} elementId The html element to append to.
+ */
+function appendPlaceholderCard(elementId) {
+    append(elementId, countyPlaceholderCardTemplate);
 }
 
-function appendCountyCard(container, element, card_id) {
-    if (element.county.crimeStats[0].rate == 0) {
-        $(container).append(
-            '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; height:295px; display:none; margin-top:20px">' +
-            '<div class="card-header"> ' +
-            '<ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">' +
-            '<li class="nav-item">' +
-            '<a class="nav-link active" style="color:black" id="year1-tab" data-toggle="tab" href="#year1' + card_id + '" role="tab" aria-controls="year1" aria-selected="true">No crime data</a>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '<div class="card-body">' +
-            '<div class="tab-content">' +
-            '<div class="tab-pane fade show active" id="year1' + card_id + '" role="tabpanel" aria-labelledby="year1-tab">' +
-            '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">Sorry, no crime data was available for this county.</p>' +
-            '<p class="card-text">We retrieve our crime data from the BKA which sometimes contains invalid data.</p>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
-        );
-    } else {
+/**
+ * Generates a bootstrap card for the given values.
+ * Then appends the card to the given elementId.
+ * 
+ * @param {string} elementId The html element to append to.
+ * @param {string} json The json object containing the route information.
+ * @param {string} card_id The id randomly generated ID this card will receive.
+ */
+function appendCountyCard(elementId, json, card_id) {
+    let distributionYear0 = "",
+        distributionYear1 = "",
+        distributionYear2 = "";
 
-        let dist_string1 = "<p>Most common crimes in " + element.county.crimeStats[0].year + ".</p><ul>";
-        element.county.crimeStats[0].distribution.forEach(dist => {
-            dist_string1 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
-        });
+    json.county.crimeStats[0].distribution.forEach(dist => {
+        distributionYear0 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
+    });
 
-        let dist_string2 = "<p>Most common crimes in " + element.county.crimeStats[1].year + ".</p><ul>";
-        element.county.crimeStats[1].distribution.forEach(dist => {
-            dist_string2 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
-        });
+    json.county.crimeStats[1].distribution.forEach(dist => {
+        distributionYear1 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
+    });
 
-        let dist_string3 = "<p>Most common crimes in " + element.county.crimeStats[2].year + ".</p><ul>";
-        element.county.crimeStats[2].distribution.forEach(dist => {
-            dist_string3 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
-        });
+    json.county.crimeStats[2].distribution.forEach(dist => {
+        distributionYear2 += "<li>" + Object.keys(dist)[0].replace(/ §[^:]*/, '').replace(/:/, '') + ": " + Object.values(dist)[0] + "</li>";
+    });
 
-        $(container).append(
-            '<div id="' + card_id + '"class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">' +
-            '<div class="card-header"> ' +
-            '<ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">' +
-            '<li class="nav-item">' +
-            '<a class="nav-link active" style="color:black" id="year1-tab" data-toggle="tab" href="#year1' + card_id + '" role="tab" aria-controls="year1" aria-selected="true">' + element.county.crimeStats[0].year + '</a>' +
-            '</li>' +
-            '<li class="nav-item">' +
-            '    <a class="nav-link" style="color:black" id="year2-tab" data-toggle="tab" href="#year2' + card_id + '" role="tab" aria-controls="year2" aria-selected="false">' + element.county.crimeStats[1].year + '</a>' +
-            '</li>' +
-            '<li class="nav-item">' +
-            '    <a class="nav-link" style="color:black" id="year3-tab" data-toggle="tab" href="#year3' + card_id + '" role="tab" aria-controls="year3" aria-selected="false">' + element.county.crimeStats[2].year + '</a>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '<div class="card-body">' +
-            '<div class="tab-content">' +
-            '<div class="tab-pane fade show active" id="year1' + card_id + '" role="tabpanel" aria-labelledby="year1-tab">' +
-            '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">CR = <span style="color:' + getColorByCrimeRate(element.county.crimeStats[0].rate) + ';">' + element.county.crimeStats[0].rate + '</span></p>' +
-            '<p class="card-text">' + dist_string1 + '</p>' +
-            '</div>' +
-            '<div class="tab-pane fade" id="year2' + card_id + '" role="tabpanel" aria-labelledby="year2-tab">' +
-            '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">CR = <span style="color:' + getColorByCrimeRate(element.county.crimeStats[1].rate) + ';">' + element.county.crimeStats[1].rate + '</span></p>' +
-            '<p class="card-text">' + dist_string2 + '</p>' +
-            '</div>' +
-            '<div class="tab-pane fade" id="year3' + card_id + '" role="tabpanel" aria-labelledby="year3-tab">' +
-            '<h5>' + element.county.name + " - " + element.county.type + '</h5>' +
-            '<p class="card-title">CR = <span style="color:' + getColorByCrimeRate(element.county.crimeStats[2].rate) + ';">' + element.county.crimeStats[2].rate + '</span></p>' +
-            '<p class="card-text">' + dist_string3 + '</p>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
-        );
+    append(elementId, countyCardTemplate, ([
+        ["card-id", card_id],
+        ["countyName", json.county.name],
+        ["countyType", json.county.type],
+        ["year0", json.county.crimeStats[0].year],
+        ["year1", json.county.crimeStats[1].year],
+        ["year2", json.county.crimeStats[2].year],
+        ["distributionYear0", distributionYear0],
+        ["distributionYear1", distributionYear1],
+        ["distributionYear2", distributionYear2],
+        ["crimeRateYear0", json.county.crimeStats[0].rate],
+        ["crimeRateYear1", json.county.crimeStats[1].rate],
+        ["crimeRateYear2", json.county.crimeStats[2].rate],
+        ["crimeRateYear0Color", getColorByCrimeRate(json.county.crimeStats[0].year)],
+        ["crimeRateYear1Color", getColorByCrimeRate(json.county.crimeStats[1].year)],
+        ["crimeRateYear2Color", getColorByCrimeRate(json.county.crimeStats[2].year)],
+    ]));
+}
+
+/**
+ * Interpolates a template string with given values in the interPolateMap.
+ * Then appends the interpolated string to the elementId.
+ * 
+ * @param {string} elementId The html element to append to.
+ * @param {string} template The template string to interpolate.
+ * @param {Map<string, any>} interPolateMap The Map to interpolate with.
+ */
+function append(elementId, template, interPolateMap) {
+    if (interPolateMap) {
+        interPolateMap.forEach((values, _) => {
+            template = template.replace(new RegExp(`{{${values[0]}}}`, 'g'), values[1]);
+        })
     }
+
+    $(elementId).append(template);
 }
