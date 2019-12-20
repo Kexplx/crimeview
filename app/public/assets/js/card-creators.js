@@ -64,9 +64,9 @@ function appendCountyCard(container, json, card_id) {
         ["crimeRateYear0", json.county.crimeStats[0].rate],
         ["crimeRateYear1", json.county.crimeStats[1].rate],
         ["crimeRateYear2", json.county.crimeStats[2].rate],
-        ["crimeRateYear0Color", getColorByCrimeRate(json.county.crimeStats[0].year)],
-        ["crimeRateYear1Color", getColorByCrimeRate(json.county.crimeStats[1].year)],
-        ["crimeRateYear2Color", getColorByCrimeRate(json.county.crimeStats[2].year)],
+        ["crimeRateYear0Color", getColorByCrimeRate(json.county.crimeStats[0].rate)],
+        ["crimeRateYear1Color", getColorByCrimeRate(json.county.crimeStats[1].rate)],
+        ["crimeRateYear2Color", getColorByCrimeRate(json.county.crimeStats[2].rate)],
     ]));
 }
 
