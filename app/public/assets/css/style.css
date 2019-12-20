@@ -80,7 +80,7 @@ h5 {
 }
 
 .form-search .btn {
-    width: 27%;
+    width: 30%;
     margin-top: 10px;
 }
 
@@ -167,14 +167,20 @@ table {
     color: rgb(75, 75, 75);
 }
 
-.card-placeholder {
-    text-align: center;
-    height: 291px;
-    width: 100%;
-    margin-top: 20px;
-}
-
 .placeholder-img {
     margin-top: 30px;
     width: 70px;
+}
+
+.placeholder-card {
+    width: 100%;
+    height: 291px;
+    margin-top: 20px
+}
+
+.county-card {
+    width: 100%;
+    display: none;
+    height: 291px;
+    margin-top: 20px
 }

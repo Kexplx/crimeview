@@ -1,5 +1,5 @@
 const countyCardTemplate = `
-<div id="{{card-id}}" class="card bg-light mb-3" style="width:100%; display:none; margin-top:20px">
+<div id="{{card-id}}" class="county-card card bg-light mb-3">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs pull-right" id="myTab" role="tablist">
             <li class="nav-item">
