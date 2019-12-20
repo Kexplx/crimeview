@@ -1,6 +1,6 @@
 var map = null,
     polyline = null,
-    lastSelectedCardId = "placeholderCard",
+    lastSelectedCardId = "",
     lastSelectedGeoJsonLayer = null;
 
 /**
@@ -13,6 +13,7 @@ var map = null,
  * @param {number} to_lng The Longitude of the destination city.
  */
 function initializeLeafletMap(from_lat, from_lng, to_lat, to_lng) {
+    lastSelectedCardId = "placeholderCard";
     if (map != null) {
         map.off();
         map.remove();
@@ -94,10 +95,8 @@ function addCountyBorders(json, card_id) {
  * @param {string} card_id The ID of the county-card to show.
  */
 function changeSelectedCounty(card_id) {
-    if (lastSelectedCardId != "") {
-        $("#" + lastSelectedCardId).hide();
-    }
-
+    $("#" + lastSelectedCardId).hide();
     $("#" + card_id).show();
+
     lastSelectedCardId = card_id;
 }
