@@ -27,19 +27,16 @@ a:hover {
 
 h1,
 h2 {
-    font-family: "Roboto Condensed", sans-serif;
     color: #484750;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 h3 {
-    font-family: "Roboto Condensed", sans-serif;
     color: #484750;
     font-size: 25px;
 }
 
 h4 {
-    font-family: "Roboto Condensed", sans-serif;
     color: #484750;
     font-size: 20px;
 }
@@ -64,31 +61,15 @@ h5 {
     }
 }
 
-.form-search {
-    margin: 0 auto 20px auto;
-    max-width: 500px;
+.form-group {
+    font-size: 14px;
 }
 
-.form-search input {
+.form-group input {
     border: none;
-    font-size: 13px;
-    width: 100%;
-    border-radius: 0;
-    padding-left: 0px;
+    border-radius: 0px;
     border-bottom: solid 1px rgb(212, 212, 212);
-    margin-bottom: 8px;
-}
-
-.form-search .btn {
-    width: 30%;
-    margin-top: 10px;
-}
-
-.form-control:focus {
-    border-color: #66afe9;
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-    box-shadow: none;
+    padding-left: 0px;
 }
 
 .ap-input-icon {
@@ -99,13 +80,21 @@ h5 {
     outline: none !important;
 }
 
+.btn {
+    font-size: 14px;
+}
+
+#btnSubmit {
+    width: 150px;
+}
+
 #osm-map {
     display: none;
     background: rgb(212, 212, 212);
     border-radius: 5px;
     flex-grow: 1;
     border: solid 1px var(--border);
-    min-height: 450px;
+    min-height: 465px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -148,7 +137,7 @@ li {
 }
 
 p {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .container-compact {
@@ -163,7 +152,7 @@ p {
 }
 
 table {
-    font-size: 13px;
+    font-size: 14px;
     color: rgb(75, 75, 75);
 }
 
