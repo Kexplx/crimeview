@@ -48,3 +48,6 @@ Thumbs.db
 /private
 /uploads
 app/controllers/hits
+db-create/obj/Debug/netcoreapp3.1/crimeview-db-create.AssemblyInfoInputs.cache
+db-create/obj/Debug/netcoreapp3.1/crimeview-db-create.csprojAssemblyReference.cache
+db-create/obj/Debug/netcoreapp3.1/crimeview-db-create.AssemblyInfo.cs
