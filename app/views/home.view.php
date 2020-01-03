@@ -61,13 +61,6 @@
     </div>
 
     <script type='text/javascript'>
-        $(document).ready(function() {
-            $('#TextBoxId').keypress(function(e) {
-                if (e.keyCode == 13)
-                    $('#linkadd').click();
-            });
-        });
-
         initializeAlgoliaInputs(['inputFrom', 'inputTo']);
 
         $('#inputForm').submit(function(e) {
