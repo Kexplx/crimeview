@@ -66,7 +66,7 @@ class SampleDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         return $counties;
     }
 
-    public function getCityByName(string $name): City
+    public function getCityByName(string $name): ?City
     {
         switch (strtolower($name)) {
             case "regensburg":
