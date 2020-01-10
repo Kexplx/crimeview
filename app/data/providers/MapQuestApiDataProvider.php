@@ -13,4 +13,7 @@ class MapQuestApiDataProvider implements ICityDataProvider
     // $status = $json->info->statuscode; 
     // $lat = $json->results[0]->locations[0]->latLng->lat;
     // $lng = $json->results[0]->locations[0]->latLng->lng;
+    // $name = $json->results[0]->locations[0]->adminArea5;
+    // $type = $json->results[0]->locations[0]->adminArea5Type;
+    // $countryCode = strtolower($json->results[0]->locations[0]->adminArea1);
 }
