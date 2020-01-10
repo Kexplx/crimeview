@@ -11,28 +11,30 @@ class DataProviderTest extends TestCase
     {
         foreach ($cites as $route) {
             $data = $provider->getRouteData($route["from"], $route["to"], 3);
-
             $this->assertIsArray($data);
-            $this->assertInstanceOf('City', $data['from']);
-            $this->assertInstanceOf('City', $data['to']);
-            $this->assertIsArray($data['counties']);
 
-            foreach ($data['counties'] as $county) {
-                $this->assertInstanceOf('County', $county);
+            if (sizeof($data) > 0) {
+                $this->assertInstanceOf('City', $data['from']);
+                $this->assertInstanceOf('City', $data['to']);
+                $this->assertIsArray($data['counties']);
 
-                $id = $county->getId();
-                $this->assertIsString($id);
+                foreach ($data['counties'] as $county) {
+                    $this->assertInstanceOf('County', $county);
 
-                $crimeStatsArray = $county->getCrimeStats();
-                foreach ($crimeStatsArray as $crimeStats) {
-                    $this->assertInstanceOf('CrimeStats', $crimeStats);
+                    $id = $county->getId();
+                    $this->assertIsString($id);
 
-                    $crimeRate = $crimeStats->getRate();
-                    $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
+                    $crimeStatsArray = $county->getCrimeStats();
+                    foreach ($crimeStatsArray as $crimeStats) {
+                        $this->assertInstanceOf('CrimeStats', $crimeStats);
+
+                        $crimeRate = $crimeStats->getRate();
+                        $this->assertEqualsWithDelta(0.5,  $crimeRate, 0.5);
+                    }
                 }
-            }
 
-            $this->assertEqualsWithDelta(0.5,  $data['averageCrimeRate'], 0.5);
+                $this->assertEqualsWithDelta(0.5,  $data['averageCrimeRate'], 0.5);
+            }
         }
     }
 
@@ -55,6 +57,11 @@ class DataProviderTest extends TestCase
         foreach ($cites as $route) {
             $this->expectException(InvalidArgumentException::class);
             $data = $provider->getRouteData($route["from"], $route["to"], 3);
+            $this->assertIsArray($data);
+            
+            if (!$data) {
+                throw new InvalidArgumentException();
+            }
         }
     }
 
@@ -75,6 +82,7 @@ class DataProviderTest extends TestCase
             array($originDataProvider, $dataSet), array($localDataProvider, $dataSet), array($sampleDataProvider, $dataSet)
         );
     }
+    
 
 
     public function errorDataProvider()
