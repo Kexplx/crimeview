@@ -5,15 +5,30 @@
  */
 class MapQuestApiDataProvider implements ICityDataProvider
 {
-    // $url = http://www.mapquestapi.com/geocoding/v1/address?key=43v5BKEkPRheVl5GC7OptE5UDsyihftJ&maxResults=1&location=Erlangen
+    public function getCityByName(string $name): ?City
+    {
+        $clean_name = trim(explode(",", $name)[0]);
+        $url = "http://www.mapquestapi.com/geocoding/v1/address?key=43v5BKEkPRheVl5GC7OptE5UDsyihftJ&location={$clean_name}";
 
-    // $body = file_get_contents($url);
-    // $json = json_decode($body);
-    // 
-    // $status = $json->info->statuscode; 
-    // $lat = $json->results[0]->locations[0]->latLng->lat;
-    // $lng = $json->results[0]->locations[0]->latLng->lng;
-    // $name = $json->results[0]->locations[0]->adminArea5;
-    // $type = $json->results[0]->locations[0]->adminArea5Type;
-    // $countryCode = strtolower($json->results[0]->locations[0]->adminArea1);
+        $body = file_get_contents($url);
+        $json = json_decode($body);
+        $status = $json->info->statuscode;
+
+        if ($status != 0) {
+            throw new InvalidArgumentException("City not found: $name");
+        }
+
+        $countryCode = $json->results[0]->locations[0]->adminArea1;
+
+        if ($countryCode != 'DE') {
+            throw new InvalidArgumentException("City not found: $name");
+        }
+
+        return new City(
+            $json->results[0]->locations[0]->adminArea5,
+            $json->results[0]->locations[0]->adminArea5Type,
+            $json->results[0]->locations[0]->latLng->lat,
+            $json->results[0]->locations[0]->latLng->lng
+        );
+    }
 }
