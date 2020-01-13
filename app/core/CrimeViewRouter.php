@@ -51,7 +51,7 @@ class CrimeViewRouter
             return (new $controller(
                 new CrimeViewDataProvider(
                     new LocalDataProvider(),
-                    new MapQuestApiDataProvider(),
+                    new OriginDataProvider(),
                     new OriginDataProvider()
                 )
             ))->$action();
