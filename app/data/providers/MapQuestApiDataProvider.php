@@ -8,7 +8,7 @@ class MapQuestApiDataProvider implements ICityDataProvider
     public function getCityByName(string $name): ?City
     {
         $clean_name = trim(explode(",", $name)[0]);
-        $url = "http://www.mapquestapi.com/geocoding/v1/address?key=43v5BKEkPRheVl5GC7OptE5UDsyihftJ&location={$clean_name}";
+        $url = "http://www.mapquestapi.com/geocoding/v1/address?key=&location={$clean_name}";
 
         $body = file_get_contents($url);
         $json = json_decode($body);
