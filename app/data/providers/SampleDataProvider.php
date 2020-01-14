@@ -50,19 +50,13 @@ class SampleDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 
     public function getCountiesOnRoute(City $from, City $to): array
     {
-        $fromName = $from->getName();
-        if (
-            $fromName == 'Erlangen, Mittelfranken, Bayern, 91052, Deutschland' ||
-            $fromName == 'Erlangen' ||
-            $fromName == 'Regensburg, Oberpfalz, Bayern, 93047, Deutschland' ||
-            $fromName == 'Regensburg'
+        $fromName = explode(',', $from->getName());
+        $fromName = strtolower($fromName[0]);
+        if ($fromName == 'erlangen' || $fromName == 'regensburg'
         ) {
             $pathToGeoJson = __DIR__ . "/../samples/geojson/landkreise.geojson";
         } else if (
-            $fromName == 'Hamburg' ||
-            $fromName == 'Hamburg, Germany' ||
-            $fromName == 'Berlin, 10117, Germany' ||
-            $fromName == 'Berlin'
+            $fromName == 'hamburg' || $fromName == 'berlin'
         ) {
             $pathToGeoJson = __DIR__ . "/../samples/geojson/landkreise_2.geojson";
         } else {
@@ -86,26 +80,21 @@ class SampleDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
 
     public function getCityByName(string $name): ?City
     {
-        switch (strtolower($name)) {
-            case "berlin, deutschland":
+        $cutName = explode(',', "$name");
+        switch (strtolower($cutName[0])) {
             case "berlin":
                 return new City("Berlin, 10117, Germany", "city", 52.5170365, 13.3888599);
             case "erlangen":
-            case 'erlangen, bayern, deutschland':
                 return new City("Erlangen, Mittelfranken, Bayern, 91052, Deutschland", "city", 49.5981187, 11.003645);
             case "essen":
-            case 'essen, nordrhein-westfalen, deutschland':
                 return new City("Essen, Nordrhein-Westfalen, Germany", "city", 51.4582235, 7.0158171);
-            case "hamburg, deutschland":
             case "hamburg":
                 return new City("Hamburg, Germany", "city", 53.5437641, 10.0099133);
             case "nuernberg":
                 return new City("Nürnberg, Mittelfranken, Bayern, Deutschland", "city", 49.453872, 11.077298);
-            case 'regensburg, bayern, deutschland':
             case "regensburg":
                 return new City("Regensburg, Oberpfalz, Bayern, 93047, Deutschland", "city", 49.0195333, 12.0974869);
             case "stuttgart":
-            case 'stuttgart, baden-wuerttemberg, deutschland':
             default:
                 return new City("Stuttgart, Baden-Württemberg, 70173, Germany", "city", 48.7784485, 9.1800132);
         }
