@@ -39,7 +39,7 @@ function getColorByCrimeRate(float $crimeRate)
             To see additional information visit our main site <a href="/home">here</a>.
         </p>
         <hr>
-        <?php if ($data["fail"]) : ?>
+        <?php if (!$data["from"] || !$data["to"]) : ?>
             <h4>Sorry, we couldn't find a route for these parameters.</h4>
             <p>Make sure to enter two valid names of german cities.</p>
         <?php else : ?>

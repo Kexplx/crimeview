@@ -51,8 +51,8 @@ class CrimeViewRouter
             return (new $controller(
                 new CrimeViewDataProvider(
                     new LocalDataProvider(),
-                    new OriginDataProvider(),
-                    new OriginDataProvider()
+                    new SampleDataProvider(),
+                    new SampleDataProvider()
                 )
             ))->$action();
         }
