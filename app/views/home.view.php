@@ -7,8 +7,8 @@
 
 <body>
     <?php require __DIR__ . '/shared/navbar.view.php'; ?>
-    <div class='container'>
-        <div class='row align-items-center align-items-xl-center mt-5 justify-content-between'>
+    <div class='container mt-5'>
+        <div class='row align-items-center align-items-xl-center justify-content-between'>
             <div class='col-sm-6 mb-2'>
                 <h1>CrimeView </h1>
                 <small>
