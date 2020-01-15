@@ -72,7 +72,12 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         $fromLatAdjusted = $fromLat + 0.0000001;
         $pathToGeoJson = "https://public.opendatasoft.com/explore/dataset/landkreise-in-germany/download?format=geojson&geofilter.polygon=(" . $fromLat . "," . $fromLon . "),(" . $toLat . "," . $toLon . "),(" . $fromLatAdjusted . "," . $fromLon . "),(" . $fromLat . "," . $fromLon . ")";
 
-        $geoJson = file_get_contents($pathToGeoJson);
+        try {
+            $geoJson = file_get_contents($pathToGeoJson);
+        } catch (Exception $e) {
+            return array();
+        }
+
         $raw = json_decode($geoJson, true);
         $features = $raw["features"];
 
@@ -92,12 +97,12 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         return $counties;
     }
 
-    public function getCityByName(string $name): City
+    public function getCityByName(string $name): ?City
     {
         $json = $this->getNominatimJson($name);
 
-        if (sizeof($json) == 0) {
-            throw new InvalidArgumentException("City not found: $name");
+        if (!$json) {
+            return null;
         }
 
         $name = $json[0]["display_name"];
@@ -128,8 +133,18 @@ class OriginDataProvider implements ICountyDataProvider, ICrimeDataProvider, ICi
         ];
         $context = stream_context_create($opts);
 
-        $body = file_get_contents($url, false, $context);
-        return json_decode($body, true);
+        try {
+            $body = file_get_contents($url, false, $context);
+        } catch (Exception $e) {
+            return null;
+        }
+
+        $json = json_decode($body, true);
+        if (sizeof($json) == 0) {
+            throw new InvalidArgumentException("City not found: $cityName");
+        }
+
+        return $json;
     }
 
     private function csvNumberToFloat(string $number): float

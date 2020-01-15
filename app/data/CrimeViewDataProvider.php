@@ -17,9 +17,20 @@ class CrimeViewDataProvider
     {
         $result = [];
         $result['from'] = $this->cityDataProvider->getCityByName($from);
+        if (!$result['from']) {
+            return array();
+        }
+
         $result['to'] = $this->cityDataProvider->getCityByName($to);
+        if (!$result['to']) {
+            return array();
+        }
 
         $countiesOnRoute = $this->countyDataProvider->getCountiesOnRoute($result['from'],  $result['to']);
+        if (!$countiesOnRoute) {
+            return array();
+        }
+
         $this->crimeDataProvider->fillCountiesWithCrimeStats($countiesOnRoute, $countDistribution);
 
         $result['counties'] = $countiesOnRoute;

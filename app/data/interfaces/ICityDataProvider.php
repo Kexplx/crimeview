@@ -9,5 +9,5 @@ interface ICityDataProvider
      *
      * @return City The city model
      */
-    public function getCityByName(string $name): City;
+    public function getCityByName(string $name): ?City;
 }
