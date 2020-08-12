@@ -1,53 +1,46 @@
-# VSCode
-.vscode
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+# Only exists if Bazel was run
+/bazel-out
+
+# dependencies
+/node_modules
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history/*
 
-# PHPUnit
-.phpunit.result.cache
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-# Composer
-/vendor
-
-# Logs and databases 
-*.log
-*.sql
-*.sqlite
-
-# Packages 
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
-
-# Compiled source
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-
-# OS generated files
+# System Files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-
-# Others
-/config
-/private
-/uploads
-app/controllers/hits
-db-create/obj/Debug/netcoreapp3.1/crimeview-db-create.AssemblyInfoInputs.cache
-db-create/obj/Debug/netcoreapp3.1/crimeview-db-create.csprojAssemblyReference.cache
-db-create/obj/Debug/netcoreapp3.1/crimeview-db-create.AssemblyInfo.cs
