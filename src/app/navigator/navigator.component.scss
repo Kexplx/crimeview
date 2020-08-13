@@ -1,0 +1,13 @@
+@import 'src/styles/utils';
+.wrapper-fixed {
+  position: fixed;
+  max-width: 500px;
+  right: 10px;
+  left: 10px;
+  top: 10px;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
