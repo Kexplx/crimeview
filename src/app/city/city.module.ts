@@ -1,8 +1,8 @@
 import { NgModule, InjectionToken } from '@angular/core';
-import { CityInputComponent } from './city-list/city-input/city-input.component';
 import { CityListComponent } from './city-list/city-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { CityService } from './city.service';
+import { CityInputComponent } from './city-input/city-input.component';
 
 @NgModule({
   declarations: [CityInputComponent, CityListComponent],

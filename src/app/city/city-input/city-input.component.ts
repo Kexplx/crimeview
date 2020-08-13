@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { CityService, CityPrediction } from '../../city.service';
+import { CityService, CityPrediction } from '../city.service';
 
 @Component({
   selector: 'app-city-input',

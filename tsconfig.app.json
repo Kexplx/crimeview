@@ -3,7 +3,9 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["googlemaps", "jasmine"]
+    "types": ["googlemaps", "jasmine"],
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "include": ["src/**/*.d.ts", "src/**/*.ts"]
