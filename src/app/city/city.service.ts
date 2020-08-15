@@ -1,38 +1,64 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface CityPrediction {
-  name: string;
   placeId: string;
+  name: string;
+}
+
+export interface City {
+  placeId: string;
+  name: string;
+  state: string;
+  state_short: string;
+  lat: number;
+  lng: number;
 }
 
 @Injectable()
 export class CityService {
   constructor(
     private predictionsService: google.maps.places.AutocompleteService,
-    private geocoder: google.maps.Geocoder,
+    private geoCoder: google.maps.Geocoder,
   ) {}
 
-  private getPredictionsOptions = {
+  private predictionsOptions = {
     componentRestrictions: { country: 'de' },
     types: ['(cities)'],
   };
 
   getCityPredictions(input: string): Observable<CityPrediction[]> {
-    const cityPredictions$ = new Subject<CityPrediction[]>();
+    return new Observable(sub => {
+      this.predictionsService.getPlacePredictions(
+        { ...this.predictionsOptions, input },
+        predictions => {
+          const cityPredictions = predictions.map<CityPrediction>(p => ({
+            name: p.description,
+            placeId: p.place_id,
+          }));
 
-    this.predictionsService.getPlacePredictions(
-      { ...this.getPredictionsOptions, input },
-      predictions => {
-        const mappedPredictions = predictions.map<CityPrediction>(p => ({
-          name: p.description,
-          placeId: p.place_id,
-        }));
+          sub.next(cityPredictions);
+        },
+      );
+    });
+  }
 
-        cityPredictions$.next(mappedPredictions);
-      },
-    );
+  getCity(placeId: string): Observable<City> {
+    return new Observable(sub => {
+      this.geoCoder.geocode({ placeId }, result => {
+        const { address_components, geometry } = result[0];
 
-    return cityPredictions$.asObservable();
+        // const city: City = {
+        //   lat: geometry.location.lat(),
+        //   lng: geometry.location.lng(),
+        //   name: address_components[0].short_name,
+        //   placeId,
+        //   // state
+        //   // state_short
+        // };
+
+        // sub.next(city);
+      });
+    });
   }
 }
