@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { City } from '../city.service';
 
 @Component({
@@ -9,11 +9,13 @@ import { City } from '../city.service';
 export class CityListComponent {
   cities: City[] = [];
 
+  constructor(private ngZone: NgZone) {}
+
   onCitySelect(city: City): void {
     const isDistinct = !this.cities.find(c => c.placeId === city.placeId);
 
     if (isDistinct) {
-      this.cities.push(city);
+      this.ngZone.run(() => this.cities.push(city));
     }
   }
 }
