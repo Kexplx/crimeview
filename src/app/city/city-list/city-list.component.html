@@ -1,5 +1,9 @@
-<app-city-input></app-city-input>
-<mat-checkbox color="primary"> <span class="mat-body-strong">Regensburg</span></mat-checkbox>
+<app-city-input (citySelected)="onCitySelect($event)"></app-city-input>
+
+<mat-checkbox *ngFor="let city of cities" color="primary">
+  <span class="mat-body-strong">{{ city.name }}</span>
+</mat-checkbox>
+
 <div class="button-wrapper mt-2">
   <button mat-button>Städte löschen</button>
   <button color="primary" mat-raised-button>Suche starten</button>

@@ -1,0 +1,51 @@
+{
+  "address_components": [
+    {
+      "long_name": "Regensburg",
+      "short_name": "Regensburg",
+      "types": ["locality", "political"]
+    },
+    {
+      "long_name": "Regensburg",
+      "short_name": "R",
+      "types": ["administrative_area_level_3", "political"]
+    },
+    {
+      "long_name": "Oberpfalz",
+      "short_name": "Oberpfalz",
+      "types": ["administrative_area_level_2", "political"]
+    },
+    {
+      "long_name": "Bayern",
+      "short_name": "BY",
+      "types": ["administrative_area_level_1", "political"]
+    },
+    {
+      "long_name": "Deutschland",
+      "short_name": "DE",
+      "types": ["country", "political"]
+    }
+  ],
+  "formatted_address": "Regensburg, Deutschland",
+  "geometry": {
+    "bounds": {
+      "south": 48.9667457,
+      "west": 12.0290745,
+      "north": 49.0764158,
+      "east": 12.1916077
+    },
+    "location": {
+      "lat": 49.0134297,
+      "lng": 12.1016236
+    },
+    "location_type": "APPROXIMATE",
+    "viewport": {
+      "south": 48.9667457,
+      "west": 12.0290745,
+      "north": 49.0764158,
+      "east": 12.1916077
+    }
+  },
+  "place_id": "ChIJ9y4icpjBn0cREMs3CaQlHQQ",
+  "types": ["locality", "political"]
+}
