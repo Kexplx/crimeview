@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CityService, CityPrediction, City } from '../city.service';
@@ -9,6 +9,7 @@ const DEBOUNCE_TIME = 500;
   selector: 'app-city-input',
   templateUrl: './city-input.component.html',
   styleUrls: ['./city-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CityInputComponent {
   @Output() readonly citySelected = new EventEmitter<City>();
