@@ -7,11 +7,7 @@ import { CityInputComponent } from './city-input/city-input.component';
 @NgModule({
   declarations: [CityInputComponent, CityListComponent],
   imports: [SharedModule],
-  providers: [
-    CityService,
-    google.maps.Geocoder,
-    google.maps.places.AutocompleteService,
-  ],
+  providers: [CityService, google.maps.Geocoder, google.maps.places.AutocompleteService],
   exports: [CityListComponent],
 })
 export class CityModule {}
