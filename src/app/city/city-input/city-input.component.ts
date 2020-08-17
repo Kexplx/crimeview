@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CityService, CityPrediction, City } from '../city.service';
@@ -22,14 +22,16 @@ export class CityInputComponent {
     switchMap(input => this.cityService.getCityPredictions(input)),
   );
 
-  constructor(private cityService: CityService) {}
+  constructor(private cityService: CityService, private ngZone: NgZone) {}
 
   onInput(input: string): void {
     this.onInput$.next(input);
   }
 
   onPredictionSelected({ placeId }: CityPrediction): void {
-    this.cityService.getCity(placeId).subscribe(city => this.citySelected.emit(city));
+    this.cityService
+      .getCity(placeId)
+      .subscribe(city => this.ngZone.run(() => this.citySelected.emit(city)));
   }
 
   displayFn({ name }: CityPrediction): string {
