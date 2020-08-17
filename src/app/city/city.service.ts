@@ -9,8 +9,6 @@ export interface CityPrediction {
 export interface City {
   placeId: string;
   name: string;
-  state: string;
-  state_short: string;
   lat: number;
   lng: number;
 }
@@ -53,8 +51,6 @@ export class CityService {
           lat: geometry.location.lat(),
           lng: geometry.location.lng(),
           name: address_components[0].long_name,
-          state: address_components[3].long_name,
-          state_short: address_components[3].short_name,
         };
 
         sub.next(city);
