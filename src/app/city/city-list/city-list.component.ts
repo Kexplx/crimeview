@@ -1,5 +1,10 @@
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { City } from '../city.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+const CAPACITY = 3;
+const NO_CAPACITY_MESSAGE = 'Maximale Anzahl an Städten erreicht';
+const NOT_DISTINCT_MESSAGE = ' wurde bereits hinzugefügt';
 
 @Component({
   selector: 'app-city-list',
@@ -9,13 +14,30 @@ import { City } from '../city.service';
 export class CityListComponent {
   cities: City[] = [];
 
-  constructor(private ngZone: NgZone) {}
+  constructor(private snackBarService: MatSnackBar) {}
 
   onCitySelect(city: City): void {
+    const noCapacity = this.cities.length === CAPACITY;
+
+    if (noCapacity) {
+      this.snackBarService.open(NO_CAPACITY_MESSAGE);
+      return;
+    }
+
     const isDistinct = !this.cities.find(c => c.placeId === city.placeId);
 
     if (isDistinct) {
-      this.ngZone.run(() => this.cities.push(city));
+      this.cities.push(city);
+    } else {
+      this.snackBarService.open(city.name + NOT_DISTINCT_MESSAGE);
     }
+  }
+
+  onStart(): void {
+    // Start
+  }
+
+  onDelete(): void {
+    this.cities = [];
   }
 }
