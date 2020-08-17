@@ -6,13 +6,12 @@ import { SharedModule } from './shared/shared.module';
 import { NavigatorComponent } from './navigator/navigator.component';
 import { CityModule } from './city/city.module';
 import { MapComponent } from './map/map.component';
-
-export const predictionsService = new InjectionToken('predictionsService');
-export const predictionsServiceFactory = () => new google.maps.places.AutocompleteService();
+import { HttpClientModule } from '@angular/common/http';
+import { NavigatorModule } from './navigator/navigator.module';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, NavigatorComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, CityModule],
+  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, CityModule, HttpClientModule, NavigatorModule],
 
   bootstrap: [AppComponent],
 })
