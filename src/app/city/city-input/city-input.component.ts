@@ -1,37 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { CityService, CityPrediction } from '../city.service';
+import { CityService, CityPrediction, City } from '../city.service';
+
+const DEBOUNCE_TIME = 500;
 
 @Component({
   selector: 'app-city-input',
   templateUrl: './city-input.component.html',
   styleUrls: ['./city-input.component.scss'],
 })
-export class CityInputComponent implements OnInit {
-  predictions$: Observable<CityPrediction[]>;
+export class CityInputComponent {
+  @Output() readonly citySelected = new EventEmitter<City>();
 
-  private input$ = new Subject<string>();
+  private readonly onInput$ = new Subject<string>();
+
+  readonly predictions$: Observable<CityPrediction[]> = this.onInput$.pipe(
+    debounceTime(DEBOUNCE_TIME),
+    distinctUntilChanged(),
+    switchMap(input => this.cityService.getCityPredictions(input)),
+  );
 
   constructor(private cityService: CityService) {}
 
-  ngOnInit(): void {
-    this.predictions$ = this.input$.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap(input => this.cityService.getCityPredictions(input)),
-    );
-  }
-
   onInput(input: string): void {
-    this.input$.next(input);
+    this.onInput$.next(input);
   }
 
-  onPredictionSelected(prediction: CityPrediction): void {
-    // emit
+  onPredictionSelected({ placeId }: CityPrediction): void {
+    this.cityService.getCity(placeId).subscribe(city => this.citySelected.emit(city));
   }
 
-  displayFn(prediction: CityPrediction): string {
-    return prediction.name;
+  displayFn({ name }: CityPrediction): string {
+    return name;
   }
 }
