@@ -48,16 +48,16 @@ export class CityService {
       this.geoCoder.geocode({ placeId }, result => {
         const { address_components, geometry } = result[0];
 
-        // const city: City = {
-        //   lat: geometry.location.lat(),
-        //   lng: geometry.location.lng(),
-        //   name: address_components[0].short_name,
-        //   placeId,
-        //   // state
-        //   // state_short
-        // };
+        const city: City = {
+          placeId,
+          lat: geometry.location.lat(),
+          lng: geometry.location.lng(),
+          name: address_components[0].long_name,
+          state: address_components[3].long_name,
+          state_short: address_components[3].short_name,
+        };
 
-        // sub.next(city);
+        sub.next(city);
       });
     });
   }
