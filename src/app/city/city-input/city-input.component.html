@@ -1,9 +1,13 @@
-<mat-form-field style="width: 100%;">
-  <mat-label>Stadtnamen</mat-label>
-  <input [matAutocomplete]="auto" (input)="onInput($any($event.target.value))" matInput placeholder="Regensburg" />
-  <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onPredictionSelected($event.option.value)" autoActiveFirstOption #auto="matAutocomplete">
+<mat-form-field floatLabel="never">
+  <input matInput [matAutocomplete]="auto" (input)="onInput($any($event.target.value))" placeholder="Regensburg" #inputCity />
+  <mat-autocomplete
+    [displayWith]="displayFn"
+    autoActiveFirstOption
+    (optionSelected)="onPredictionSelected($event.option.value); inputCity.value = ''"
+    #auto="matAutocomplete"
+  >
     <mat-option *ngFor="let prediction of predictions$ | async" [value]="prediction">
-      {{ prediction.name }}
+      <span class="mat-body">{{ prediction.name }}</span>
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
