@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface CityPrediction {
-  placeId: string;
-  name: string;
-}
-
-export interface City {
-  placeId: string;
-  name: string;
-  lat: number;
-  lng: number;
-}
+import { CityPrediction } from './models/city-prediction';
+import { City } from './models/city';
 
 @Injectable()
 export class CityService {

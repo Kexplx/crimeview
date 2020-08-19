@@ -8,10 +8,11 @@ import { CityModule } from './city/city.module';
 import { MapComponent } from './map/map.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigatorModule } from './navigator/navigator.module';
+import { CountyModule } from './county/county.module';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, NavigatorComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, CityModule, HttpClientModule, NavigatorModule],
+  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, CityModule, HttpClientModule, NavigatorModule, CountyModule],
 
   bootstrap: [AppComponent],
 })

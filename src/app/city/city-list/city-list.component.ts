@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { City } from '../city.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { City } from '../models/city';
 
 const CAPACITY = 3;
 const NO_CAPACITY_MESSAGE = 'Maximale Anzahl an Städten erreicht';

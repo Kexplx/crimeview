@@ -18,9 +18,7 @@ beforeEach(() => {
         lat: 0,
         lng: 1,
         name: 't_city',
-        state: 't_state',
         placeId: 't_placeId',
-        state_short: 't_state_short',
       }),
     ),
   };
@@ -29,13 +27,13 @@ beforeEach(() => {
 });
 
 describe('#getCityPredictions', () => {
-  test('#getPlacePredictions is called once', () => {
+  it('calls #getPlacePredictions once', () => {
     cityService.getCityPredictions('').subscribe(() => {
       expect(predictionServiceSpy.getPlacePredictions.mock.calls.length).toEqual(1);
     });
   });
 
-  test('observable with mapped predictions is returned', () => {
+  it('returns observable with mapped predictions', () => {
     cityService.getCityPredictions('').subscribe(predictions => {
       expect(predictions).toEqual([{ name: 't_desc', placeId: 't_placeId' }]);
     });

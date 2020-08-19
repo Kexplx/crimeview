@@ -1,7 +1,9 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { CityService, CityPrediction, City } from '../city.service';
+import { CityService } from '../city.service';
+import { City } from '../models/city';
+import { CityPrediction } from '../models/city-prediction';
 
 const DEBOUNCE_TIME = 500;
 
