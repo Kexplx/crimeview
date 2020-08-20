@@ -71,6 +71,51 @@ describe('#isChecked', () => {
   });
 });
 
-// TODO #onDelete
-// TODO #onCheck
-// TODO #onStart
+describe('#onDelete', () => {
+  const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
+
+  it('should remove all items from #cities', () => {
+    component.cities = [dummyCity];
+    component.onDelete();
+    expect(component.cities).toHaveLength(0);
+  });
+
+  it('should remove all items from #checkedCities', () => {
+    component.checkedCities = [dummyCity];
+    component.onDelete();
+    expect(component.checkedCities).toHaveLength(0);
+  });
+});
+
+describe('#onCheck', () => {
+  const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
+
+  beforeEach(() => {
+    component.cities = [];
+    component.checkedCities = [];
+  });
+  it('should add the city to #checkedCities when #checked is true', () => {
+    component.onCheck(dummyCity, true);
+    expect(component.checkedCities).toEqual([dummyCity]);
+  });
+
+  it('should remove the city from #checkedCities when #checked is false', () => {
+    component.checkedCities = [dummyCity];
+    component.onCheck(dummyCity, false);
+    expect(component.checkedCities).toHaveLength(0);
+  });
+});
+
+describe('#onStart', () => {
+  const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
+  it('should emit #checkedCities', done => {
+    component.checkedCities = [{ ...dummyCity }, { ...dummyCity }];
+    component.searchStarted.subscribe((cities: City) => {
+      expect(component.checkedCities).toEqual(cities);
+
+      done();
+    });
+
+    component.onStart();
+  });
+});
