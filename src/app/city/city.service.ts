@@ -6,11 +6,11 @@ import { City } from './models/city';
 @Injectable()
 export class CityService {
   constructor(
-    private predictionsService: google.maps.places.AutocompleteService,
-    private geoCoder: google.maps.Geocoder,
+    private readonly predictionsService: google.maps.places.AutocompleteService,
+    private readonly geoCoder: google.maps.Geocoder,
   ) {}
 
-  private predictionsOptions = {
+  private readonly predictionsOptions = {
     componentRestrictions: { country: 'de' },
     types: ['(cities)'],
   };
