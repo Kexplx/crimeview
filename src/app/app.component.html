@@ -1,1 +1,6 @@
-<app-navigator></app-navigator>
+<app-navigator>
+  <app-city-list (searchStarted)="onSearchStarted($event)"></app-city-list>
+</app-navigator>
+<div class="map-wrapper">
+  <app-map [counties]="counties$ | async"></app-map>
+</div>
