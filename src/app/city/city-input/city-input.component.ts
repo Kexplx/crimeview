@@ -5,7 +5,7 @@ import { CityService } from '../city.service';
 import { City } from '../models/city';
 import { CityPrediction } from '../models/city-prediction';
 
-const DEBOUNCE_TIME = 500;
+const DEBOUNCE_MS = 500;
 
 @Component({
   selector: 'app-city-input',
@@ -19,7 +19,7 @@ export class CityInputComponent {
   private readonly onInput$ = new Subject<string>();
 
   readonly predictions$: Observable<CityPrediction[]> = this.onInput$.pipe(
-    debounceTime(DEBOUNCE_TIME),
+    debounceTime(DEBOUNCE_MS),
     distinctUntilChanged(),
     switchMap(input => this.cityService.getCityPredictions(input)),
   );
