@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { City } from './city/models/city';
 import { County } from './county/models/county';
 import { switchMap } from 'rxjs/operators';

@@ -1,4 +1,5 @@
 import { decode } from 'base-64';
+
 /**
  * Provides credentials for mapbox.
  */

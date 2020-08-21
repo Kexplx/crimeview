@@ -1,9 +1,9 @@
-import { CountyService } from './county.service';
+import { CountyService, OsmResponse } from './county.service';
 import { of } from 'rxjs';
 import { OsmCounty } from './models/osm-county';
 import { County } from './models/county';
 import { City } from '../city/models/city';
-import { OsmResponse } from './county.service';
+
 let httpMock: { get: jest.Mock };
 let dummyCountyCrimeRates: Map<number, number>;
 let dummyOsmCounty: OsmCounty;

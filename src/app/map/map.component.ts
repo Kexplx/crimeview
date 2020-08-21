@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, Inject } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { County } from '../county/models/county';
 import { Map } from 'mapbox-gl';
 import { MapboxConfig } from './mapbox-config';
