@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { County } from './models/county';
 import { OsmCounty } from './models/osm-county';
+import { CountyModule } from './county.module';
 
 // prettier-ignore
 const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=landkreise-in-germany&q=&facet=name_1&facet=name_2&facet=type_2&';
@@ -18,7 +19,13 @@ enum SearchTypes {
   Polygon = 3,
 }
 
-@Injectable()
+export interface OsmResponse {
+  records: { fields: OsmCounty }[];
+}
+
+@Injectable({
+  providedIn: CountyModule,
+})
 export class CountyService {
   constructor(
     private readonly http: HttpClient,
@@ -34,17 +41,17 @@ export class CountyService {
   private getOsmCounties(cities: City[]): Observable<OsmCounty[]> {
     const url = this.buildUrl(cities, cities.length);
 
-    return this.http.get<{ records: OsmCounty[] }>(url).pipe(map(({ records }) => records));
+    return this.http.get<OsmResponse>(url).pipe(map(({ records }) => records.map(r => r.fields)));
   }
 
   private mapOsmCountiesToCounties(osmCounties: OsmCounty[]): County[] {
-    return osmCounties.map<County>(osmC => ({
-      name: osmC.name_2,
-      type: osmC.type_2,
-      state: osmC.name_1,
-      countyCode: +osmC.cca_2,
-      geoShape: osmC.geo_shape,
-      crimeRate: this.countyCrimeRates.get(+osmC.cca_2), // Get crime rate by county code.
+    return osmCounties.map<County>(({ type_2, cca_2, name_2, name_1, geo_shape }) => ({
+      name: name_2,
+      type: type_2,
+      state: name_1,
+      countyCode: +cca_2,
+      geometry: geo_shape,
+      crimeRate: this.countyCrimeRates.get(+cca_2), // Get crime rate by county code.
     }));
   }
 
