@@ -4,14 +4,12 @@ import { CityPrediction } from './models/city-prediction';
 import { City } from './models/city';
 
 type AutocompletionRequest = google.maps.places.AutocompletionRequest;
-type AutocompleteService = google.maps.places.AutocompleteService;
-type Geocoder = google.maps.Geocoder;
 
 @Injectable()
 export class CityService {
   constructor(
-    private readonly predictionsService: AutocompleteService,
-    private readonly geoCoder: Geocoder,
+    private readonly predictionsService: google.maps.places.AutocompleteService,
+    private readonly geoCoder: google.maps.Geocoder,
   ) {}
 
   private predictionsOptions: Readonly<Partial<AutocompletionRequest>> = {
