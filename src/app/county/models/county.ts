@@ -1,3 +1,5 @@
+import { Geometry } from 'geojson';
+
 /**
  * The structure of a county.
  */
@@ -7,8 +9,5 @@ export interface County {
   type: string;
   countyCode: number;
   crimeRate: number | undefined;
-  geoShape: {
-    type: 'Polygon' | 'Multipolygon';
-    coordinates: number[][];
-  };
+  geometry: Geometry;
 }

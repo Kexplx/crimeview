@@ -1,5 +1,6 @@
-import { CityService, City } from './city.service';
+import { CityService } from './city.service';
 import { of } from 'rxjs';
+import { City } from './models/city';
 
 let cityService: CityService;
 let geocoderSpy: { geocode: jest.Mock };
