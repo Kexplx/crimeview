@@ -6,5 +6,5 @@
 </div>
 <div class="buttons-wrapper mt-2">
   <button (click)="onDelete()" mat-button>Städte löschen</button>
-  <button (click)="onStart()" color="primary" mat-raised-button>Suche starten</button>
+  <button [disabled]="!checkedCities.length" (click)="onStart()" color="primary" mat-raised-button>Suche starten</button>
 </div>
