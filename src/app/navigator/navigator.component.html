@@ -1,4 +1,4 @@
-<div class="wrapper-fixed">
+<div class="accordion-wrapper">
   <mat-accordion>
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
@@ -8,8 +8,7 @@
         <mat-panel-description> </mat-panel-description>
       </mat-expansion-panel-header>
       <p>This is the primary content of the panel.</p>
-
-      <app-city-list></app-city-list>
+      <ng-content></ng-content>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

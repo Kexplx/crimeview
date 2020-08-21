@@ -1,13 +1,8 @@
-@import 'src/styles/utils';
-.wrapper-fixed {
+.accordion-wrapper {
   position: fixed;
+  z-index: 5;
   max-width: 500px;
-  right: 10px;
-  left: 10px;
-  top: 10px;
-}
-
-.button-wrapper {
-  display: flex;
-  justify-content: space-between;
+  right: 1rem;
+  left: 1rem;
+  top: 1rem;
 }
