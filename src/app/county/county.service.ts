@@ -8,7 +8,7 @@ import { OsmCounty } from './models/osm-county';
 import { CountyModule } from './county.module';
 
 // prettier-ignore
-const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=landkreise-in-germany&q=&facet=name_1&facet=name_2&facet=type_2&';
+const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=landkreise-in-germany&q=&rows=403&facet=name_1&facet=name_2&facet=type_2&';
 const OSM_RADIUS_API = OSM_BASE_API + 'geofilter.distance=';
 const OSM_POLYGON_API = OSM_BASE_API + 'geofilter.polygon=';
 const OSM_LINE_API = OSM_BASE_API + 'geofilter.polygon=';
