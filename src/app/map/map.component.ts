@@ -23,6 +23,8 @@ export class MapComponent implements AfterViewInit {
       for (const county of counties) {
         this.addGeojsonLayer(this.map, county);
       }
+
+      this.fitMapToLayers(this.map, counties);
     }
   }
 
@@ -102,5 +104,21 @@ export class MapComponent implements AfterViewInit {
     }
 
     return crimeRate <= 0.04 ? 'green' : crimeRate <= 0.07 ? 'orange' : 'red';
+  }
+
+  private fitMapToLayers(map: Map, counties: County[]): void {
+    const bounds = new LngLatBounds();
+
+    for (const { geometry } of counties) {
+      if (geometry.type === 'Polygon') {
+        const [lat, lng] = geometry.coordinates[0][0];
+        bounds.extend({ lat, lng });
+      } else if (geometry.type === 'MultiPolygon') {
+        const [lat, lng] = geometry.coordinates[0][0][0];
+        bounds.extend({ lat, lng });
+      }
+    }
+
+    map.fitBounds(bounds);
   }
 }
