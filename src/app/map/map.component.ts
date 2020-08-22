@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { County } from '../county/models/county';
-import { Map } from 'mapbox-gl';
+import { Map, Popup } from 'mapbox-gl';
 import { MapboxConfig } from './mapbox-config';
 
 @Component({
@@ -10,8 +10,6 @@ import { MapboxConfig } from './mapbox-config';
 })
 export class MapComponent implements AfterViewInit {
   @Input() set counties(counties: County[] | null) {
-    console.log('Hello World');
-
     if (this.map && counties) {
       for (const county of counties) {
         this.addGeojsonLayer(this.map, county);
@@ -20,6 +18,8 @@ export class MapComponent implements AfterViewInit {
   }
 
   private map: undefined | Readonly<Map>;
+
+  private selectedLayerId = '';
 
   constructor(private readonly config: MapboxConfig) {}
 
@@ -35,16 +35,18 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addGeojsonLayer(map: Map, county: County): void {
-    const { countyCode, name, state, geometry, type, crimeRate } = county;
+    const { geometry, crimeRate } = county;
+
+    const id = Math.random().toString();
 
     map.addLayer({
-      id: Math.random().toString(),
+      id,
       type: 'fill',
       source: {
         type: 'geojson',
         data: {
           type: 'Feature',
-          properties: { name, type, state, crimeRate, countyCode },
+          properties: county,
           geometry,
         },
       },
@@ -56,6 +58,30 @@ export class MapComponent implements AfterViewInit {
         'fill-opacity-transition': { delay: 0, duration: 0 },
       },
     });
+
+    this.handleLayerClicks(map, id);
+  }
+
+  private handleLayerClicks(map: Map, id: string): void {
+    map.on('click', id, ({ features, lngLat }) => {
+      if (this.selectedLayerId) {
+        map.setPaintProperty(this.selectedLayerId, 'fill-opacity', 0.2);
+      }
+      map.setPaintProperty(id, 'fill-opacity', 0.5);
+      this.selectedLayerId = id;
+
+      if (features) {
+        const html = this.buildLayerClickHtml(features[0].properties as County);
+        new Popup().setLngLat(lngLat).setHTML(html).addTo(map);
+      }
+    });
+  }
+
+  private buildLayerClickHtml({ name, state, type, crimeRate }: County): string {
+    return `
+    <p>${name}</p>
+    <p>${type} in ${state}</p>
+    <p style="${this.getColorByCrimeRate(crimeRate)}">Kriminalitätsrate: ${crimeRate}</p>`;
   }
 
   private getColorByCrimeRate(crimeRate: number | undefined): string {
