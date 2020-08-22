@@ -2,6 +2,8 @@ import { CityInputComponent } from './city-input.component';
 import { CityPrediction } from '../models/city-prediction';
 import { of } from 'rxjs';
 import { City } from '../models/city';
+import { CityService } from '../city.service';
+import { NgZone } from '@angular/core';
 
 let cityServiceSpy: { getCityPredictions: jest.Mock; getCity: jest.Mock };
 const cityPredictions: CityPrediction[] = [
@@ -20,7 +22,10 @@ beforeEach(() => {
     getCityPredictions: jest.fn(() => of(cityPredictions)),
   };
 
-  component = new CityInputComponent(cityServiceSpy as any, ngZoneStub as any);
+  component = new CityInputComponent(
+    (cityServiceSpy as unknown) as CityService,
+    (ngZoneStub as unknown) as NgZone,
+  );
 });
 
 describe('#onInput', () => {

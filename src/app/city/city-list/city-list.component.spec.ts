@@ -1,5 +1,6 @@
 import { CityListComponent } from './city-list.component';
 import { City } from '../models/city';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 let component: CityListComponent;
 let snackBarStub: { open: jest.Mock };
@@ -9,7 +10,7 @@ beforeEach(() => {
     open: jest.fn(),
   };
 
-  component = new CityListComponent(snackBarStub as any);
+  component = new CityListComponent((snackBarStub as unknown) as MatSnackBar);
 });
 
 describe('#onCitySelect', () => {

@@ -2,6 +2,9 @@ import { CityService } from './city.service';
 import { of } from 'rxjs';
 import { City } from './models/city';
 
+type AutocompleteService = google.maps.places.AutocompleteService;
+type Geocoder = google.maps.Geocoder;
+
 let cityService: CityService;
 let geocoderSpy: { geocode: jest.Mock };
 let predictionServiceSpy: { getPlacePredictions: jest.Mock };
@@ -24,7 +27,10 @@ beforeEach(() => {
     ),
   };
 
-  cityService = new CityService(predictionServiceSpy as any, geocoderSpy as any);
+  cityService = new CityService(
+    (predictionServiceSpy as unknown) as AutocompleteService,
+    (geocoderSpy as unknown) as Geocoder,
+  );
 });
 
 describe('#getCityPredictions', () => {
