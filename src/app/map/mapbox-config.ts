@@ -1,8 +1,10 @@
 import { decode } from 'js-base64';
+import { Injectable } from '@angular/core';
 
 /**
  * Provides credentials for mapbox.
  */
+@Injectable()
 export class MapboxConfig {
   private readonly _accessToken = 'cGsuZXlKMUlqb2lhMlY0Y0d4NElpd2lZU0k2SW1Ock5uSnliVEZzWnpBM056WXphMjE1Tkdsek0yUjJiRFlpZlEuRWNseUFUQWx1NW5OT2Z3Tmt4dWk0QQ==';
   private readonly _styleDark = 'bWFwYm94Oi8vc3R5bGVzL2tleHBseC9jazZycnBqMmEwcDVwMWlwaGVyOHZhbGsyP29wdGltaXplPXRydWU=';

@@ -23,9 +23,7 @@ export interface OsmResponse {
   records: { fields: OsmCounty }[];
 }
 
-@Injectable({
-  providedIn: CountyModule,
-})
+@Injectable()
 export class CountyService {
   constructor(
     private readonly http: HttpClient,
