@@ -71,13 +71,13 @@ export class MapComponent implements AfterViewInit {
       this.selectedLayerId = id;
 
       if (features) {
-        const html = this.buildLayerClickHtml(features[0].properties as County);
+        const html = this.getPopupHtml(features[0].properties as County);
         new Popup().setLngLat(lngLat).setHTML(html).addTo(map);
       }
     });
   }
 
-  private buildLayerClickHtml({ name, state, type, crimeRate }: County): string {
+  private getPopupHtml({ name, state, type, crimeRate }: County): string {
     return `
     <p>${name}</p>
     <p>${type} in ${state}</p>
