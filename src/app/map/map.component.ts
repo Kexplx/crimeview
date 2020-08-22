@@ -1,7 +1,11 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { County } from '../county/models/county';
-import { Map, Popup } from 'mapbox-gl';
+import { Map, Popup, LngLatBounds, Layer } from 'mapbox-gl';
 import { MapboxConfig } from './mapbox-config';
+
+interface CountyLayer extends Layer {
+  id: string;
+}
 
 @Component({
   selector: 'app-map',
@@ -11,6 +15,11 @@ import { MapboxConfig } from './mapbox-config';
 export class MapComponent implements AfterViewInit {
   @Input() set counties(counties: County[] | null) {
     if (this.map && counties) {
+      for (const id of this.layers.map(l => l.id)) {
+        this.map.removeLayer(id);
+      }
+      this.layers = [];
+
       for (const county of counties) {
         this.addGeojsonLayer(this.map, county);
       }
@@ -18,8 +27,8 @@ export class MapComponent implements AfterViewInit {
   }
 
   private map: undefined | Readonly<Map>;
-
-  private selectedLayerId = '';
+  private clickedLayer: CountyLayer | undefined;
+  private layers: Readonly<CountyLayer[]> = [];
 
   constructor(private readonly config: MapboxConfig) {}
 
@@ -36,10 +45,9 @@ export class MapComponent implements AfterViewInit {
 
   private addGeojsonLayer(map: Map, county: County): void {
     const { geometry, crimeRate } = county;
-
     const id = Math.random().toString();
 
-    map.addLayer({
+    const layer: CountyLayer = {
       id,
       type: 'fill',
       source: {
@@ -57,18 +65,20 @@ export class MapComponent implements AfterViewInit {
         'fill-outline-color': 'gray',
         'fill-opacity-transition': { delay: 0, duration: 0 },
       },
-    });
+    };
 
-    this.handleLayerClicks(map, id);
+    this.map?.addLayer(layer);
+    this.handleLayerClicks(map, layer);
+    this.layers = [...this.layers, { ...layer, id }];
   }
 
-  private handleLayerClicks(map: Map, id: string): void {
-    map.on('click', id, ({ features, lngLat }) => {
-      if (this.selectedLayerId) {
-        map.setPaintProperty(this.selectedLayerId, 'fill-opacity', 0.2);
+  private handleLayerClicks(map: Map, layer: CountyLayer): void {
+    map.on('click', layer.id, ({ features, lngLat }) => {
+      if (this.clickedLayer) {
+        map.setPaintProperty(this.clickedLayer.id, 'fill-opacity', 0.2);
       }
-      map.setPaintProperty(id, 'fill-opacity', 0.5);
-      this.selectedLayerId = id;
+      map.setPaintProperty(layer.id, 'fill-opacity', 0.5);
+      this.clickedLayer = layer;
 
       if (features) {
         const html = this.getPopupHtml(features[0].properties as County);
@@ -79,9 +89,11 @@ export class MapComponent implements AfterViewInit {
 
   private getPopupHtml({ name, state, type, crimeRate }: County): string {
     return `
-    <p>${name}</p>
+    <h4>${name}</h4>
     <p>${type} in ${state}</p>
-    <p style="${this.getColorByCrimeRate(crimeRate)}">Kriminalitätsrate: ${crimeRate}</p>`;
+    <p>Kriminalitätsrate:
+      <span style="color: ${this.getColorByCrimeRate(crimeRate)}">${crimeRate}</span>
+    </p>`;
   }
 
   private getColorByCrimeRate(crimeRate: number | undefined): string {
