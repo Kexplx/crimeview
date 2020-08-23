@@ -3,7 +3,7 @@
   <input matInput [matAutocomplete]="auto" (input)="onInput($any($event.target.value))" #inputCity />
   <mat-autocomplete [displayWith]="displayFn" autoActiveFirstOption (optionSelected)="onPredictionSelected($event.option.value); inputCity.value = ''" #auto="matAutocomplete">
     <mat-option *ngFor="let prediction of predictions$ | async" [value]="prediction">
-      <span class="mat-body">{{ prediction.name }}</span>
+      <span class="mat-body">{{ prediction.name | prediction }}</span>
     </mat-option>
   </mat-autocomplete>
   <mat-hint align="end">Vorschläge mit <strong>ENTER</strong> bestätigen</mat-hint>
