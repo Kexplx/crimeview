@@ -21,10 +21,10 @@ export class MapComponent implements AfterViewInit {
       this.layers = [];
 
       for (const county of counties) {
-        this.addGeojsonLayer(this.map, county);
+        this.addLayer(this.map, county);
       }
 
-      this.fitMapToLayers(this.map, counties);
+      this.fitBounds(this.map, counties);
     }
   }
 
@@ -38,14 +38,14 @@ export class MapComponent implements AfterViewInit {
     this.map = new Map({
       accessToken: this.config.accessToken,
       style: this.config.styleLight,
-      center: [11.0767, 49.4521], // Nuremberg coords (lng, lat) as starting position.
+      center: [11.0767, 49.4521], // Nuremberg's coordinates as starting position.
       container: 'map',
       maxZoom: 9,
       zoom: 8,
     });
   }
 
-  private addGeojsonLayer(map: Map, county: County): void {
+  private addLayer(map: Map, county: County): void {
     const { geometry, crimeRate } = county;
     const id = Math.random().toString();
 
@@ -106,16 +106,16 @@ export class MapComponent implements AfterViewInit {
     return crimeRate <= 0.04 ? 'green' : crimeRate <= 0.07 ? 'orange' : 'red';
   }
 
-  private fitMapToLayers(map: Map, counties: County[]): void {
+  private fitBounds(map: Map, counties: County[]): void {
     const bounds = new LngLatBounds();
 
     for (const { geometry } of counties) {
       if (geometry.type === 'Polygon') {
-        const [lat, lng] = geometry.coordinates[0][0];
-        bounds.extend({ lat, lng });
+        const [lng, lat] = geometry.coordinates[0][0];
+        bounds.extend([lng, lat]);
       } else if (geometry.type === 'MultiPolygon') {
-        const [lat, lng] = geometry.coordinates[0][0][0];
-        bounds.extend({ lat, lng });
+        const [lng, lat] = geometry.coordinates[0][0][0];
+        bounds.extend([lng, lat]);
       }
     }
 
