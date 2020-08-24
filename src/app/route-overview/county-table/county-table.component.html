@@ -1,0 +1,21 @@
+<table [dataSource]="matTableDataSource" mat-table matSort>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }} {{ element.type === 'Landkreis' ? ' (LK)' : ' (KFS)' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bundesland</th>
+    <td mat-cell *matCellDef="let element">{{ element.state }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="crimeRate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Kriminalität <mat-icon matTooltip="Straftaten pro 100k Einwohner / 100k" matTooltipPosition="above" style="font-size: 15px;">info</mat-icon>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.crimeRate }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

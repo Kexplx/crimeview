@@ -4,10 +4,10 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NavigatorModule } from './navigator/navigator.module';
 import { CountyModule } from './county/county.module';
 import { MapModule } from './map/map.module';
 import { CityModule } from './city/city.module';
+import { RouteOverviewModule } from './route-overview/route-overview.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,9 +17,9 @@ import { CityModule } from './city/city.module';
     SharedModule,
     CityModule,
     HttpClientModule,
-    NavigatorModule,
     CountyModule,
     MapModule,
+    RouteOverviewModule,
   ],
 
   bootstrap: [AppComponent],

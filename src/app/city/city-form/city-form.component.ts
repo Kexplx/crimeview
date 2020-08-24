@@ -1,22 +1,22 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { City } from '../models/city';
+import { RouteService } from 'src/app/route.service';
 
 const CAPACITY = 3;
 const NO_CAPACITY_MESSAGE = 'Maximale Anzahl an Städten erreicht';
 const NOT_DISTINCT_MESSAGE = ' wurde bereits hinzugefügt';
 
 @Component({
-  selector: 'app-city-list',
-  templateUrl: './city-list.component.html',
-  styleUrls: ['./city-list.component.scss'],
+  selector: 'app-city-form',
+  templateUrl: './city-form.component.html',
+  styleUrls: ['./city-form.component.scss'],
 })
-export class CityListComponent {
-  @Output() searchStarted = new EventEmitter<Readonly<City[]>>();
-  cities: Readonly<City[]> = [];
-  checkedCities: Readonly<City[]> = [];
+export class CityFormComponent {
+  cities: readonly City[] = [];
+  checkedCities: readonly City[] = [];
 
-  constructor(private snackBarService: MatSnackBar) {}
+  constructor(private snackBarService: MatSnackBar, private routeService: RouteService) {}
 
   onCitySelect(city: City): void {
     const noCapacity = this.cities.length === CAPACITY;
@@ -58,7 +58,7 @@ export class CityListComponent {
     }
   }
 
-  onStart(): void {
-    this.searchStarted.emit(this.checkedCities);
+  onSearch(): void {
+    this.routeService.handleSearchRequest(this.checkedCities as City[]);
   }
 }

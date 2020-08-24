@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -45,6 +46,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSliderModule,
     MatSlideToggleModule,
     MatMenuModule,
+    MatBadgeModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,

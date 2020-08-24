@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { County } from '../county/models/county';
 import { Map, Popup, LngLatBounds, Layer } from 'mapbox-gl';
 import { MapboxConfig } from './mapbox-config';
+import { RouteService } from '../route.service';
 
 interface CountyLayer extends Layer {
   id: string;
@@ -12,27 +13,29 @@ interface CountyLayer extends Layer {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements AfterViewInit {
-  @Input() set counties(counties: County[] | null) {
-    if (this.map && counties) {
-      for (const id of this.layers.map(l => l.id)) {
-        this.map.removeLayer(id);
-      }
-      this.layers = [];
-
-      for (const county of counties) {
-        this.addLayer(this.map, county);
-      }
-
-      this.fitBounds(this.map, counties);
-    }
-  }
-
+export class MapComponent implements AfterViewInit, OnInit {
   private map: undefined | Readonly<Map>;
   private clickedLayer: CountyLayer | undefined;
   private layers: Readonly<CountyLayer[]> = [];
 
-  constructor(private readonly config: MapboxConfig) {}
+  constructor(private readonly config: MapboxConfig, private routeService: RouteService) {}
+
+  ngOnInit(): void {
+    this.routeService.route$.subscribe(({ counties }) => {
+      if (this.map) {
+        for (const id of this.layers.map(l => l.id)) {
+          this.map.removeLayer(id);
+        }
+        this.layers = [];
+
+        for (const county of counties) {
+          this.addLayer(this.map, county);
+        }
+
+        this.fitBounds(this.map, counties);
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.map = new Map({
@@ -41,6 +44,8 @@ export class MapComponent implements AfterViewInit {
       center: [11.0767, 49.4521], // Nuremberg's coordinates as starting position.
       container: 'map',
       maxZoom: 9,
+      minZoom: 6.5,
+      pitch: 30, // pitch in degrees
       zoom: 8,
     });
   }

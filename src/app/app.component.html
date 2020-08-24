@@ -1,6 +1,18 @@
-<app-navigator>
-  <app-city-list (searchStarted)="onSearchStarted($event)"></app-city-list>
-</app-navigator>
+<div class="accordion-wrapper">
+  <mat-accordion multi>
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Deutsche Landkreise
+        </mat-panel-title>
+        <mat-panel-description> </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>1 - 3 deutsche Stadtnamen eingeben.</p>
+      <app-city-form></app-city-form>
+    </mat-expansion-panel>
+    <app-route-overview></app-route-overview>
+  </mat-accordion>
+</div>
 <div class="map-wrapper">
-  <app-map [counties]="counties$ | async"></app-map>
+  <app-map></app-map>
 </div>

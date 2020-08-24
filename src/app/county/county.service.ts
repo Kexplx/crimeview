@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { County } from './models/county';
 import { OsmCounty } from './models/osm-county';
-import { CountyModule } from './county.module';
 
 // prettier-ignore
 const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=landkreise-in-germany&q=&rows=403&facet=name_1&facet=name_2&facet=type_2&';
