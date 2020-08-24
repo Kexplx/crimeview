@@ -1,20 +1,15 @@
-<a href="https://github.com/Kexplx/ng-crimeview/releases/tag/v2" alt="License Page">
-    <img src="https://img.shields.io/badge/version-2-2980b9" />
-</a>
-<a href="https://github.com/Kexplx/CrimeView/blob/master/LICENSE" alt="Release Page">
-    <img src="https://img.shields.io/badge/license-AGPL 3.0-e74c3c" />
-</a>
-
 # CrimeView - Landkreiskriminalität
 
-[Live on Github Pages](https://kexplx.github.io/crimeview/)
+<a href="https://kexplx.github.io/crimeview/" alt="GitHub Pages Deployment">
+    <img src="https://img.shields.io/badge/Live-GitHub Pages-2980b9" />
+</a>
 
 CrimeView analyses a route based on a Polygon, Line or Radius and displays all german-counties with their respective crime rate on it.
 
 <strong>Crimerate</strong> = Committed crimes per 100.000 inhabitants / 100.000
 
 <p align="center">
-  <img src="docs/map-sample-1.png?raw=true" title="Sample Route">
+  <img src="docs/map-sample-2.png?raw=true" title="Sample Route">
 </p>
 
 ## Data sources 💗
