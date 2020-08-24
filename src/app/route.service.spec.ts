@@ -1,9 +1,8 @@
-import { RouteService } from './route.service';
+import { Route, RouteService } from './route.service';
 import { County } from './county/models/county';
 import { CountyService } from './county/county.service';
 import { City } from './city/models/city';
 import { of } from 'rxjs';
-import { Route } from './route.service';
 
 let routeService: RouteService;
 

@@ -6,6 +6,6 @@
     "strict": true
   },
   "files": ["src/main.ts", "src/polyfills.ts", "src/environments/environment.ts"],
-  "include": ["src/app/*.ts"],
+  "include": ["src/app/*.ts", "src/app/route-overview/city-names.pipe.ts"],
   "exclude": ["src/app/*.spec.ts"]
 }

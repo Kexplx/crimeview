@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { County } from '../county/models/county';
-import { Map, Popup, LngLatBounds, Layer } from 'mapbox-gl';
+import { Layer, LngLatBounds, Map, Popup } from 'mapbox-gl';
 import { MapboxConfig } from './mapbox-config';
 import { RouteService } from '../route.service';
 
