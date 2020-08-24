@@ -5,7 +5,7 @@ import { RouteService } from 'src/app/route.service';
 
 const CAPACITY = 3;
 const NO_CAPACITY_MESSAGE = 'Maximale Anzahl an Städten erreicht';
-const NOT_DISTINCT_MESSAGE = ' wurde bereits hinzugefügt';
+const NOT_DISTINCT_MESSAGE = ' ist bereits im Suchraum';
 
 @Component({
   selector: 'app-city-form',
