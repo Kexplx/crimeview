@@ -1,6 +1,6 @@
 # CrimeView - Landkreiskriminalität
 
-<a href="https://kexplx.github.io/crimeview/" alt="GitHub Pages Deployment">
+<a href="https://kexplx.github.io/crimeview/" target="_blank" alt="GitHub Pages Deployment">
     <img src="https://img.shields.io/badge/Live-GitHub Pages-2980b9" />
 </a>
 
