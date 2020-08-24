@@ -1,27 +1,23 @@
-# Crimeview
+<a href="https://github.com/Kexplx/ng-crimeview/releases/tag/v2" alt="License Page">
+    <img src="https://img.shields.io/badge/version-2-2980b9" />
+</a>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+# CrimeView - Landkreiskriminalität
 
-## Development server
+[Live on Github Pages](https://kexplx.github.io/crimeview/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+CrimeView analyses a route based on a Polygon, Line or Radius and displays all german-counties with their respective crime rate on it.
 
-## Code scaffolding
+<strong>Crimerate</strong> = Committed crimes per 100.000 inhabitants / 100.000
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+<p align="center">
+  <img src="docs/map-sample-1.png?raw=true" title="Sample Route">
+</p>
 
-## Build
+## Data sources 💗
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+<ul>
+    <li><a target_blank href="https://public.opendatasoft.com/explore/dataset/landkreise-in-germany/table/">Opendatasoft</a> - Geojson of counties</li>
+    <li><a target_blank href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">Bundeskriminalamt</a> - County crime statistics</li>
+    <li><a target_blank href="https://cloud.google.com/maps-platform/places">Google Places</a> - City predictions and geocoding</li>
+</ul>
