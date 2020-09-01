@@ -1,7 +1,7 @@
 <table [dataSource]="matTableDataSource" mat-table matSort>
   <ng-container matColumnDef="name">
-    <th class="column-large" mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-    <td class="column-large" mat-cell *matCellDef="let element">{{ element.name }}</td>
+    <th class="column-w-4" mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td class="column-w-4" mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
 
   <ng-container matColumnDef="type">

@@ -2,6 +2,12 @@ table {
   width: 100%;
 }
 
+th,
 td {
   font-size: 0.8rem;
+  padding: 0 !important;
+}
+
+.column-w-4 {
+  width: 40%;
 }
