@@ -4,6 +4,11 @@
     <td mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
 
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Art</th>
+    <td mat-cell *matCellDef="let element">{{ element.type | countyType }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="state">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Bundesland</th>
     <td mat-cell *matCellDef="let element">{{ element.state }}</td>

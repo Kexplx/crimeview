@@ -16,6 +16,6 @@ export class CountyTableComponent {
       this.matTableDataSource.sort = this.sort;
     }
   }
-  displayedColumns: string[] = ['name', 'state', 'crimeRate'];
+  displayedColumns: string[] = ['name', 'type', 'state', 'crimeRate'];
   matTableDataSource: MatTableDataSource<County> | undefined;
 }
