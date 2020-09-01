@@ -1,4 +1,4 @@
-name: Crimeview CI
+name: CI
 on: [push]
 jobs:
   ubuntu-build:

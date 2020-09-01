@@ -1,8 +1,11 @@
-# CrimeView - Landkreiskriminalität
-
-<a href="https://kexplx.github.io/crimeview/" alt="GitHub Pages Deployment">
-    <img src="https://img.shields.io/badge/Live-GitHub Pages-2980b9" />
+<a href="https://github.com/kexplx/crimeview/actions" alt="GitHub Actions">
+ <img src="https://github.com/kexplx/crimeview/workflows/CI/badge.svg" />
 </a>
+<a href="https://kexplx.github.io/crimeview/" alt="GitHub Pages Deployment">
+  <img src="https://img.shields.io/badge/Live-GitHub Pages-2980b9" />
+</a>
+
+# CrimeView - Landkreiskriminalität
 
 CrimeView analyses a route based on a Polygon, Line or Radius and displays all german-counties with their respective crime rate on it.
 
