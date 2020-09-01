@@ -18,7 +18,10 @@ export class MapComponent implements AfterViewInit, OnInit {
   private clickedLayer: CountyLayer | undefined;
   private layers: readonly CountyLayer[] = [];
 
-  constructor(private readonly config: MapboxConfig, private readonly searchService: SearchService) {}
+  constructor(
+    private readonly config: MapboxConfig,
+    private readonly searchService: SearchService,
+  ) {}
 
   ngOnInit(): void {
     this.searchService.search$.subscribe(({ counties }) => {
@@ -98,8 +101,11 @@ export class MapComponent implements AfterViewInit, OnInit {
     return `
     <h4>${name}</h4>
     <p>${type} in ${state}</p>
-    <p>Kriminalitätsrate:
-      <span style="color: ${this.getColorByCrimeRate(crimeRate)}">${crimeRate}</span>
+    <p>
+      <span style="color: ${this.getColorByCrimeRate(crimeRate)}">
+      ${crimeRate ? crimeRate * 100000 : '--'}
+      </span>
+      Straftaten pro 100.000 Einwohner (Stand 2019)
     </p>`;
   }
 
