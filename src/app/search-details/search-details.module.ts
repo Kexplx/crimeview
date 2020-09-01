@@ -4,9 +4,10 @@ import { SharedModule } from '../shared/shared.module';
 import { CityNamesPipe } from './city-names.pipe';
 import { CountyTableComponent } from './county-table/county-table.component';
 import { CountyTypePipe } from './county-table/county-type.pipe';
+import { CrimeRatePipe } from './county-table/crime-rate.pipe';
 
 @NgModule({
-  declarations: [SearchDetailsComponent, CityNamesPipe, CountyTableComponent, CountyTypePipe],
+  declarations: [SearchDetailsComponent, CityNamesPipe, CountyTableComponent, CountyTypePipe, CrimeRatePipe],
   imports: [SharedModule],
   exports: [SearchDetailsComponent],
 })

@@ -103,7 +103,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     <p>${type} in ${state}</p>
     <p>
       <span style="color: ${this.getColorByCrimeRate(crimeRate)}">
-      ${crimeRate ? crimeRate * 100000 : '--'}
+      ${crimeRate ? Math.floor(crimeRate * 100000) : '--'}
       </span>
       Straftaten pro 100.000 Einwohner (Stand 2019)
     </p>`;

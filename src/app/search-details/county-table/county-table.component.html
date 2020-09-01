@@ -22,7 +22,7 @@
       Krimnialtität
       <mat-icon matTooltip="Straftaten pro 100T Einwohner (2019)" matTooltipPosition="above" style="font-size: 15px">info</mat-icon>
     </th>
-    <td mat-cell *matCellDef="let element">{{ element.crimeRate * 100000 }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.crimeRate | crimeRate }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
