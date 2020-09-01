@@ -1,10 +1,10 @@
-import { Route, RouteService } from './route.service';
-import { County } from './county/models/county';
+import { County } from './county/interfaces/county';
 import { CountyService } from './county/county.service';
-import { City } from './city/models/city';
+import { City } from './city/interfaces/city';
 import { of } from 'rxjs';
+import { Search, SearchService } from './search.service';
 
-let routeService: RouteService;
+let searchService: SearchService;
 
 let countyServiceSpy: { getCounties: jest.Mock };
 let dummyCounties: County[];
@@ -15,21 +15,21 @@ beforeEach(() => {
   dummyCities = [{ name: 'Dummy3' } as City, { name: 'Dummy4' } as City];
   countyServiceSpy = { getCounties: jest.fn(() => of(dummyCounties)) };
 
-  routeService = new RouteService((countyServiceSpy as unknown) as CountyService);
+  searchService = new SearchService((countyServiceSpy as unknown) as CountyService);
 });
 
 describe('#handleSearchRequest', () => {
   it('should call #getCounties', () => {
-    routeService.handleSearchRequest(dummyCities);
+    searchService.handleSearchRequest(dummyCities);
     expect(countyServiceSpy.getCounties).toHaveBeenCalled();
   });
 
-  it('route$ should emit the new route', done => {
-    routeService.route$.subscribe(route => {
-      expect(route).toEqual<Route>({ counties: dummyCounties, cities: dummyCities, type: 'Line' });
+  it('search$ should emit the new search', done => {
+    searchService.search$.subscribe(search => {
+      expect(search).toEqual<Search>({ counties: dummyCounties, cities: dummyCities, type: 'Line' });
       done();
     });
 
-    routeService.handleSearchRequest(dummyCities);
+    searchService.handleSearchRequest(dummyCities);
   });
 });

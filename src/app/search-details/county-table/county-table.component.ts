@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { County } from '../../county/models/county';
+import { County } from '../../county/interfaces/county';
 
 @Component({
   selector: 'app-county-table',

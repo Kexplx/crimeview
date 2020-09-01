@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { City } from '../city/models/city';
+import { City } from '../city/interfaces/city';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { County } from './models/county';
-import { OsmCounty } from './models/osm-county';
+import { County } from './interfaces/county';
+import { OsmCounty } from './interfaces/osm-county';
 
 // prettier-ignore
 const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=landkreise-in-germany&q=&rows=403&facet=name_1&facet=name_2&facet=type_2&';
@@ -26,7 +26,7 @@ export interface OsmResponse {
 export class CountyService {
   constructor(
     private readonly http: HttpClient,
-    @Inject('COUNTY_CRIME_RATES') private countyCrimeRates: Map<number, number>,
+    @Inject('COUNTY_CRIME_RATES') private readonly countyCrimeRates: Map<number, number>,
   ) {}
 
   getCounties(cities: City[]): Observable<County[]> {

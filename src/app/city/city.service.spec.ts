@@ -1,6 +1,6 @@
 import { CityService } from './city.service';
 import { of } from 'rxjs';
-import { City } from './models/city';
+import { City } from './interfaces/city';
 
 type AutocompleteService = google.maps.places.AutocompleteService;
 type Geocoder = google.maps.Geocoder;

@@ -1,19 +1,19 @@
 import { CityFormComponent } from './city-form.component';
-import { City } from '../models/city';
+import { City } from '../interfaces/city';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouteService } from 'src/app/route.service';
+import { SearchService } from 'src/app/search.service';
 
 let component: CityFormComponent;
 let snackBarStub: { open: jest.Mock };
-let routeServiceStub: { handleSearchRequest: jest.Mock };
+let searchServicestub: { handleSearchRequest: jest.Mock };
 
 beforeEach(() => {
   snackBarStub = { open: jest.fn() };
-  routeServiceStub = { handleSearchRequest: jest.fn() };
+  searchServicestub = { handleSearchRequest: jest.fn() };
 
   component = new CityFormComponent(
     (snackBarStub as unknown) as MatSnackBar,
-    (routeServiceStub as unknown) as RouteService,
+    (searchServicestub as unknown) as SearchService,
   );
 });
 
@@ -114,15 +114,15 @@ describe('#onCheck', () => {
 describe('#onSearch', () => {
   const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
   it('should call #handleSearchRequest once', () => {
-    component.onSearch();
+    component.onSubmit();
 
-    expect(routeServiceStub.handleSearchRequest.mock.calls).toHaveLength(1);
+    expect(searchServicestub.handleSearchRequest.mock.calls).toHaveLength(1);
   });
 
   it('should call #handleSearchRequest with checkedCities ', () => {
     component.checkedCities = [{ ...dummyCity }, { ...dummyCity }];
-    component.onSearch();
+    component.onSubmit();
 
-    expect(routeServiceStub.handleSearchRequest).toHaveBeenCalledWith(component.checkedCities);
+    expect(searchServicestub.handleSearchRequest).toHaveBeenCalledWith(component.checkedCities);
   });
 });

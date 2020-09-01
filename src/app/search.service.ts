@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { City } from './city/models/city';
-import { County } from './county/models/county';
+import { City } from './city/interfaces/city';
+import { County } from './county/interfaces/county';
 import { Observable, Subject } from 'rxjs';
 import { CountyService } from './county/county.service';
 
-export interface Route {
+export interface Search {
   type: 'Polygon' | 'Line' | 'Radius';
   cities: City[];
   counties: County[];
@@ -13,28 +13,28 @@ export interface Route {
 @Injectable({
   providedIn: 'root',
 })
-export class RouteService {
-  private _route = new Subject<Route>();
+export class SearchService {
+  private _search = new Subject<Search>();
 
-  get route$(): Observable<Route> {
-    return this._route.asObservable();
+  get search$(): Observable<Search> {
+    return this._search.asObservable();
   }
 
-  constructor(private countyService: CountyService) {}
+  constructor(private readonly countyService: CountyService) {}
 
   handleSearchRequest(cities: City[]): void {
     this.countyService.getCounties(cities).subscribe(counties => {
-      const route: Route = {
+      const route: Search = {
         cities,
         counties,
-        type: this.getRouteType(cities),
+        type: this.getSearchType(cities),
       };
 
-      this._route.next(route);
+      this._search.next(route);
     });
   }
 
-  private getRouteType({ length }: City[]): 'Polygon' | 'Line' | 'Radius' {
+  private getSearchType({ length }: City[]): 'Polygon' | 'Line' | 'Radius' {
     return length === 1 ? 'Radius' : length === 2 ? 'Line' : 'Polygon';
   }
 }

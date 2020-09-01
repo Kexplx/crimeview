@@ -1,7 +1,7 @@
 import { CityInputComponent } from './city-input.component';
-import { CityPrediction } from '../models/city-prediction';
+import { CityPrediction } from '../interfaces/city-prediction';
 import { of } from 'rxjs';
-import { City } from '../models/city';
+import { City } from '../interfaces/city';
 import { CityService } from '../city.service';
 import { NgZone } from '@angular/core';
 

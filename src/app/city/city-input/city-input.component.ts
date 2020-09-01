@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, NgZone, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { CityService } from '../city.service';
-import { City } from '../models/city';
-import { CityPrediction } from '../models/city-prediction';
+import { City } from '../interfaces/city';
+import { CityPrediction } from '../interfaces/city-prediction';
 
 const DEBOUNCE_MS = 200;
 
@@ -24,10 +24,12 @@ export class CityInputComponent {
     switchMap(input => this.cityService.getCityPredictions(input)),
   );
 
-  constructor(private cityService: CityService, private ngZone: NgZone) {}
+  constructor(private readonly cityService: CityService, private readonly ngZone: NgZone) {}
 
   onInput(input: string): void {
-    this.onInput$.next(input);
+    if (input) {
+      this.onInput$.next(input);
+    }
   }
 
   onPredictionSelected({ placeId }: CityPrediction): void {

@@ -1,0 +1,13 @@
+<mat-expansion-panel *ngIf="search$ | async; let search" expanded>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ search.cities | cityNames: search.type }}
+    </mat-panel-title>
+    <mat-panel-description>
+      {{ search.counties.length | i18nPlural: { '=1': 'Ein Landkreis', other: '# Landkreise' } }}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="table-wrapper">
+    <app-county-table [counties]="search.counties"></app-county-table>
+  </div>
+</mat-expansion-panel>

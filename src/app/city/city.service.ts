@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CityPrediction } from './models/city-prediction';
-import { City } from './models/city';
+import { CityPrediction } from './interfaces/city-prediction';
+import { City } from './interfaces/city';
 
 type AutocompletionRequest = google.maps.places.AutocompletionRequest;
 

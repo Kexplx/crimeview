@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { County } from '../county/models/county';
+import { County } from '../county/interfaces/county';
 import { Layer, LngLatBounds, Map, Popup } from 'mapbox-gl';
 import { MapboxConfig } from './mapbox-config';
-import { RouteService } from '../route.service';
+import { SearchService } from '../search.service';
 
 interface CountyLayer extends Layer {
   id: string;
@@ -14,14 +14,14 @@ interface CountyLayer extends Layer {
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit, OnInit {
-  private map: undefined | Readonly<Map>;
+  private map: undefined | Map;
   private clickedLayer: CountyLayer | undefined;
-  private layers: Readonly<CountyLayer[]> = [];
+  private layers: readonly CountyLayer[] = [];
 
-  constructor(private readonly config: MapboxConfig, private routeService: RouteService) {}
+  constructor(private readonly config: MapboxConfig, private readonly searchService: SearchService) {}
 
   ngOnInit(): void {
-    this.routeService.route$.subscribe(({ counties }) => {
+    this.searchService.search$.subscribe(({ counties }) => {
       if (this.map) {
         for (const id of this.layers.map(l => l.id)) {
           this.map.removeLayer(id);

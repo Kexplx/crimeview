@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CountyModule } from './county/county.module';
 import { MapModule } from './map/map.module';
 import { CityModule } from './city/city.module';
-import { RouteOverviewModule } from './route-overview/route-overview.module';
+import { SearchDetailsModule } from './search-details/search-details.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +19,7 @@ import { RouteOverviewModule } from './route-overview/route-overview.module';
     HttpClientModule,
     CountyModule,
     MapModule,
-    RouteOverviewModule,
+    SearchDetailsModule,
   ],
 
   bootstrap: [AppComponent],
