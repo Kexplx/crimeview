@@ -7,9 +7,9 @@
 
 # CrimeView - Landkreiskriminalität
 
-CrimeView analyses a route based on a Polygon, Line or Radius and displays all german-counties with their respective crime rate on it.
+CrimeView analyses a route based on a Polygon, Line or Radius and displays all german counties with their respective crime rate on it.
 
-<strong>Crimerate</strong> = Committed crimes per 100.000 inhabitants / 100.000
+<strong>Crime rate</strong> = Committed crimes per 100.000 inhabitants.
 
 <p align="center">
   <img src="docs/map-sample-2.png?raw=true" title="Sample Route">
