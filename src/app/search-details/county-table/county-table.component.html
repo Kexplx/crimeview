@@ -19,7 +19,7 @@
 
   <ng-container matColumnDef="crimeRate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-      Krimnialtität
+      Kriminalität
       <mat-icon matTooltip="Straftaten pro 100T Einwohner (2019)" matTooltipPosition="above" style="font-size: 15px">info</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.crimeRate | crimeRate }}</td>
