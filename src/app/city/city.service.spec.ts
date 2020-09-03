@@ -46,3 +46,16 @@ describe('#getCityPredictions', () => {
     });
   });
 });
+
+describe('#getCity', () => {
+  it('should return an observable of cities', () => {
+    cityService.getCity('abc').subscribe(cities => {
+      expect(cities).toEqual({
+        lat: 0,
+        lng: 1,
+        name: 't_city',
+        placeId: 't_placeId',
+      });
+    });
+  });
+});
