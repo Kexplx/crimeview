@@ -22,8 +22,8 @@ jobs:
 
       - name: Replace href in index.html
         run: |
-          search="href=[\",']\s*\/\s*[\",']"
-          replace="href='https:\/\/kexplx.github.io\/crimeview'"
+          search="href=\"\s*\/\s*\""
+          replace="href=\"https:\/\/kexplx.github.io\/crimeview\""
           sed -i "s/${search}/${replace}/g" dist/crimeview/index.html
 
       - name: Deploy to GitHub Pages
