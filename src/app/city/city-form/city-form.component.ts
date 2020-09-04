@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { City } from '../interfaces/city';
 import { SearchService } from '../../search.service';
@@ -16,7 +16,10 @@ export class CityFormComponent {
   cities: readonly City[] = [];
   checkedCities: readonly City[] = [];
 
-  constructor(private readonly snackBarService: MatSnackBar, private readonly searchService: SearchService) {}
+  constructor(
+    private readonly snackBarService: MatSnackBar,
+    private readonly searchService: SearchService,
+  ) {}
 
   onCitySelect(city: City): void {
     const noCapacity = this.cities.length === CAPACITY;
@@ -60,5 +63,11 @@ export class CityFormComponent {
 
   onSubmit(): void {
     this.searchService.handleSearchRequest(this.checkedCities as City[]);
+  }
+
+  @HostListener('window:keydown.control.enter') onCtrlEnterDown(): void {
+    if (this.checkedCities.length) {
+      this.onSubmit();
+    }
   }
 }
