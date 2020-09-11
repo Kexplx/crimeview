@@ -5,6 +5,11 @@ import { County } from '../county/interfaces/county';
 
 const { accessToken, styleLight } = MAPBOX_CREDENTIALS;
 
+/**
+ * Wrapper for mapbox's Map class.
+ *
+ * Used to initizalize a map and add/remove layers based on county coordinates.
+ */
 @Injectable()
 export class MapboxMap {
   private _clickedLayer: Layer | undefined;
