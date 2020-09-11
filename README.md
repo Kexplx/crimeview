@@ -5,11 +5,11 @@
   <img src="https://img.shields.io/badge/Live-GitHub Pages-2980b9" />
 </a>
 
-# CrimeView - Landkreiskriminalität
+# Landkreiskriminalität | Crimeview
 
-CrimeView analyses a route based on a Polygon, Line or Radius and displays all german counties with their respective crime rate on it.
+This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german cities and displays all german counties (<i>de: Landkreise</i>) with their respective crime rate.
 
-<strong>Crime rate</strong> = Committed crimes per 100.000 inhabitants.
+<i>Crime rate</i> == Committed crimes per 100.000 inhabitants.
 
 <p align="center">
   <img src="docs/map-sample-2.png?raw=true" title="Sample Route">
@@ -19,9 +19,13 @@ CrimeView analyses a route based on a Polygon, Line or Radius and displays all g
 
 <ul>
     <li><a target_blank href="https://public.opendatasoft.com/explore/dataset/landkreise-in-germany/table/">Opendatasoft</a> - Geojson of counties</li>
+    <li><a target_blank href="https://cloud.google.com/maps-platform/places">Google Places</a> - City predictions and details</li>
     <li><a target_blank href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">Bundeskriminalamt</a> - County crime statistics</li>
-    <li><a target_blank href="https://cloud.google.com/maps-platform/places">Google Places</a> - City predictions and geocoding</li>
 </ul>
+
+## Inspiration
+
+The <a href="https://fau.de">AMOS</a> course @ <a href="https://fau.de">FAU</a>
 
 ## License
 
