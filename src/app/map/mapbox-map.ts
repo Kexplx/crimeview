@@ -136,11 +136,16 @@ export class MapboxMap {
     const bounds = new LngLatBounds();
 
     for (const { geometry } of counties) {
+      let lng;
+      let lat;
+
       if (geometry.type === 'Polygon') {
-        const [lng, lat] = geometry.coordinates[0][0];
-        bounds.extend([lng, lat]);
+        [lng, lat] = geometry.coordinates[0][0];
       } else if (geometry.type === 'MultiPolygon') {
-        const [lng, lat] = geometry.coordinates[0][0][0];
+        [lng, lat] = geometry.coordinates[0][0][0];
+      }
+
+      if (lat && lng) {
         bounds.extend([lng, lat]);
       }
     }
