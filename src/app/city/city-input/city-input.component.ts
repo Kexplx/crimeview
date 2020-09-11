@@ -10,8 +10,13 @@ const DEBOUNCE_MS = 200;
 @Component({
   selector: 'app-city-input',
   templateUrl: './city-input.component.html',
-  styleUrls: ['./city-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
+      mat-form-field {
+        width: 100%;
+      }
+    `,
+  ],
 })
 export class CityInputComponent {
   @Output() readonly citySelected = new EventEmitter<City>();

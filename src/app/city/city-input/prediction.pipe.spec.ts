@@ -1,4 +1,5 @@
 import { PredictionPipe } from './prediction.pipe';
+
 const pipe = new PredictionPipe();
 
 it('removes ", Deutschland" prefix', () => {

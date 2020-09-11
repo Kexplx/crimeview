@@ -4,10 +4,10 @@ import { OsmCounty } from './interfaces/osm-county';
 import { County } from './interfaces/county';
 import { City } from '../city/interfaces/city';
 
+let service: CountyService;
+let dummyOsmCounty: OsmCounty;
 let httpMock: { get: jest.Mock };
 let dummyCountyCrimeRates: Map<number, number>;
-let dummyOsmCounty: OsmCounty;
-let service: CountyService;
 
 beforeEach(() => {
   dummyOsmCounty = {
@@ -29,6 +29,7 @@ beforeEach(() => {
   httpMock = {
     get: jest.fn(_ => of<OsmResponse>({ records: [{ fields: dummyOsmCounty }] })),
   };
+
   dummyCountyCrimeRates = new Map<number, number>([[1, 0.0129]]);
 
   service = new CountyService(httpMock as any, dummyCountyCrimeRates);
@@ -45,16 +46,16 @@ describe('#getCounties', () => {
     ];
   });
 
-  it('should return an observable of counties when called with 1 city', done => {
-    service.getCounties(dummyCities.slice(0, 1)).subscribe(counties => {
-      checkEqualityOfOsmCountyAndCounty(counties[0], dummyOsmCounty);
+  it('should return the number of counties that osm returns', done => {
+    service.getCounties(dummyCities.slice(0, 2)).subscribe(counties => {
+      expect(counties).toHaveLength(1);
       done();
     });
   });
 
-  it('should return the number of counties that osm returns', done => {
-    service.getCounties(dummyCities.slice(0, 2)).subscribe(counties => {
-      expect(counties).toHaveLength(1);
+  it('should return an observable of counties when called with 1 city', done => {
+    service.getCounties(dummyCities.slice(0, 1)).subscribe(counties => {
+      checkEqualityOfOsmCountyAndCounty(counties[0], dummyOsmCounty);
       done();
     });
   });

@@ -4,7 +4,14 @@ import { SearchService } from '../search.service';
 @Component({
   selector: 'app-search-details',
   templateUrl: './search-details.component.html',
-  styleUrls: ['./search-details.component.scss'],
+  styles: [
+    `
+      .table-wrapper {
+        overflow: auto;
+        max-height: 40vh;
+      }
+    `,
+  ],
 })
 export class SearchDetailsComponent {
   search$ = this.searchService.search$;

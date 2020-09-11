@@ -5,33 +5,18 @@ import { City } from './interfaces/city';
 type AutocompleteService = google.maps.places.AutocompleteService;
 type Geocoder = google.maps.Geocoder;
 
-let cityService: CityService;
-let geocoderSpy: { geocode: jest.Mock };
-let predictionServiceSpy: { getPlacePredictions: jest.Mock };
+const predictionServiceSpy = {
+  getPlacePredictions: jest.fn(() => of([{ description: 't_desc', place_id: 't_placeId' }])),
+};
 
-beforeEach(() => {
-  predictionServiceSpy = {
-    getPlacePredictions: jest
-      .fn()
-      .mockReturnValue(of([{ description: 't_desc', place_id: 't_placeId' }])),
-  };
+const geocoderSpy = {
+  geocode: jest.fn(() => of<City>({ lat: 0, lng: 1, name: 't_city', placeId: 't_placeId' })),
+};
 
-  geocoderSpy = {
-    geocode: jest.fn().mockReturnValueOnce(
-      of<City>({
-        lat: 0,
-        lng: 1,
-        name: 't_city',
-        placeId: 't_placeId',
-      }),
-    ),
-  };
-
-  cityService = new CityService(
-    (predictionServiceSpy as unknown) as AutocompleteService,
-    (geocoderSpy as unknown) as Geocoder,
-  );
-});
+const cityService = new CityService(
+  (predictionServiceSpy as unknown) as AutocompleteService,
+  (geocoderSpy as unknown) as Geocoder,
+);
 
 describe('#getCityPredictions', () => {
   it('calls #getPlacePredictions once', () => {

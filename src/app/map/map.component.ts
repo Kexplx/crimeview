@@ -6,7 +6,14 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  styles: [
+    `
+      .map {
+        width: 100%;
+        height: 100%;
+      }
+    `,
+  ],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   private searchSub: Subscription = this.searchService.search$.subscribe(({ counties }) => {
