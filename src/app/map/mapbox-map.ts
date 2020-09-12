@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { County } from '../county/interfaces/county';
 import { MAPBOX_CREDENTIALS } from './mapbox-credentials';
 import { Map, Layer, Popup, LngLatBounds } from 'mapbox-gl';
-import { County } from '../county/interfaces/county';
 
 const { accessToken, styleLight } = MAPBOX_CREDENTIALS;
 
 /**
  * Wrapper for mapbox's Map class.
  *
- * Used to initizalize a map and add/remove layers based on county coordinates.
+ * Used to initizalize a map and add or remove layers based on county coordinates.
  */
 @Injectable()
 export class MapboxMap {
@@ -37,17 +37,17 @@ export class MapboxMap {
     this.map = new Map({
       accessToken,
       style: styleLight,
-      center: [11.0767, 49.4521], // Nuremberg's coordinates as starting position.
+      center: [11.0767, 49.4521], // Nuremberg's coordinates
       container: id,
       maxZoom: 9,
       minZoom: 6.5,
-      pitch: 30, // Pitch in degrees
+      pitch: 30, // Degrees
       zoom: 8,
     });
   }
 
   /**
-   * Removes all added layers from the map.
+   * Removes all layers from the map.
    */
   removeLayers(): void {
     for (const { id } of this._layers) {
@@ -112,26 +112,6 @@ export class MapboxMap {
     });
   }
 
-  private getPopupHtml({ name, state, type, crimeRate }: County): string {
-    return `
-    <h4>${name}</h4>
-    <p>${type} in ${state}</p>
-    <p>
-      <span style="color: ${this.getColorByCrimeRate(crimeRate)}">
-      ${crimeRate ? Math.floor(crimeRate * 100000) : '--'}
-      </span>
-      Straftaten pro 100.000 Einwohner (Stand 2019)
-    </p>`;
-  }
-
-  private getColorByCrimeRate(crimeRate: number | undefined): string {
-    if (!crimeRate) {
-      return 'gray';
-    }
-
-    return crimeRate <= 0.04 ? 'green' : crimeRate <= 0.07 ? 'orange' : 'red';
-  }
-
   private fitBounds(counties: County[]): void {
     const bounds = new LngLatBounds();
 
@@ -151,5 +131,25 @@ export class MapboxMap {
     }
 
     this.map.fitBounds(bounds);
+  }
+
+  private getPopupHtml({ name, state, type, crimeRate }: County): string {
+    return `
+    <h4>${name}</h4>
+    <p>${type} in ${state}</p>
+    <p>
+      <span style="color: ${this.getColorByCrimeRate(crimeRate)}">
+      ${crimeRate ? Math.floor(crimeRate * 100000) : '--'}
+      </span>
+      Straftaten pro 100.000 Einwohner (Stand 2019)
+    </p>`;
+  }
+
+  private getColorByCrimeRate(crimeRate: number | undefined): string {
+    if (!crimeRate) {
+      return 'gray';
+    }
+
+    return crimeRate <= 0.04 ? 'green' : crimeRate <= 0.07 ? 'orange' : 'red';
   }
 }
