@@ -59,7 +59,7 @@ export class CityFormComponent {
   }
 
   onSubmit(): void {
-    this.searchService.handleSearchRequest(this.checkedCities as City[]);
+    this.searchService.handleSearchRequest(this.checkedCities);
   }
 
   @HostListener('window:keydown.control.enter') onCtrlEnterDown(): void {
