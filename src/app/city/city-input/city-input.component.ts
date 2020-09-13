@@ -19,17 +19,17 @@ const DEBOUNCE_MS = 200;
   ],
 })
 export class CityInputComponent {
-  @Output() readonly citySelected = new EventEmitter<City>();
+  @Output() citySelected = new EventEmitter<City>();
 
-  private readonly onInput$ = new Subject<string>();
+  private onInput$ = new Subject<string>();
 
-  readonly predictions$: Observable<CityPrediction[]> = this.onInput$.pipe(
+  predictions$: Observable<CityPrediction[]> = this.onInput$.pipe(
     debounceTime(DEBOUNCE_MS),
     distinctUntilChanged(),
     switchMap(input => this.cityService.getCityPredictions(input)),
   );
 
-  constructor(private readonly cityService: CityService, private readonly ngZone: NgZone) {}
+  constructor(private cityService: CityService, private ngZone: NgZone) {}
 
   onInput(input: string): void {
     if (input) {

@@ -8,11 +8,11 @@ type AutocompletionRequest = google.maps.places.AutocompletionRequest;
 @Injectable()
 export class CityService {
   constructor(
-    private readonly predictionsService: google.maps.places.AutocompleteService,
-    private readonly geoCoder: google.maps.Geocoder,
+    private predictionsService: google.maps.places.AutocompleteService,
+    private geoCoder: google.maps.Geocoder,
   ) {}
 
-  private predictionsOptions: Readonly<Partial<AutocompletionRequest>> = {
+  private predictionsOptions: Partial<AutocompletionRequest> = {
     componentRestrictions: { country: 'de' },
     types: ['(cities)'],
   };

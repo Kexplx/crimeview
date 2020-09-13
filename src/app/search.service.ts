@@ -20,7 +20,7 @@ export class SearchService {
     return this._search.asObservable();
   }
 
-  constructor(private readonly countyService: CountyService) {}
+  constructor(private countyService: CountyService) {}
 
   handleSearchRequest(cities: City[]): void {
     this.countyService.getCounties(cities).subscribe(counties => {

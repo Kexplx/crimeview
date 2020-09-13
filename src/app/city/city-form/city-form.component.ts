@@ -13,13 +13,10 @@ const NOT_DISTINCT_MESSAGE = ' ist bereits im Suchraum';
   styleUrls: ['./city-form.component.scss'],
 })
 export class CityFormComponent {
-  cities: readonly City[] = [];
-  checkedCities: readonly City[] = [];
+  cities: City[] = [];
+  checkedCities: City[] = [];
 
-  constructor(
-    private readonly snackBarService: MatSnackBar,
-    private readonly searchService: SearchService,
-  ) {}
+  constructor(private snackBarService: MatSnackBar, private searchService: SearchService) {}
 
   onCitySelect(city: City): void {
     const noCapacity = this.cities.length === CAPACITY;

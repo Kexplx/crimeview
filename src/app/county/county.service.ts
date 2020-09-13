@@ -25,8 +25,8 @@ export interface OsmResponse {
 @Injectable()
 export class CountyService {
   constructor(
-    private readonly http: HttpClient,
-    @Inject('COUNTY_CRIME_RATES') private readonly countyCrimeRates: Map<number, number>,
+    private http: HttpClient,
+    @Inject('COUNTY_CRIME_RATES') private countyCrimeRates: Map<number, number>,
   ) {}
 
   getCounties(cities: City[]): Observable<County[]> {
