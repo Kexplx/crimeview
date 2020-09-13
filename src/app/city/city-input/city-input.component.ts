@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, NgZone, Output } from '@angular/core';
+import { Component, EventEmitter, NgZone, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { CityService } from '../city.service';
@@ -31,7 +31,7 @@ export class CityInputComponent {
 
   constructor(private cityService: CityService, private ngZone: NgZone) {}
 
-  onInput(input: string): void {
+  onInput(input: string | undefined): void {
     if (input) {
       this.onInput$.next(input);
     }
