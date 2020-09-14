@@ -1,4 +1,9 @@
 @import 'src/styles/utils';
+
+ol {
+  padding-left: 1rem;
+}
+
 .buttons-wrapper {
   display: flex;
   justify-content: space-between;
@@ -7,8 +12,4 @@
 .checkboxes-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-}
-
-ol {
-  padding-left: 1rem;
 }
