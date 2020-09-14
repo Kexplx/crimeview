@@ -52,30 +52,6 @@ describe('#onCitySelect', () => {
   });
 });
 
-describe('#isChecked', () => {
-  const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
-
-  beforeEach(() => {
-    component.cities = [];
-    component.checkedCities = [];
-  });
-
-  it('should return true if #checkedCities contains city', () => {
-    component.checkedCities = [dummyCity];
-    const result = component.isChecked(dummyCity);
-
-    expect(result).toEqual(true);
-  });
-
-  // tslint:disable-next-line: quotemark
-  it("should return false if #checkedCities doesn't contain city", () => {
-    component.checkedCities = [];
-    const result = component.isChecked(dummyCity);
-
-    expect(result).toEqual(false);
-  });
-});
-
 describe('#onDelete', () => {
   const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
 
