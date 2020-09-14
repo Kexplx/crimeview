@@ -4,7 +4,7 @@
 </ol>
 <app-city-input (citySelected)="onCitySelect($event)"></app-city-input>
 <div class="checkboxes-wrapper mt-1">
-  <mat-checkbox [checked]="isChecked(city)" (change)="onCheck(city, $event.checked)" *ngFor="let city of cities" color="primary">
+  <mat-checkbox [checked]="city | isChecked: checkedCities" (change)="onCheck(city, $event.checked)" *ngFor="let city of cities" color="primary">
     <span class="mat-body-strong">{{ city.name }}</span>
   </mat-checkbox>
 </div>

@@ -29,15 +29,11 @@ export class CityFormComponent {
     const isDistinct = !this.cities.some(c => c.placeId === city.placeId);
 
     if (isDistinct) {
-      this.cities = [...this.cities, city];
-      this.checkedCities = [...this.checkedCities, city];
+      this.cities.push(city);
+      this.checkedCities.push(city);
     } else {
       this.snackBarService.open(city.name + NOT_DISTINCT_MESSAGE, 'Weiter');
     }
-  }
-
-  isChecked(city: City): boolean {
-    return this.checkedCities.some(cc => cc === city);
   }
 
   onDelete(): void {
@@ -47,14 +43,10 @@ export class CityFormComponent {
 
   onCheck(city: City, checked: boolean): void {
     if (checked) {
-      this.checkedCities = [...this.checkedCities, city];
+      this.checkedCities.push(city);
     } else {
       const indexOfCity = this.checkedCities.indexOf(city);
-
-      this.checkedCities = [
-        ...this.checkedCities.slice(0, indexOfCity),
-        ...this.checkedCities.slice(indexOfCity + 1),
-      ];
+      this.checkedCities.splice(indexOfCity, 1);
     }
   }
 
