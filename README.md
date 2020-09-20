@@ -12,7 +12,7 @@ This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german ci
 <i>Crime rate</i> == Committed crimes per 100.000 inhabitants.
 
 <p align="center">
-  <img src="docs/map-sample-2.png?raw=true" title="Sample Route">
+  <img src="docs/map-sample-3.png?raw=true" title="Sample Route">
 </p>
 
 ## Data sources
