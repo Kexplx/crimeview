@@ -11,7 +11,7 @@
 
   <ng-container matColumnDef="state">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Bundesland</th>
-    <td mat-cell *matCellDef="let element">{{ element.state }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.state | state }}</td>
   </ng-container>
 
   <ng-container matColumnDef="crimeRate">
