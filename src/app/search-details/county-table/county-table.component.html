@@ -5,7 +5,7 @@
       <mat-icon class="info-icon" matTooltip="KFS = Kreisfreihe Stadt, LK = Landkreis" matTooltipPosition="above">info</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.name }}<span class="county-type">{{ element.type | countyType }}</span>
+      {{ element.name }}<span class="county-type">{{ element.type | type }}</span>
     </td>
   </ng-container>
 

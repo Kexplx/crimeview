@@ -1,5 +1,5 @@
-import { CountyTypePipe } from './county-type.pipe';
-const countyTypePipe = new CountyTypePipe();
+import { TypePipe } from './type.pipe';
+const countyTypePipe = new TypePipe();
 
 describe('#transform', () => {
   it('should return "LK" for type "Landkreis"', () => {

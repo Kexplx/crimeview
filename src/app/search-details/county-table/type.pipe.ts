@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'countyType',
+  name: 'type',
 })
-export class CountyTypePipe implements PipeTransform {
+export class TypePipe implements PipeTransform {
   transform(type: 'Landkreis' | 'Kreisfreihe Stadt'): 'LK' | 'KFS' {
     return type === 'Landkreis' ? 'LK' : 'KFS';
   }
