@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { City } from './city/interfaces/city';
 import { County } from './county/interfaces/county';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CountyService } from './county/county.service';
 
 export interface Search {
@@ -14,11 +14,8 @@ export interface Search {
   providedIn: 'root',
 })
 export class SearchService {
-  private _search = new Subject<Search>();
-
-  get search$(): Observable<Search> {
-    return this._search.asObservable();
-  }
+  private searchSubject = new Subject<Search>();
+  search$ = this.searchSubject.asObservable();
 
   constructor(private countyService: CountyService) {}
 
@@ -30,7 +27,7 @@ export class SearchService {
         type: this.getSearchType(cities),
       };
 
-      this._search.next(route);
+      this.searchSubject.next(route);
     });
   }
 

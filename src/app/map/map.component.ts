@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { SearchService } from '../search.service';
 import { MapboxMap } from './mapbox-map';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -16,7 +15,7 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-  private searchSub: Subscription = this.searchService.search$.subscribe(({ counties }) => {
+  private searchSubscription = this.searchService.search$.subscribe(({ counties }) => {
     this.map.removeLayers();
     this.map.addLayers(counties);
   });
@@ -28,6 +27,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.searchSub.unsubscribe();
+    this.searchSubscription.unsubscribe();
   }
 }

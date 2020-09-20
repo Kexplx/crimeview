@@ -21,9 +21,9 @@ const DEBOUNCE_MS = 200;
 export class CityInputComponent {
   @Output() citySelected = new EventEmitter<City>();
 
-  private onInput$ = new Subject<string>();
+  private inputSubject = new Subject<string>();
 
-  predictions$: Observable<CityPrediction[]> = this.onInput$.pipe(
+  predictions$: Observable<CityPrediction[]> = this.inputSubject.pipe(
     debounceTime(DEBOUNCE_MS),
     distinctUntilChanged(),
     switchMap(input => this.cityService.getCityPredictions(input)),
@@ -33,7 +33,7 @@ export class CityInputComponent {
 
   onInput(input: string | undefined): void {
     if (input) {
-      this.onInput$.next(input);
+      this.inputSubject.next(input);
     }
   }
 
