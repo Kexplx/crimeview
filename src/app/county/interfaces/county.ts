@@ -7,7 +7,7 @@ export interface County {
   name: string;
   state: string;
   type: string;
-  countyCode: number;
+  countyCode: string;
   crimeRate: number | undefined;
   geometry: Geometry;
 }
