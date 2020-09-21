@@ -1,16 +1,16 @@
 name: CI
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   ubuntu-build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1.4.3
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.3
-
-      - name: Install packages
+      - name: Install npm packages
         run: npm i
 
       - name: Run unit tests
