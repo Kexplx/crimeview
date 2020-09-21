@@ -1,13 +1,14 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { City } from '../city/interfaces/city';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { County } from './interfaces/county';
 import { OsmCounty } from './interfaces/osm-county';
+import { COUNTY_CRIME_RATES } from './county-crimerates';
 
 // prettier-ignore
-const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=landkreise-in-germany&q=&rows=403&facet=name_1&facet=name_2&facet=type_2&';
+const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=kreis&rows=403&fields=gen,bundesland,sdv_rs,bez,bundesland_code,geo_shape&';
 const OSM_RADIUS_API = OSM_BASE_API + 'geofilter.distance=';
 const OSM_POLYGON_API = OSM_BASE_API + 'geofilter.polygon=';
 const OSM_LINE_API = OSM_BASE_API + 'geofilter.polygon=';
@@ -24,14 +25,28 @@ export interface OsmResponse {
 
 @Injectable()
 export class CountyService {
-  constructor(
-    private http: HttpClient,
-    @Inject('COUNTY_CRIME_RATES') private countyCrimeRates: Map<number, number>,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getCounties(cities: City[]): Observable<County[]> {
     return this.getOsmCounties(cities).pipe(
-      switchMap(osmCounties => of(this.mapOsmCountiesToCounties(osmCounties))),
+      map(osmCounties => {
+        return osmCounties.map<County>(
+          ({ bez, bundesland, bundesland_code, sdv_rs, gen, geo_shape }) => {
+            const countyCode = bundesland_code.startsWith('1')
+              ? sdv_rs.substr(0, 5)
+              : sdv_rs.substr(0, 4);
+
+            return {
+              name: gen,
+              type: bez,
+              countyCode,
+              state: bundesland,
+              geometry: geo_shape,
+              crimeRate: COUNTY_CRIME_RATES.get(countyCode),
+            };
+          },
+        );
+      }),
     );
   }
 
@@ -39,17 +54,6 @@ export class CountyService {
     const url = this.buildUrl(cities, cities.length);
 
     return this.http.get<OsmResponse>(url).pipe(map(({ records }) => records.map(r => r.fields)));
-  }
-
-  private mapOsmCountiesToCounties(osmCounties: OsmCounty[]): County[] {
-    return osmCounties.map<County>(({ type_2, cca_2, name_2, name_1, geo_shape }) => ({
-      name: name_2,
-      type: type_2,
-      state: name_1,
-      countyCode: +cca_2,
-      geometry: geo_shape,
-      crimeRate: this.countyCrimeRates.get(+cca_2), // Get crime rate by county code.
-    }));
   }
 
   private buildUrl(cities: City[], type: SearchTypes): string {

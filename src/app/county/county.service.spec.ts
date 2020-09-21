@@ -3,15 +3,15 @@ import { of } from 'rxjs';
 import { OsmCounty } from './interfaces/osm-county';
 import { County } from './interfaces/county';
 import { City } from '../city/interfaces/city';
+import { COUNTY_CRIME_RATES } from './county-crimerates';
 
 let service: CountyService;
 let dummyOsmCounty: OsmCounty;
 let httpMock: { get: jest.Mock };
-let dummyCountyCrimeRates: Map<number, number>;
 
 beforeEach(() => {
   dummyOsmCounty = {
-    cca_2: '01',
+    sdv_rs: '01',
     geo_shape: {
       coordinates: [
         [
@@ -21,18 +21,17 @@ beforeEach(() => {
       ],
       type: 'Polygon',
     },
-    name_1: 'Bayern',
-    type_2: 'Kreisfreihe Stadt',
-    name_2: 'Regensburg',
+    bundesland: 'Bayern',
+    bundesland_code: '091823912',
+    bez: 'Kreisfreihe Stadt',
+    gen: 'Regensburg',
   };
 
   httpMock = {
-    get: jest.fn(_ => of<OsmResponse>({ records: [{ fields: dummyOsmCounty }] })),
+    get: jest.fn(() => of<OsmResponse>({ records: [{ fields: dummyOsmCounty }] })),
   };
 
-  dummyCountyCrimeRates = new Map<number, number>([[1, 0.0129]]);
-
-  service = new CountyService(httpMock as any, dummyCountyCrimeRates);
+  service = new CountyService(httpMock as any);
 });
 
 describe('#getCounties', () => {
@@ -76,10 +75,14 @@ describe('#getCounties', () => {
 });
 
 function checkEqualityOfOsmCountyAndCounty(county: County, osmCounty: OsmCounty): void {
-  expect(county.name).toEqual(osmCounty.name_2);
-  expect(county.type).toEqual(osmCounty.type_2);
-  expect(county.state).toEqual(osmCounty.name_1);
-  expect(county.countyCode).toEqual(+osmCounty.cca_2);
+  const osmCountyCode = osmCounty.bundesland_code.startsWith('1')
+    ? osmCounty.sdv_rs.substr(0, 5)
+    : osmCounty.sdv_rs.substr(0, 4);
+
+  expect(county.name).toEqual(osmCounty.gen);
+  expect(county.type).toEqual(osmCounty.bez);
+  expect(county.state).toEqual(osmCounty.bundesland);
+  expect(county.countyCode).toEqual(osmCountyCode);
   expect(county.geometry).toEqual(osmCounty.geo_shape);
-  expect(county.crimeRate).toEqual(dummyCountyCrimeRates.get(county.countyCode));
+  expect(county.crimeRate).toEqual(COUNTY_CRIME_RATES.get(osmCountyCode));
 }

@@ -139,7 +139,7 @@ export class MapboxMap {
     <p>${type} in ${state}</p>
     <p>
       <span style="color: ${this.getColorByCrimeRate(crimeRate)}">
-      ${crimeRate ? Math.floor(crimeRate * 100000) : '--'}
+      ${crimeRate ? crimeRate : '--'}
       </span>
       Straftaten pro 100.000 Einwohner (Stand 2019)
     </p>`;
@@ -150,6 +150,6 @@ export class MapboxMap {
       return 'gray';
     }
 
-    return crimeRate <= 0.04 ? 'green' : crimeRate <= 0.07 ? 'orange' : 'red';
+    return crimeRate / 100000 <= 0.04 ? 'green' : crimeRate / 100000 <= 0.07 ? 'orange' : 'red';
   }
 }
