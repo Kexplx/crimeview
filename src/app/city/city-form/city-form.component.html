@@ -7,6 +7,9 @@
   <mat-checkbox [checked]="city | isChecked: checkedCities" (change)="onCheck(city, $event.checked)" *ngFor="let city of cities" color="primary">
     <span class="mat-body-strong">{{ city.name }}</span>
   </mat-checkbox>
+
+  <app-city-placeholder class="pr-2" *ngIf="cities.length === 1"></app-city-placeholder>
+  <app-city-placeholder class="pr-2" *ngIf="cities.length === 1 || cities.length === 2"></app-city-placeholder>
 </div>
 <div class="buttons-wrapper mt-2">
   <button (click)="onDelete()" mat-button>Städte löschen</button>
