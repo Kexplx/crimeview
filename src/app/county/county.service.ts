@@ -8,7 +8,7 @@ import { OsmCounty } from './interfaces/osm-county';
 import { COUNTY_CRIME_RATES } from './county-crimerates';
 
 // prettier-ignore
-const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=kreis&rows=403&fields=gen,bundesland,sdv_rs,bez,bundesland_code,geo_shape&';
+const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=georef-germany-kreis&rows=403&fields=krs_code,krs_name_short,krs_type,lan_name,geo_shape&';
 const OSM_RADIUS_API = OSM_BASE_API + 'geofilter.distance=';
 const OSM_POLYGON_API = OSM_BASE_API + 'geofilter.polygon=';
 const OSM_LINE_API = OSM_BASE_API + 'geofilter.polygon=';
@@ -31,20 +31,14 @@ export class CountyService {
     return this.getOsmCounties(cities).pipe(
       map(osmCounties => {
         return osmCounties.map<County>(
-          ({ bez, bundesland, bundesland_code, sdv_rs, gen, geo_shape }) => {
-            const countyCode = bundesland_code.startsWith('1')
-              ? sdv_rs.substr(0, 5)
-              : sdv_rs.substr(0, 4);
-
-            return {
-              name: gen,
-              type: bez,
-              countyCode,
-              state: bundesland,
-              geometry: geo_shape,
-              crimeRate: COUNTY_CRIME_RATES.get(countyCode),
-            };
-          },
+          ({ krs_code, krs_name_short, krs_type, lan_name, geo_shape }) => ({
+            countyCode: krs_type,
+            name: krs_name_short,
+            type: krs_type,
+            state: lan_name,
+            geometry: geo_shape,
+            crimeRate: COUNTY_CRIME_RATES.get(krs_code),
+          }),
         );
       }),
     );
