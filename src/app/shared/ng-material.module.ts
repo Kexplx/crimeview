@@ -11,7 +11,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -19,7 +18,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatExpansionModule,
     MatTooltipModule,

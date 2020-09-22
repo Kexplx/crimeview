@@ -8,10 +8,9 @@ import { CountyModule } from './county/county.module';
 import { MapModule } from './map/map.module';
 import { CityModule } from './city/city.module';
 import { SearchDetailsModule } from './search-details/search-details.module';
-import { NotifyDialogComponent } from './notify-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, NotifyDialogComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
