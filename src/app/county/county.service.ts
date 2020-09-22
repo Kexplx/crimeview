@@ -32,7 +32,7 @@ export class CountyService {
       map(osmCounties => {
         return osmCounties.map<County>(
           ({ krs_code, krs_name_short, krs_type, lan_name, geo_shape }) => ({
-            countyCode: krs_type,
+            countyCode: krs_code,
             name: krs_name_short,
             type: krs_type,
             state: lan_name,
