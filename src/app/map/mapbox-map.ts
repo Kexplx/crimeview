@@ -53,6 +53,8 @@ export class MapboxMap {
     for (const { id } of this._layers) {
       this.map.removeLayer(id);
     }
+
+    this._layers = [];
   }
 
   /**
