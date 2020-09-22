@@ -11,7 +11,7 @@ let httpMock: { get: jest.Mock };
 
 beforeEach(() => {
   dummyOsmCounty = {
-    sdv_rs: '01',
+    krs_code: '01',
     geo_shape: {
       coordinates: [
         [
@@ -21,10 +21,9 @@ beforeEach(() => {
       ],
       type: 'Polygon',
     },
-    bundesland: 'Bayern',
-    bundesland_code: '091823912',
-    bez: 'Kreisfreihe Stadt',
-    gen: 'Regensburg',
+    lan_name: 'Bayern',
+    krs_type: 'Kreisfreie Stadt',
+    krs_name_short: 'Regensburg',
   };
 
   httpMock = {
@@ -74,15 +73,14 @@ describe('#getCounties', () => {
   });
 });
 
-function checkEqualityOfOsmCountyAndCounty(county: County, osmCounty: OsmCounty): void {
-  const osmCountyCode = osmCounty.bundesland_code.startsWith('1')
-    ? osmCounty.sdv_rs.substr(0, 5)
-    : osmCounty.sdv_rs.substr(0, 4);
-
-  expect(county.name).toEqual(osmCounty.gen);
-  expect(county.type).toEqual(osmCounty.bez);
-  expect(county.state).toEqual(osmCounty.bundesland);
-  expect(county.countyCode).toEqual(osmCountyCode);
-  expect(county.geometry).toEqual(osmCounty.geo_shape);
-  expect(county.crimeRate).toEqual(COUNTY_CRIME_RATES.get(osmCountyCode));
+function checkEqualityOfOsmCountyAndCounty(
+  { countyCode, crimeRate, type, state, geometry, name }: County,
+  { krs_name_short, krs_type, krs_code, lan_name, geo_shape }: OsmCounty,
+): void {
+  expect(name).toEqual(krs_name_short);
+  expect(type).toEqual(krs_type);
+  expect(state).toEqual(lan_name);
+  expect(countyCode).toEqual(krs_code);
+  expect(geometry).toEqual(geo_shape);
+  expect(crimeRate).toEqual(COUNTY_CRIME_RATES.get(krs_code));
 }

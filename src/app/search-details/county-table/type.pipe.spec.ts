@@ -9,10 +9,17 @@ describe('#transform', () => {
     expect(result).toEqual('LK');
   });
 
-  it('should return "KFS" for type "Kreisfreihe Stadt"', () => {
-    const type = 'Kreisfreihe Stadt';
+  it('should return "KFS" for type "Kreisfreie Stadt"', () => {
+    const type = 'Kreisfreie Stadt';
     const result = countyTypePipe.transform(type);
 
-    expect(result).toEqual('KFS');
+    expect(result).toEqual('KfS');
+  });
+
+  it('should return "K" for type "Kreis"', () => {
+    const type = 'Kreis';
+    const result = countyTypePipe.transform(type);
+
+    expect(result).toEqual('K');
   });
 });
