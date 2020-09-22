@@ -18,7 +18,7 @@ This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german ci
 ## Data sources
 
 <ul>
-    <li><a target_blank href="https://public.opendatasoft.com/explore/dataset/landkreise-in-germany/table/">Opendatasoft</a> - Geojson of counties</li>
+    <li><a target_blank href="https://public.opendatasoft.com/explore/dataset/georef-germany-kreis/information">Opendatasoft</a><strong> - Geojson of counties 💗</strong></li>
     <li><a target_blank href="https://cloud.google.com/maps-platform/places">Google Places</a> - City predictions and details</li>
     <li><a target_blank href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">Bundeskriminalamt</a> - County crime statistics</li>
 </ul>
