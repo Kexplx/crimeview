@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-city-placeholder',
@@ -19,7 +19,7 @@ import { Component, OnInit } from '@angular/core';
       }
 
       .wrapper div {
-        background-color: #0000001a;
+        background-color: #3f51b512;
         border-radius: 2px;
       }
 
@@ -29,8 +29,4 @@ import { Component, OnInit } from '@angular/core';
     `,
   ],
 })
-export class CityPlaceholderComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class CityPlaceholderComponent {}
