@@ -8,8 +8,11 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+a,
+canvas {
+  outline: none;
+}
 a {
   text-decoration: none;
   color: $link-blue;
-  outline: 0;
 }
