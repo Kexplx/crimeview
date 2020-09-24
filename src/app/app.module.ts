@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { CountyModule } from './county/county.module';
+import { DistrictModule } from './district/district.module';
 import { MapModule } from './map/map.module';
 import { CityModule } from './city/city.module';
 import { SearchDetailsModule } from './search-details/search-details.module';
@@ -17,7 +17,7 @@ import { SearchDetailsModule } from './search-details/search-details.module';
     SharedModule,
     CityModule,
     HttpClientModule,
-    CountyModule,
+    DistrictModule,
     MapModule,
     SearchDetailsModule,
   ],

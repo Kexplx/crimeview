@@ -1,7 +1,7 @@
 /**
- * A map of german county keys and their respective crime rates.
+ * A map of german district keys and their respective crime rates.
  *
- * <CountyKey, CrimeRate>
+ * <DistrictKey, CrimeRate>
  */
 export const COUNTY_CRIME_RATES = new Map<string, number>([
   ['01001', 9627],

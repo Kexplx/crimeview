@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { City } from './city/interfaces/city';
-import { County } from './county/interfaces/county';
+import { District } from './district/interfaces/district';
 import { Subject } from 'rxjs';
-import { CountyService } from './county/county.service';
+import { DistrictService } from './district/district.service';
 
 export interface Search {
   type: 'Polygon' | 'Line' | 'Radius';
   cities: City[];
-  counties: County[];
+  districts: District[];
 }
 
 @Injectable({
@@ -17,13 +17,13 @@ export class SearchService {
   private searchSubject = new Subject<Search>();
   search$ = this.searchSubject.asObservable();
 
-  constructor(private countyService: CountyService) {}
+  constructor(private districtService: DistrictService) {}
 
   handleSearchRequest(cities: City[]): void {
-    this.countyService.getCounties(cities).subscribe(counties => {
+    this.districtService.getCounties(cities).subscribe(districts => {
       const route: Search = {
         cities,
-        counties,
+        districts,
         type: this.getSearchType(cities),
       };
 

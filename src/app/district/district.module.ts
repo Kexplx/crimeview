@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CountyService } from './county.service';
+import { DistrictService } from './district.service';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [SharedModule],
-  providers: [CountyService],
+  providers: [DistrictService],
 })
-export class CountyModule {}
+export class DistrictModule {}

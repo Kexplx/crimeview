@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { County } from '../../county/interfaces/county';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { District } from '../../district/interfaces/district';
 
 @Component({
-  selector: 'app-county-table',
-  templateUrl: './county-table.component.html',
-  styleUrls: ['./county-table.component.scss'],
+  selector: 'app-district-table',
+  templateUrl: './district-table.component.html',
+  styleUrls: ['./district-table.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -14,10 +14,10 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ]),
   ],
 })
-export class CountyTableComponent {
-  @Input() counties: County[] | undefined;
+export class DistrictTableComponent {
+  @Input() districts: District[] | undefined;
 
   displayedColumns: string[] = ['name', 'state', 'crimeRate'];
 
-  expandedCounty: County | undefined;
+  expandedDistrict: District | undefined;
 }

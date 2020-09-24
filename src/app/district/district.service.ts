@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { City } from '../city/interfaces/city';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { County } from './interfaces/county';
-import { OsmCounty } from './interfaces/osm-county';
-import { COUNTY_CRIME_RATES } from './county-crimerates';
+import { District } from './interfaces/district';
+import { OsmDistrict } from './interfaces/osm-district';
+import { COUNTY_CRIME_RATES } from './district-crimerates';
 
 // prettier-ignore
 const OSM_BASE_API = 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=georef-germany-kreis&rows=403&fields=krs_code,krs_name_short,krs_type,lan_name,geo_shape&';
@@ -20,19 +20,19 @@ enum SearchTypes {
 }
 
 export interface OsmResponse {
-  records: { fields: OsmCounty }[];
+  records: { fields: OsmDistrict }[];
 }
 
 @Injectable()
-export class CountyService {
+export class DistrictService {
   constructor(private http: HttpClient) {}
 
-  getCounties(cities: City[]): Observable<County[]> {
+  getCounties(cities: City[]): Observable<District[]> {
     return this.getOsmCounties(cities).pipe(
       map(osmCounties => {
-        return osmCounties.map<County>(
+        return osmCounties.map<District>(
           ({ krs_code, krs_name_short, krs_type, lan_name, geo_shape }) => ({
-            countyCode: krs_code,
+            districtCode: krs_code,
             name: krs_name_short,
             type: krs_type,
             state: lan_name,
@@ -44,7 +44,7 @@ export class CountyService {
     );
   }
 
-  private getOsmCounties(cities: City[]): Observable<OsmCounty[]> {
+  private getOsmCounties(cities: City[]): Observable<OsmDistrict[]> {
     const url = this.buildUrl(cities, cities.length);
 
     return this.http.get<OsmResponse>(url).pipe(map(({ records }) => records.map(r => r.fields)));

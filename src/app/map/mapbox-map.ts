@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { County } from '../county/interfaces/county';
+import { District } from '../district/interfaces/district';
 import { MAPBOX_CREDENTIALS } from './mapbox-credentials';
 import { Map, Layer, Popup, LngLatBounds } from 'mapbox-gl';
 
@@ -8,7 +8,7 @@ const { accessToken, styleLight } = MAPBOX_CREDENTIALS;
 /**
  * Wrapper for mapbox's Map class.
  *
- * Used to initizalize a map and add or remove layers based on county coordinates.
+ * Used to initizalize a map and add or remove layers based on district coordinates.
  */
 @Injectable()
 export class MapboxMap {
@@ -58,20 +58,20 @@ export class MapboxMap {
   }
 
   /**
-   * Adds a layer to the map for every passed county.
+   * Adds a layer to the map for every passed district.
    *
-   * @param counties The counties to create the layers from.
+   * @param districts The districts to create the layers from.
    */
-  addLayers(counties: County[]): void {
-    for (const county of counties) {
-      this.addLayer(county);
+  addLayers(districts: District[]): void {
+    for (const district of districts) {
+      this.addLayer(district);
     }
 
-    this.fitBounds(counties);
+    this.fitBounds(districts);
   }
 
-  private addLayer(county: County): void {
-    const { geometry, crimeRate } = county;
+  private addLayer(district: District): void {
+    const { geometry, crimeRate } = district;
     const id = Math.random().toString();
 
     const layer: Layer = {
@@ -81,7 +81,7 @@ export class MapboxMap {
         type: 'geojson',
         data: {
           type: 'Feature',
-          properties: county,
+          properties: district,
           geometry,
         },
       },
@@ -108,16 +108,16 @@ export class MapboxMap {
       this._clickedLayer = layer;
 
       if (features) {
-        const html = this.getPopupHtml(features[0].properties as County);
+        const html = this.getPopupHtml(features[0].properties as District);
         new Popup().setLngLat(lngLat).setHTML(html).addTo(this.map);
       }
     });
   }
 
-  private fitBounds(counties: County[]): void {
+  private fitBounds(districts: District[]): void {
     const bounds = new LngLatBounds();
 
-    for (const { geometry } of counties) {
+    for (const { geometry } of districts) {
       let lng;
       let lat;
 
@@ -135,7 +135,7 @@ export class MapboxMap {
     this.map.fitBounds(bounds);
   }
 
-  private getPopupHtml({ name, state, type, crimeRate }: County): string {
+  private getPopupHtml({ name, state, type, crimeRate }: District): string {
     return `
     <h4>${name}</h4>
     <p>${type} in ${state}</p>

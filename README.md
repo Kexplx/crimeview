@@ -7,9 +7,9 @@
 
 # Landkreiskriminalität | Crimeview
 
-This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german cities and displays all counties <i>(de: Landkreise)</i> with their respective crime rate on it.
+This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german cities and displays all districts <i>(de: Stadt- Landkreise)</i> with their respective crime rate on it.
 
-<i>Crime rate</i> == Committed crimes per 100.000 inhabitants.
+<i>Crime rate</i> == Number of offences per 100.000 inhabitants.
 
 <p align="center">
   <img src="docs/map-sample-3.png?raw=true" title="Sample Route">
@@ -18,9 +18,9 @@ This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german ci
 ## Data sources
 
 <ul>
-    <li><a target_blank href="https://public.opendatasoft.com/explore/dataset/georef-germany-kreis/information">Opendatasoft</a><strong> - Geojson of counties 💗</strong></li>
+    <li><a target_blank href="https://public.opendatasoft.com/explore/dataset/georef-germany-kreis/information">Opendatasoft</a><strong> - Geojson of districts 💗</strong></li>
     <li><a target_blank href="https://cloud.google.com/maps-platform/places">Google Places</a> - City predictions and details</li>
-    <li><a target_blank href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">Bundeskriminalamt</a> - County crime statistics</li>
+    <li><a target_blank href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">Bundeskriminalamt</a> - District crime statistics</li>
 </ul>
 
 ## License

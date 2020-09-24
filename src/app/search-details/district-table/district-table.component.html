@@ -1,11 +1,11 @@
-<table [dataSource]="counties" mat-table multiTemplateDataRows>
+<table [dataSource]="districts" mat-table multiTemplateDataRows>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>
       Name
       <mat-icon class="info-icon" matTooltip="KfS = Kreisfreihe Stadt, LK = Landkreis, K = Kreis" matTooltipPosition="above">info</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.name }}<span class="county-type">{{ element.type | type }}</span>
+      {{ element.name }}<span class="district-type">{{ element.type | type }}</span>
     </td>
   </ng-container>
 
@@ -22,9 +22,9 @@
     <td mat-cell *matCellDef="let element">{{ element.crimeRate }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="expandedCounty">
+  <ng-container matColumnDef="expandedDistrict">
     <td *matCellDef="let element" [attr.colspan]="displayedColumns.length" mat-cell>
-      <div class="element-detail" [@detailExpand]="element == expandedCounty ? 'expanded' : 'collapsed'">Hello</div>
+      <div class="element-detail" [@detailExpand]="element == expandedDistrict ? 'expanded' : 'collapsed'">Hello</div>
     </td>
   </ng-container>
 
@@ -33,8 +33,8 @@
     mat-row
     *matRowDef="let element; columns: displayedColumns"
     class="element-row"
-    [class.expanded-row]="expandedCounty === element"
-    (click)="expandedCounty = expandedCounty === element ? null : element"
+    [class.expanded-row]="expandedDistrict === element"
+    (click)="expandedDistrict = expandedDistrict === element ? null : element"
   ></tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedCounty']" class="detail-row"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDistrict']" class="detail-row"></tr>
 </table>

@@ -15,9 +15,9 @@ import { MapboxMap } from './mapbox-map';
   ],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-  private searchSubscription = this.searchService.search$.subscribe(({ counties }) => {
+  private searchSubscription = this.searchService.search$.subscribe(({ districts }) => {
     this.map.removeLayers();
-    this.map.addLayers(counties);
+    this.map.addLayers(districts);
   });
 
   constructor(private map: MapboxMap, private searchService: SearchService) {}

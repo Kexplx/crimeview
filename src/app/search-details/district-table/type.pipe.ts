@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CountyType } from 'src/app/county/interfaces/county';
+import { DistrictType } from '../../district/interfaces/district';
 
 @Pipe({
   name: 'type',
@@ -11,7 +11,7 @@ export class TypePipe implements PipeTransform {
     ['Kreisfreie Stadt', 'KfS'],
   ]);
 
-  transform(type: CountyType): string {
+  transform(type: DistrictType): string {
     const abbr = this.typeAbbreviations.get(type);
 
     return abbr ?? type;
