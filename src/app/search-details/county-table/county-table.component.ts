@@ -1,21 +1,23 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { Component, Input } from '@angular/core';
 import { County } from '../../county/interfaces/county';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-county-table',
   templateUrl: './county-table.component.html',
   styleUrls: ['./county-table.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class CountyTableComponent {
-  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
-  @Input() set counties(counties: County[] | undefined) {
-    if (counties) {
-      this.matTableDataSource = new MatTableDataSource(counties);
-      this.matTableDataSource.sort = this.sort;
-    }
-  }
+  @Input() counties: County[] | undefined;
+
   displayedColumns: string[] = ['name', 'state', 'crimeRate'];
-  matTableDataSource: MatTableDataSource<County> | undefined;
+
+  expandedCounty: County | undefined;
 }
