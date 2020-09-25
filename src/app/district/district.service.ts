@@ -17,6 +17,7 @@ type OsmResponse = { records: { fields: OsmDistrict }[] };
 
 const { Line, Polygon, Radius } = SearchTypes;
 const { districtsByLine, districtsByPolygon, districtsByRadius } = environment.urls.openstreetmap;
+const { getDistrictsById } = environment.urls.lambda;
 
 @Injectable()
 export class DistrictService {
@@ -28,7 +29,7 @@ export class DistrictService {
         forkJoin(
           osmDistricts.map<Observable<District>>(({ krs_code, lan_name, geo_shape }) =>
             this.http
-              .get<District>(environment.urls.countyById, { params: { code: krs_code } })
+              .get<District>(getDistrictsById, { params: { code: krs_code } })
               .pipe(map(distrct => ({ ...distrct, geometry: geo_shape, stateName: lan_name }))),
           ),
         ),

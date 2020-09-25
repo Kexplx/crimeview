@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { District } from '../district/interfaces/district';
-import { MAPBOX_CREDENTIALS } from './mapbox-credentials';
 import { Map, Layer, Popup, LngLatBounds } from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
-const { accessToken, styleLight } = MAPBOX_CREDENTIALS;
+const { accessToken, styleLight } = environment.urls.mapbox;
 
 /**
  * Wrapper for mapbox's Map class.
