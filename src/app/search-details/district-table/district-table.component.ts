@@ -17,7 +17,7 @@ import { District } from '../../district/interfaces/district';
 export class DistrictTableComponent {
   @Input() districts: District[] | undefined;
 
-  displayedColumns: string[] = ['name', 'state', 'crimeRate'];
+  displayedColumns: string[] = ['name', 'stateName', 'relativeOffencesCount'];
 
   expandedDistrict: District | undefined;
 }

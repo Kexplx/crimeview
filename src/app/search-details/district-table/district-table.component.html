@@ -4,37 +4,37 @@
       Name
       <mat-icon class="info-icon" matTooltip="KfS = Kreisfreihe Stadt, LK = Landkreis, K = Kreis" matTooltipPosition="above">info</mat-icon>
     </th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.name }}<span class="district-type">{{ element.type | type }}</span>
+    <td mat-cell *matCellDef="let district">
+      {{ district.name }}<span class="district-type">{{ district.type }}</span>
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="state">
+  <ng-container matColumnDef="stateName">
     <th mat-header-cell *matHeaderCellDef>Bundesland</th>
-    <td mat-cell *matCellDef="let element">{{ element.state | state }}</td>
+    <td mat-cell *matCellDef="let district">{{ district.stateName }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="crimeRate">
+  <ng-container matColumnDef="relativeOffencesCount">
     <th mat-header-cell *matHeaderCellDef>
       Kriminalität
       <mat-icon class="info-icon" matTooltip="Straftaten pro 100T Einwohner (2019)" matTooltipPosition="above">info</mat-icon>
     </th>
-    <td mat-cell *matCellDef="let element">{{ element.crimeRate }}</td>
+    <td mat-cell *matCellDef="let district">{{ district.relativeOffencesCount }}</td>
   </ng-container>
 
   <ng-container matColumnDef="expandedDistrict">
-    <td *matCellDef="let element" [attr.colspan]="displayedColumns.length" mat-cell>
-      <div class="element-detail" [@detailExpand]="element == expandedDistrict ? 'expanded' : 'collapsed'">Hello</div>
+    <td *matCellDef="let district" [attr.colspan]="displayedColumns.length" mat-cell>
+      <div class="district-detail" [@detailExpand]="district == expandedDistrict ? 'expanded' : 'collapsed'">Hello</div>
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr
     mat-row
-    *matRowDef="let element; columns: displayedColumns"
-    class="element-row"
-    [class.expanded-row]="expandedDistrict === element"
-    (click)="expandedDistrict = expandedDistrict === element ? null : element"
+    *matRowDef="let district; columns: displayedColumns"
+    class="district-row"
+    [class.expanded-row]="expandedDistrict === district"
+    (click)="expandedDistrict = expandedDistrict === district ? null : district"
   ></tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDistrict']" class="detail-row"></tr>
 </table>

@@ -71,7 +71,7 @@ export class MapboxMap {
   }
 
   private addLayer(district: District): void {
-    const { geometry, crimeRate } = district;
+    const { geometry, relativeOffencesCount } = district;
     const id = Math.random().toString();
 
     const layer: Layer = {
@@ -87,7 +87,7 @@ export class MapboxMap {
       },
       maxzoom: 11,
       paint: {
-        'fill-color': this.getColorByCrimeRate(crimeRate),
+        'fill-color': this.getColorByOffencesCount(relativeOffencesCount),
         'fill-opacity': 0.2,
         'fill-outline-color': 'gray',
         'fill-opacity-transition': { delay: 0, duration: 0 },
@@ -135,23 +135,23 @@ export class MapboxMap {
     this.map.fitBounds(bounds);
   }
 
-  private getPopupHtml({ name, state, type, crimeRate }: District): string {
+  private getPopupHtml({ name, stateName, type, relativeOffencesCount }: District): string {
     return `
     <h4>${name}</h4>
-    <p>${type} in ${state}</p>
+    <p>${type} in ${stateName}</p>
     <p>
-      <span style="color: ${this.getColorByCrimeRate(crimeRate)}">
-      ${crimeRate ? crimeRate : '--'}
+      <span style="color: ${this.getColorByOffencesCount(relativeOffencesCount)}">
+      ${relativeOffencesCount ? relativeOffencesCount : '--'}
       </span>
       Straftaten pro 100.000 Einwohner (Stand 2019)
     </p>`;
   }
 
-  private getColorByCrimeRate(crimeRate: number | undefined): string {
-    if (!crimeRate) {
+  private getColorByOffencesCount(offencesCount: number | undefined): string {
+    if (!offencesCount) {
       return 'gray';
     }
 
-    return crimeRate / 100000 <= 0.04 ? 'green' : crimeRate / 100000 <= 0.07 ? 'orange' : 'red';
+    return offencesCount <= 4000 ? 'green' : offencesCount <= 7000 ? 'orange' : 'red';
   }
 }
