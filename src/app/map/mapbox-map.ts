@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { District } from '../district/interfaces/district';
+import { District, DistrictType } from '../district/interfaces/district';
 import { Map, Layer, Popup, LngLatBounds } from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 
@@ -135,16 +135,8 @@ export class MapboxMap {
     this.map.fitBounds(bounds);
   }
 
-  private getPopupHtml({ name, stateName, type, relativeOffencesCount }: District): string {
-    return `
-    <h4>${name}</h4>
-    <p>${type} in ${stateName}</p>
-    <p>
-      <span style="color: ${this.getColorByOffencesCount(relativeOffencesCount)}">
-      ${relativeOffencesCount ? relativeOffencesCount : '--'}
-      </span>
-      Straftaten pro 100.000 Einwohner (Stand 2019)
-    </p>`;
+  private getPopupHtml({ name, stateName, type, crestUrl }: District): string {
+    return `<h5>${this.getFullType(type)} ${name} | ${stateName}</h4>`;
   }
 
   private getColorByOffencesCount(offencesCount: number | undefined): string {
@@ -153,5 +145,20 @@ export class MapboxMap {
     }
 
     return offencesCount <= 4000 ? 'green' : offencesCount <= 7000 ? 'orange' : 'red';
+  }
+
+  private getFullType(type: DistrictType): string {
+    switch (type) {
+      case 'K':
+        return 'Kreis';
+      case 'KfS':
+        return 'Kreisfreie Stadt';
+      case 'LK':
+        return 'Landkreis';
+      case 'RV':
+        return 'Regionalverbund';
+      case 'SK':
+        return 'Stadtkreis';
+    }
   }
 }
