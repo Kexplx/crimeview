@@ -1,15 +1,14 @@
 import { Geometry } from 'geojson';
 
-export type DistrictType = 'Landkreis' | 'Kreis' | 'Kreisfreie Stadt';
+export type DistrictType = 'KfS' | 'K' | 'LK' | 'SK' | 'RV';
 
 /**
  * Represents a german district.
  */
 export interface District {
-  code: number; // A unique identifier with 5 characters.
+  code: string; // A unique identifier with 5 characters.
   name: string;
   type: DistrictType;
-  population: number;
   crestUrl: string; // The url of the districts's crest as svg.
   stateName: string; // The federal state containing the district.
 
