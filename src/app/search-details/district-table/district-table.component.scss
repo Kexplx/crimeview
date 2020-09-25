@@ -22,20 +22,20 @@ tr.detail-row {
   height: 0;
 }
 
-tr.element-row:not(.expanded-row):hover {
+tr.district-row:not(.expanded-row):hover {
   background: whitesmoke;
   cursor: pointer;
 }
 
-tr.element-row:not(.expanded-row):active {
+tr.district-row:not(.expanded-row):active {
   background: #efefef;
 }
 
-.element-row td {
+.district-row td {
   border-bottom-width: 0;
 }
 
-.element-detail {
+.district-detail {
   overflow: hidden;
   display: flex;
 }
