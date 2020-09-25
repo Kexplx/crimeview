@@ -1,0 +1,41 @@
+<div class="details-wrapper__body">
+  <div class="details-wrapper__body__left">
+    <img class="crest" [src]="district?.crestUrl" [alt]="district?.name + ' crest'" />
+  </div>
+  <div>
+    <table [dataSource]="[district]" mat-table multiTemplateDataRows>
+      <ng-container matColumnDef="totalOffencesCount">
+        <th mat-header-cell title="Straftaten insgesamt" *matHeaderCellDef>Straftaten insg.</th>
+        <td mat-cell *matCellDef="let district">
+          {{ district.totalOffencesCount }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="solvedCasesCount">
+        <th mat-header-cell title="Aufklärungen insgesamt" *matHeaderCellDef>Aufklärungen</th>
+        <td mat-cell *matCellDef="let district">
+          {{ district.solvedCasesCount }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="nonGermanSuspectsCount">
+        <th mat-header-cell *matHeaderCellDef>Nichtdeutsche Tatverdächtige</th>
+        <td mat-cell *matCellDef="let district">
+          {{ district | suspectsMig }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
+  <div class="details-wrapper__body-chart">
+    <ngx-charts-bar-horizontal
+      [animations]="false"
+      [gradient]="true"
+      [view]="[420, 100]"
+      [scheme]="{ domain: ['#3f51b5', '#3f51b5', '#3f51b5'] }"
+      [results]="district?.commonOffences | values"
+      [xAxis]="true"
+      [yAxis]="true"
+    >
+    </ngx-charts-bar-horizontal>
+  </div>
+</div>

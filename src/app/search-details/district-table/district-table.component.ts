@@ -15,7 +15,12 @@ import { District } from '../../district/interfaces/district';
   ],
 })
 export class DistrictTableComponent {
-  @Input() districts: District[] | undefined;
+  _districts: District[] | undefined;
+
+  @Input() set districts(districts: District[]) {
+    this._districts = districts.sort((a, b) => b.relativeOffencesCount - a.relativeOffencesCount);
+    this.expandedDistrict = districts[0];
+  }
 
   displayedColumns: string[] = ['name', 'stateName', 'relativeOffencesCount'];
 

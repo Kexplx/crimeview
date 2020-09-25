@@ -1,0 +1,51 @@
+table {
+  width: 100%;
+}
+
+tr {
+  height: 25px !important;
+  padding: 0 !important;
+}
+
+td {
+  font-size: 12px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+th {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+h4 {
+  text-align: center;
+}
+.details-wrapper__body {
+  display: grid;
+  grid-template-columns: 45px auto;
+  gap: 0 20px;
+}
+
+.details-wrapper__body__left {
+  padding-top: 6px;
+  text-align: center;
+}
+
+.crest {
+  width: 45px;
+}
+
+.info-icon {
+  font-size: 15px;
+}
+
+.find-on-map-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.details-wrapper__body-chart {
+  grid-column: 1 / 3;
+}
