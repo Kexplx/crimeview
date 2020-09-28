@@ -5,6 +5,7 @@ import { District } from '../district/interfaces/district';
 import { SearchService } from '../search.service';
 import { MapService } from './map.service';
 import { shortid } from '../shared/utils/shortid';
+import { Geometry } from 'geojson';
 
 const { accessToken, styleLight } = environment.urls.mapbox;
 
@@ -84,7 +85,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         data: {
           type: 'Feature',
           properties: district,
-          geometry,
+          geometry: geometry as Geometry,
         },
       },
       maxzoom: 11,
@@ -133,10 +134,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       let lng;
       let lat;
 
-      if (geometry.type === 'Polygon') {
-        [lng, lat] = geometry.coordinates[0][0];
-      } else if (geometry.type === 'MultiPolygon') {
-        [lng, lat] = geometry.coordinates[0][0][0];
+      if (geometry?.type === 'Polygon') {
+        [lng, lat] = geometry?.coordinates[0][0];
+      } else if (geometry?.type === 'MultiPolygon') {
+        [lng, lat] = geometry?.coordinates[0][0][0];
       }
 
       if (lat && lng) {

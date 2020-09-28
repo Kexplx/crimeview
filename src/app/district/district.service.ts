@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { City } from '../city/interfaces/city';
-import { forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { District } from './interfaces/district';
-import { OsmDistrict } from './interfaces/osm-district';
+import { OpendatasoftDistrict } from './interfaces/opendatasoft-district';
 import { environment } from '../../environments/environment';
 
 enum SearchTypes {
@@ -13,34 +13,55 @@ enum SearchTypes {
   Polygon = 3,
 }
 
-type OsmResponse = { records: { fields: OsmDistrict }[] };
+type OpendatasoftResponse = { records: { fields: OpendatasoftDistrict }[] };
 
 const { Line, Polygon, Radius } = SearchTypes;
-const { districtsByLine, districtsByPolygon, districtsByRadius } = environment.urls.openstreetmap;
+const { districtsByLine, districtsByPolygon, districtsByRadius } = environment.urls.opendatasoft;
 const { getDistrictsById } = environment.urls.lambda;
 
 @Injectable()
 export class DistrictService {
+  private districtCache: District[] = [];
+
   constructor(private http: HttpClient) {}
 
-  getCounties(cities: City[]): Observable<District[]> {
-    return this.getOsmDistricts(cities).pipe(
-      switchMap(osmDistricts =>
+  getDistricts(cities: City[]): Observable<District[]> {
+    return this.getOpendatasoftDistricts(cities).pipe(
+      switchMap(opendatasoftDistricts =>
         forkJoin(
-          osmDistricts.map<Observable<District>>(({ krs_code, lan_name, geo_shape }) =>
-            this.http
+          opendatasoftDistricts.map<Observable<District>>(({ krs_code, lan_name, geo_shape }) => {
+            // Search cache for district and return if exists.
+            const cachedDistrict = this.districtCache.find(d => d.code === krs_code);
+            if (cachedDistrict) {
+              return of(cachedDistrict);
+            }
+
+            // Get district from aws api.
+            return this.http
               .get<District>(getDistrictsById, { params: { code: krs_code } })
-              .pipe(map(distrct => ({ ...distrct, geometry: geo_shape, stateName: lan_name }))),
-          ),
+              .pipe(
+                // Add properties of current opendatasoft district.
+                map(distrct => ({ ...distrct, geometry: geo_shape, stateName: lan_name })),
+
+                // Push to cached districts
+                tap((district: District) => this.districtCache.push(district)),
+              );
+          }),
         ),
       ),
     );
   }
 
-  private getOsmDistricts(cities: City[]): Observable<OsmDistrict[]> {
+  getDistrict(code: string): Observable<District | undefined> {
+    return of(this.districtCache.find(d => d.code === code));
+  }
+
+  private getOpendatasoftDistricts(cities: City[]): Observable<OpendatasoftDistrict[]> {
     const url = this.buildUrl(cities, cities.length);
 
-    return this.http.get<OsmResponse>(url).pipe(map(({ records }) => records.map(r => r.fields)));
+    return this.http
+      .get<OpendatasoftResponse>(url)
+      .pipe(map(({ records }) => records.map(r => r.fields)));
   }
 
   private buildUrl(cities: City[], type: SearchTypes): string {

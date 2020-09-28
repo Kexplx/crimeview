@@ -20,7 +20,7 @@ export class SearchService {
   constructor(private districtService: DistrictService) {}
 
   handleSearchRequest(cities: City[]): void {
-    this.districtService.getCounties(cities).subscribe(districts => {
+    this.districtService.getDistricts(cities).subscribe(districts => {
       const route: Search = {
         cities,
         districts,
