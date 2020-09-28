@@ -42,7 +42,6 @@
     "codelyzer": "^6.0.0",
     "jest": "^26.4.2",
     "jest-preset-angular": "^8.3.1",
-    "protractor": "~7.0.0",
     "rxjs-tslint-rules": "^4.34.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
