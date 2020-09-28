@@ -1,11 +1,11 @@
-import { Component, EventEmitter, NgZone, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CityService } from '../city.service';
 import { City } from '../interfaces/city';
 import { CityPrediction } from '../interfaces/city-prediction';
 
-const DEBOUNCE_MS = 200;
+const DEBOUNCE_MS = 100;
 
 @Component({
   selector: 'app-city-input',
@@ -29,7 +29,7 @@ export class CityInputComponent {
     switchMap(input => this.cityService.getCityPredictions(input)),
   );
 
-  constructor(private cityService: CityService, private ngZone: NgZone) {}
+  constructor(private cityService: CityService) {}
 
   onInput(input: string | undefined): void {
     if (input) {
@@ -38,9 +38,7 @@ export class CityInputComponent {
   }
 
   onPredictionSelected({ placeId }: CityPrediction): void {
-    this.cityService
-      .getCity(placeId)
-      .subscribe(city => this.ngZone.run(() => this.citySelected.emit(city)));
+    this.cityService.getCity(placeId).subscribe(city => this.citySelected.emit(city));
   }
 
   displayFn({ name }: CityPrediction): string {
