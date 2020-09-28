@@ -16,16 +16,12 @@ const city: City = { placeId: '123', name: 'K', lat: 1, lng: 2 };
 let component: CityInputComponent;
 
 beforeEach(() => {
-  const ngZoneStub = { run: (cb: () => void) => cb() };
   cityServiceSpy = {
     getCity: jest.fn(() => of(city)),
     getCityPredictions: jest.fn(() => of(cityPredictions)),
   };
 
-  component = new CityInputComponent(
-    (cityServiceSpy as unknown) as CityService,
-    (ngZoneStub as unknown) as NgZone,
-  );
+  component = new CityInputComponent((cityServiceSpy as unknown) as CityService);
 });
 
 describe('#onInput', () => {

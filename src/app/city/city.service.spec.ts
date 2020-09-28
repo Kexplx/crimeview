@@ -1,9 +1,12 @@
 import { CityService } from './city.service';
 import { of } from 'rxjs';
 import { City } from './interfaces/city';
+import { NgZone } from '@angular/core';
 
 type AutocompleteService = google.maps.places.AutocompleteService;
 type Geocoder = google.maps.Geocoder;
+
+const ngZoneStub = { run: (cb: () => void) => cb() };
 
 const predictionServiceSpy = {
   getPlacePredictions: jest.fn(() => of([{ description: 't_desc', place_id: 't_placeId' }])),
@@ -16,6 +19,7 @@ const geocoderSpy = {
 const cityService = new CityService(
   (predictionServiceSpy as unknown) as AutocompleteService,
   (geocoderSpy as unknown) as Geocoder,
+  (ngZoneStub as unknown) as NgZone,
 );
 
 describe('#getCityPredictions', () => {
