@@ -1,5 +1,7 @@
 <ng-container *ngIf="districtClick$ | async as district; else noDistrictClicked">
-  <h3>{{ district?.type | typeFull }} {{ district?.name }} in {{ district?.stateName }}</h3>
+  <h3>
+    {{ district?.type | typeFull }} <span class="bold">{{ district?.name }} </span> in {{ district?.stateName }}
+  </h3>
   <div class="details-wrapper__body">
     <div class="details-wrapper__body__left">
       <img class="crest" [src]="district?.crestUrl" [alt]="district?.name + ' crest'" />
@@ -45,7 +47,7 @@
 
 <ng-template #noDistrictClicked>
   <div class="no-district-clicked-container">
-    <img src="/assets/img/tap.svg" alt="Tap icon" />
-    <p>Klicken Sie auf ein farbiges Gebiet für Details</p>
+    <img src="/assets/img/klicken.svg" alt="Tap icon" />
+    <p class="mat-small">Klicken Sie auf ein farbiges Gebiet für Details</p>
   </div>
 </ng-template>
