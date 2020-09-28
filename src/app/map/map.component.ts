@@ -57,7 +57,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map = new Map({
       accessToken,
       style: styleLight,
-      center: [11.0767, 49.4521], // Nuremberg's coordinates
+      center: [13.405, 52.52], // Berlin's coordinates
       container: id,
       maxZoom: 9,
       minZoom: 6.5,
