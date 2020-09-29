@@ -1,9 +1,8 @@
 import { DistrictService } from './district.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { OpendatasoftDistrict } from './interfaces/opendatasoft-district';
 import { District } from './interfaces/district';
 import { City } from '../city/interfaces/city';
-import { COUNTY_CRIME_RATES } from './district-crimerates';
 
 let service: DistrictService;
 let httpMock: { get: jest.Mock };

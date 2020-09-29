@@ -1,6 +1,6 @@
 <ng-container *ngIf="districtClick$ | async as district; else noDistrictClicked">
   <h3>
-    {{ district?.type | typeFull }} <span class="bold">{{ district?.name }} </span> in {{ district?.stateName }}
+    {{ district.type | typeFull }} <span class="bold">{{ district.name }} </span> in {{ district.stateName }}
   </h3>
   <div class="details-wrapper__body">
     <div class="details-wrapper__body__left">
@@ -11,7 +11,7 @@
         <ng-container matColumnDef="totalOffencesCount">
           <th mat-header-cell title="Straftaten insgesamt" *matHeaderCellDef>Straftaten insg.</th>
           <td mat-cell *matCellDef="let district">
-            {{ district.totalOffencesCount }}
+            {{ district?.totalOffencesCount }}
           </td>
         </ng-container>
         <ng-container matColumnDef="relativeOffencesCount">
@@ -47,7 +47,7 @@
 
 <ng-template #noDistrictClicked>
   <div class="no-district-clicked-container">
-    <img src="assets/img/click.svg" alt="Tap icon" />
-    <p class="mat-body-strong">Klicken Sie auf ein farbiges Gebiet für Details</p>
+    <img src="assets/img/click.svg" alt="Click icon" />
+    <p class="mat-small">Klicken Sie auf ein farbiges Gebiet für Details</p>
   </div>
 </ng-template>

@@ -1,13 +1,8 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { Layer, LngLatBounds, Map } from 'mapbox-gl';
-import { environment } from 'src/environments/environment';
 import { District } from '../district/interfaces/district';
 import { SearchService } from '../search.service';
 import { MapService } from './map.service';
-import { shortid } from '../shared/utils/shortid';
-import { Geometry } from 'geojson';
-
-const { accessToken, styleLight } = environment.urls.mapbox;
+import { geoJSON, GeoJSON, LatLngTuple, Map, tileLayer } from 'leaflet';
 
 @Component({
   selector: 'app-map',
@@ -22,9 +17,14 @@ const { accessToken, styleLight } = environment.urls.mapbox;
   ],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-  private _clickedLayer: Layer | undefined;
-  private _layers: Layer[] = [];
   private _map: Map | undefined;
+  private _clickedLayer: GeoJSON | undefined;
+  private _layers: GeoJSON[] = [];
+
+  private searchSubscription = this.searchService.search$.subscribe(({ districts }) => {
+    this.resetMap();
+    this.addLayers(districts);
+  });
 
   private get map(): Map {
     if (this._map) {
@@ -38,32 +38,29 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this._map = map;
   }
 
-  private searchSubscription = this.searchService.search$.subscribe(({ districts }) => {
-    this.removeLayers();
-    this.addLayers(districts);
-  });
-
   constructor(private mapService: MapService, private searchService: SearchService) {}
 
   ngAfterViewInit(): void {
-    this.initMap('map');
+    this.map = new Map('map', { zoomControl: false }).setView([51.2449, 10.6597], 7);
+
+    tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxZoom: 10,
+      minZoom: 7,
+    }).addTo(this.map);
   }
 
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
   }
 
-  private initMap(id: string): void {
-    this.map = new Map({
-      accessToken,
-      style: styleLight,
-      center: [13.405, 52.52], // Berlin's coordinates
-      container: id,
-      maxZoom: 9,
-      minZoom: 6.5,
-      pitch: 30, // Degrees
-      zoom: 8,
-    });
+  private resetMap(): void {
+    for (const layer of this._layers) {
+      this.map.removeLayer(layer);
+    }
+
+    this._clickedLayer = undefined;
   }
 
   private addLayers(districts: District[]): void {
@@ -75,73 +72,44 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private addLayer(district: District): void {
-    const { geometry, relativeOffencesCount } = district;
+    const { geometry, relativeOffencesCount, code } = district;
 
-    const layer: Layer = {
-      id: shortid(),
-      type: 'fill',
-      source: {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: district,
-          geometry: geometry as Geometry,
-        },
+    const layer = geoJSON(geometry, {
+      style: {
+        weight: 1,
+        opacity: 0.2,
+        color: '#34495e',
+        fillOpacity: 0.4,
+        fillColor: this.getColorByOffencesCount(relativeOffencesCount),
       },
-      maxzoom: 11,
-      paint: {
-        'fill-color': this.getColorByOffencesCount(relativeOffencesCount),
-        'fill-opacity': 0.3,
-        'fill-outline-color': 'gray',
-        'fill-opacity-transition': { delay: 0, duration: 0 },
-      },
-    };
+    });
 
-    this.map.addLayer(layer);
-    this.handleLayerClicks(layer);
+    layer.on('click', () => {
+      if (this._clickedLayer !== layer) {
+        this._clickedLayer?.resetStyle();
+        this._clickedLayer = layer;
+        layer.setStyle({ fillOpacity: 0.7 });
+
+        this.mapService.onDistrictClick(code);
+      }
+    });
+
+    layer.addTo(this.map);
     this._layers.push(layer);
   }
 
-  private removeLayers(): void {
-    for (const { id } of this._layers) {
-      this.map.removeLayer(id);
-      this.map.removeSource(id);
-    }
-
-    this._layers = [];
-    this._clickedLayer = undefined;
-  }
-
-  private handleLayerClicks(layer: Layer): void {
-    this.map.on('click', layer.id, ({ features }) => {
-      if (this._clickedLayer) {
-        this.map.setPaintProperty(this._clickedLayer.id, 'fill-opacity', 0.3);
-      }
-
-      this.map.setPaintProperty(layer.id, 'fill-opacity', 0.6);
-      this._clickedLayer = layer;
-
-      if (features) {
-        this.mapService.onDistrictClick(features[0].properties?.code);
-      }
-    });
-  }
-
   private fitBounds(districts: District[]): void {
-    const bounds = new LngLatBounds();
+    const bounds: LatLngTuple[] = [];
 
     for (const { geometry } of districts) {
-      let lng;
-      let lat;
-
       if (geometry?.type === 'Polygon') {
-        [lng, lat] = geometry?.coordinates[0][0];
-      } else if (geometry?.type === 'MultiPolygon') {
-        [lng, lat] = geometry?.coordinates[0][0][0];
-      }
+        const [lng, lat] = geometry?.coordinates[0][0];
 
-      if (lat && lng) {
-        bounds.extend([lng, lat]);
+        bounds.push([lat, lng]);
+      } else if (geometry?.type === 'MultiPolygon') {
+        const [lng, lat] = geometry?.coordinates[0][0][0];
+
+        bounds.push([lat, lng]);
       }
     }
 

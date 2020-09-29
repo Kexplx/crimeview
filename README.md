@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Live-GitHub Pages-2980b9" />
 </a>
 
-# Landkreiskriminalität | Crimeview
+# Crimeview | Stadt- Landkreiskriminalität
 
 This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german cities and displays all districts <i>(de: Stadt- Landkreise)</i> with their respective crime rate on it.
 

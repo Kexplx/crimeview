@@ -3,7 +3,6 @@ import { CityPrediction } from '../interfaces/city-prediction';
 import { of } from 'rxjs';
 import { City } from '../interfaces/city';
 import { CityService } from '../city.service';
-import { NgZone } from '@angular/core';
 
 let cityServiceSpy: { getCityPredictions: jest.Mock; getCity: jest.Mock };
 const cityPredictions: CityPrediction[] = [

@@ -30,17 +30,17 @@ export class DistrictService {
       switchMap(opendatasoftDistricts =>
         forkJoin(
           opendatasoftDistricts.map<Observable<District>>(({ krs_code, lan_name, geo_shape }) => {
-            // Search cache for district and return if exists.
+            // Search cache for district and return if exists
             const cachedDistrict = this.districtCache.find(d => d.code === krs_code);
             if (cachedDistrict) {
               return of(cachedDistrict);
             }
 
-            // Get district from aws api.
+            // If not cached, get district from aws api
             return this.http
               .get<District>(getDistrictsById, { params: { code: krs_code } })
               .pipe(
-                // Add properties of current opendatasoft district.
+                // Add properties of current opendatasoft district
                 map(distrct => ({ ...distrct, geometry: geo_shape, stateName: lan_name })),
 
                 // Push to cached districts
