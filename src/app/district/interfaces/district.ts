@@ -1,6 +1,11 @@
 import { Geometry } from 'geojson';
 
-export type DistrictType = 'KfS' | 'K' | 'LK' | 'SK' | 'RV';
+export type DistrictType =
+  | 'Kreis'
+  | 'Kreisfreie Stadt'
+  | 'Landkreis'
+  | 'Regionalverbund'
+  | 'Stadtkreis';
 
 /**
  * Represents a german district.
