@@ -4,7 +4,6 @@ import { SharedModule } from '../shared/shared.module';
 import { CityNamesPipe } from './city-names.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClickedDistrictDetailsComponent } from './clicked-district-details/clicked-district-details.component';
-import { TypeFullPipe } from './clicked-district-details/type-full.pipe';
 import { ValuesPipe } from './clicked-district-details/values.pipe';
 import { SuspectsMigPipe } from './clicked-district-details/suspects-mig.pipe';
 
@@ -15,7 +14,6 @@ import { SuspectsMigPipe } from './clicked-district-details/suspects-mig.pipe';
     CityNamesPipe,
     SuspectsMigPipe,
     ClickedDistrictDetailsComponent,
-    TypeFullPipe,
   ],
   imports: [SharedModule, NgxChartsModule],
   exports: [SearchDetailsComponent],
