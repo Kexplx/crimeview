@@ -18,7 +18,7 @@ const districtDummy: District = {
   solvedCasesCount: 56,
   totalOffencesCount: 1,
   totalSuspectsCount: 2,
-  type: 'KfS',
+  type: 'Kreisfreie Stadt',
 };
 
 const opendatasoftDistrictDummy: OpendatasoftDistrict = {
