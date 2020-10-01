@@ -15,6 +15,7 @@ const districtDummy: District = {
   name: 'name',
   nonGermanSuspectsCount: 12,
   relativeOffencesCount: 34,
+  state: 'Bayern',
   solvedCasesCount: 56,
   totalOffencesCount: 1,
   totalSuspectsCount: 2,
@@ -32,7 +33,6 @@ const opendatasoftDistrictDummy: OpendatasoftDistrict = {
     type: 'Polygon',
   },
   krs_code: '09123',
-  lan_name: 'Bayern',
 };
 
 function httpGetMockFn(url: string) {
@@ -116,5 +116,4 @@ function checkEqualityOfDistrictWithOpendatasoftDistrict(
   oD: OpendatasoftDistrict,
 ): void {
   expect(d.geometry).toEqual(oD.geo_shape);
-  expect(d.stateName).toEqual(oD.lan_name);
 }

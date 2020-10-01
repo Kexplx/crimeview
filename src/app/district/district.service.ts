@@ -29,7 +29,7 @@ export class DistrictService {
     return this.getOpendatasoftDistricts(cities).pipe(
       switchMap(opendatasoftDistricts =>
         forkJoin(
-          opendatasoftDistricts.map<Observable<District>>(({ krs_code, lan_name, geo_shape }) => {
+          opendatasoftDistricts.map<Observable<District>>(({ krs_code, geo_shape }) => {
             // Search cache for district and return if exists
             const cachedDistrict = this.districtCache.find(d => d.code === krs_code);
             if (cachedDistrict) {
@@ -41,7 +41,7 @@ export class DistrictService {
               .get<District>(getDistrictsById, { params: { code: krs_code } })
               .pipe(
                 // Add properties of current opendatasoft district
-                map(distrct => ({ ...distrct, geometry: geo_shape, stateName: lan_name })),
+                map(distrct => ({ ...distrct, geometry: geo_shape })),
 
                 // Push to cached districts
                 tap((district: District) => this.districtCache.push(district)),

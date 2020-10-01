@@ -5,6 +5,5 @@ import { Geometry } from 'geojson';
  */
 export interface OpendatasoftDistrict {
   krs_code: string; // district code
-  lan_name: string; // state, e.g. "Bayern"
   geo_shape: Geometry;
 }

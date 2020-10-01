@@ -15,13 +15,13 @@ export interface District {
   name: string;
   type: DistrictType;
   crestUrl: string; // The url of the districts's crest as svg.
-  stateName?: string; // The federal state containing the district.
+  state: string; // The name of the federal state containing the district.
 
   totalOffencesCount: number;
   relativeOffencesCount: number; // Number of offences per 100.000 inhabitants.
   commonOffences: { offenceName: string; offencesCount: number }[];
   totalSuspectsCount: number;
-  nonGermanSuspectsCount: number; //
+  nonGermanSuspectsCount: number;
   solvedCasesCount: number;
 
   geometry?: Geometry;
