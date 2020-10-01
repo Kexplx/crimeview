@@ -1,6 +1,6 @@
 <ng-container *ngIf="districtClick$ | async as district; else noDistrictClicked">
   <h3>
-    {{ district.type }} <span class="bold">{{ district.name }} </span> in {{ district.stateName }}
+    {{ district.type }} <span class="bold">{{ district.name }}</span> in {{ district.state }}
   </h3>
   <div class="details-wrapper__body">
     <div class="details-wrapper__body__left">
