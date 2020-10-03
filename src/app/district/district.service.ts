@@ -24,7 +24,8 @@ export class DistrictService {
   private districtCache: District[] = [];
 
   constructor(private http: HttpClient) {}
-
+  
+  // Gets districts
   getDistricts(cities: City[]): Observable<District[]> {
     return this.getOpendatasoftDistricts(cities).pipe(
       switchMap(opendatasoftDistricts =>
