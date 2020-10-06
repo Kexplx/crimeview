@@ -2,7 +2,7 @@ import { CityInputComponent } from './city-input.component';
 import { CityPrediction } from '../interfaces/city-prediction';
 import { of } from 'rxjs';
 import { City } from '../interfaces/city';
-import { CityService } from '../city.service';
+import { CityService } from './city.service';
 
 let cityServiceSpy: { getCityPredictions: jest.Mock; getCity: jest.Mock };
 const cityPredictions: CityPrediction[] = [
@@ -40,7 +40,7 @@ describe('#onPredictionSelected', () => {
     expect(cityServiceSpy.getCity.mock.calls).toHaveLength(1);
   });
 
-  it('should emit the returned city', done => {
+  it('should emit the returned city-search', done => {
     component.citySelected.subscribe((c: City) => {
       expect(c).toEqual(city);
       done();

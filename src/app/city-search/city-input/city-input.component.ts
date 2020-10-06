@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { CityService } from '../city.service';
 import { City } from '../interfaces/city';
 import { CityPrediction } from '../interfaces/city-prediction';
+import { CityService } from './city.service';
 
 const DEBOUNCE_MS = 100;
 
@@ -17,6 +17,7 @@ const DEBOUNCE_MS = 100;
       }
     `,
   ],
+  providers: [CityService],
 })
 export class CityInputComponent {
   @Output() citySelected = new EventEmitter<City>();

@@ -1,7 +1,7 @@
 import { CityFormComponent } from './city-form.component';
 import { City } from '../interfaces/city';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SearchService } from 'src/app/search.service';
+import { CitySearchService } from '../city-search.service';
 
 let component: CityFormComponent;
 let snackBarStub: { open: jest.Mock };
@@ -13,7 +13,7 @@ beforeEach(() => {
 
   component = new CityFormComponent(
     (snackBarStub as unknown) as MatSnackBar,
-    (searchServicestub as unknown) as SearchService,
+    (searchServicestub as unknown) as CitySearchService,
   );
 });
 
@@ -32,20 +32,20 @@ describe('#onCitySelect', () => {
     expect(snackBarStub.open.mock.calls.length).toEqual(1);
   });
 
-  it('should call #open if city already exists', () => {
+  it('should call #open if city-search already exists', () => {
     component.cities = [dummyCity];
     component.onCitySelect(dummyCity);
 
     expect(snackBarStub.open.mock.calls.length).toEqual(1);
   });
 
-  it('should add the city to #cities', () => {
+  it('should add the city-search to #cities', () => {
     component.onCitySelect(dummyCity);
     expect(component.cities.length).toEqual(1);
     expect(component.cities[0]).toEqual(dummyCity);
   });
 
-  it('should add the city to #checkedCities', () => {
+  it('should add the city-search to #checkedCities', () => {
     component.onCitySelect(dummyCity);
     expect(component.checkedCities.length).toEqual(1);
     expect(component.checkedCities[0]).toEqual(dummyCity);
@@ -75,12 +75,12 @@ describe('#onCheck', () => {
     component.cities = [];
     component.checkedCities = [];
   });
-  it('should add the city to #checkedCities when #checked is true', () => {
+  it('should add the city-search to #checkedCities when #checked is true', () => {
     component.onCheck(dummyCity, true);
     expect(component.checkedCities).toEqual([dummyCity]);
   });
 
-  it('should remove the city from #checkedCities when #checked is false', () => {
+  it('should remove the city-search from #checkedCities when #checked is false', () => {
     component.checkedCities = [dummyCity];
     component.onCheck(dummyCity, false);
     expect(component.checkedCities).toHaveLength(0);

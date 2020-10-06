@@ -1,5 +1,5 @@
 /**
- * Represents the prediction of a city, based on previous user input.
+ * Represents the prediction of a city-search, based on previous user input.
  *
  * "Reg" -> {placeId: "0129", name: "Regensburg"};
  */

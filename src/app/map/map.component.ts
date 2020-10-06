@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { District } from '../district/interfaces/district';
-import { SearchService } from '../search.service';
 import { MapService } from './map.service';
 import { geoJSON, GeoJSON, LatLngTuple, Map, tileLayer } from 'leaflet';
+import { CitySearchService } from '../city-search/city-search.service';
 
 @Component({
   selector: 'app-map',
@@ -38,7 +38,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this._map = map;
   }
 
-  constructor(private mapService: MapService, private searchService: SearchService) {}
+  constructor(private mapService: MapService, private searchService: CitySearchService) {}
 
   ngAfterViewInit(): void {
     this.map = new Map('map', { zoomControl: false }).setView([51.2449, 10.6597], 7);

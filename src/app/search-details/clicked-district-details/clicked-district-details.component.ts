@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { CitySearchService, Search } from 'src/app/city-search/city-search.service';
 import { DistrictService } from 'src/app/district/district.service';
 import { District } from 'src/app/district/interfaces/district';
 import { MapService } from 'src/app/map/map.service';
-import { Search, SearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'app-clicked-district-details',
@@ -38,7 +38,7 @@ export class ClickedDistrictDetailsComponent {
   constructor(
     private mapService: MapService,
     private districtService: DistrictService,
-    private searchService: SearchService,
+    private searchService: CitySearchService,
   ) {}
 
   private isString(val: string | Search): val is string {

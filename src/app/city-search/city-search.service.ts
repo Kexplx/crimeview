@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { City } from './city/interfaces/city';
-import { District } from './district/interfaces/district';
 import { Subject } from 'rxjs';
-import { DistrictService } from './district/district.service';
+import { DistrictService } from '../district/district.service';
+import { District } from '../district/interfaces/district';
+import { City } from './interfaces/city';
 
 export interface Search {
   type: 'Polygon' | 'Line' | 'Radius';
@@ -13,7 +13,7 @@ export interface Search {
 @Injectable({
   providedIn: 'root',
 })
-export class SearchService {
+export class CitySearchService {
   private searchSubject = new Subject<Search>();
   search$ = this.searchSubject.asObservable();
 

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CityFormComponent } from './city-form/city-form.component';
 import { SharedModule } from '../shared/shared.module';
-import { CityService } from './city.service';
 import { CityInputComponent } from './city-input/city-input.component';
 import { PredictionPipe } from './city-input/prediction.pipe';
 import { IsCheckedPipe } from './city-form/is-checked.pipe';
@@ -16,7 +15,7 @@ import { CityPlaceholderComponent } from './city-form/city-placeholder.component
     CityPlaceholderComponent,
   ],
   imports: [SharedModule],
-  providers: [CityService, google.maps.Geocoder, google.maps.places.AutocompleteService],
+  providers: [google.maps.Geocoder, google.maps.places.AutocompleteService],
   exports: [CityFormComponent],
 })
-export class CityModule {}
+export class CitySearchModule {}

@@ -1,10 +1,10 @@
-import { District } from './district/interfaces/district';
-import { DistrictService } from './district/district.service';
-import { City } from './city/interfaces/city';
+import { District } from '../district/interfaces/district';
+import { DistrictService } from '../district/district.service';
+import { City } from './interfaces/city';
 import { of } from 'rxjs';
-import { Search, SearchService } from './search.service';
+import { Search, CitySearchService } from './city-search.service';
 
-let searchService: SearchService;
+let searchService: CitySearchService;
 
 let districtServiceSpy: { getDistricts: jest.Mock };
 let dummyDistricts: District[];
@@ -15,7 +15,7 @@ beforeEach(() => {
   dummyCities = [{ name: 'Dummy3' } as City, { name: 'Dummy4' } as City];
   districtServiceSpy = { getDistricts: jest.fn(() => of(dummyDistricts)) };
 
-  searchService = new SearchService((districtServiceSpy as unknown) as DistrictService);
+  searchService = new CitySearchService((districtServiceSpy as unknown) as DistrictService);
 });
 
 describe('#handleSearchRequest', () => {

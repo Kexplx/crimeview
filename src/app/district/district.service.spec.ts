@@ -2,7 +2,7 @@ import { DistrictService } from './district.service';
 import { of } from 'rxjs';
 import { OpendatasoftDistrict } from './interfaces/opendatasoft-district';
 import { District } from './interfaces/district';
-import { City } from '../city/interfaces/city';
+import { City } from '../city-search/interfaces/city';
 
 let service: DistrictService;
 let httpMock: { get: jest.Mock };
@@ -73,7 +73,7 @@ describe('#getDistricts', () => {
     });
   });
 
-  it('should return an observable of districts when called with 1 city', done => {
+  it('should return an observable of districts when called with 1 city-search', done => {
     service.getDistricts(dummyCities.slice(0, 1)).subscribe(districts => {
       checkEqualityOfDistrictWithDummyDistrict(districts[0], districtDummy);
       checkEqualityOfDistrictWithOpendatasoftDistrict(districts[0], opendatasoftDistrictDummy);

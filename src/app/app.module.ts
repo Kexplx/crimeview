@@ -6,7 +6,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DistrictModule } from './district/district.module';
 import { MapModule } from './map/map.module';
-import { CityModule } from './city/city.module';
+import { CitySearchModule } from './city-search/city-search.module';
 import { SearchDetailsModule } from './search-details/search-details.module';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { SearchDetailsModule } from './search-details/search-details.module';
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
-    CityModule,
+    CitySearchModule,
     HttpClientModule,
     DistrictModule,
     MapModule,

@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { City } from '../interfaces/city';
-import { SearchService } from '../../search.service';
+import { CitySearchService } from '../city-search.service';
 
 const CAPACITY = 3;
 const NO_CAPACITY_MESSAGE = 'Maximale Anzahl an Städten erreicht';
@@ -16,7 +16,7 @@ export class CityFormComponent {
   cities: City[] = [];
   checkedCities: City[] = [];
 
-  constructor(private snackBarService: MatSnackBar, private searchService: SearchService) {}
+  constructor(private snackBarService: MatSnackBar, private searchService: CitySearchService) {}
 
   onCitySelect(city: City): void {
     const noCapacity = this.cities.length === CAPACITY;

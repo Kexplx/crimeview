@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SearchService } from '../search.service';
+import { CitySearchService } from '../city-search/city-search.service';
 
 @Component({
   selector: 'app-search-details',
@@ -16,5 +16,5 @@ import { SearchService } from '../search.service';
 export class SearchDetailsComponent {
   search$ = this.searchService.search$;
 
-  constructor(private searchService: SearchService) {}
+  constructor(private searchService: CitySearchService) {}
 }
