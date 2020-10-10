@@ -14,6 +14,7 @@ const NOT_DISTINCT_MESSAGE = ' ist bereits im Suchraum';
 })
 export class CityFormComponent {
   cities: City[] = [];
+  showProgressBar$ = this.searchService.isSearching$;
 
   constructor(private snackBarService: MatSnackBar, private searchService: CitySearchService) {}
 
