@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { City } from '../interfaces/city';
 import { CitySearchService } from '../city-search.service';
+import { City } from '../interfaces/city';
 
 const CAPACITY = 3;
 const NO_CAPACITY_MESSAGE = 'Maximale Anzahl an Städten erreicht';
@@ -14,7 +14,6 @@ const NOT_DISTINCT_MESSAGE = ' ist bereits im Suchraum';
 })
 export class CityFormComponent {
   cities: City[] = [];
-  checkedCities: City[] = [];
 
   constructor(private snackBarService: MatSnackBar, private searchService: CitySearchService) {}
 
@@ -30,32 +29,25 @@ export class CityFormComponent {
 
     if (isDistinct) {
       this.cities.push(city);
-      this.checkedCities.push(city);
     } else {
       this.snackBarService.open(city.name + NOT_DISTINCT_MESSAGE, 'Weiter');
     }
   }
 
-  onDelete(): void {
-    this.cities = [];
-    this.checkedCities = [];
-  }
+  onCityRemove(city: City): void {
+    const indexOf = this.cities.indexOf(city);
 
-  onCheck(city: City, checked: boolean): void {
-    if (checked) {
-      this.checkedCities.push(city);
-    } else {
-      const indexOfCity = this.checkedCities.indexOf(city);
-      this.checkedCities.splice(indexOfCity, 1);
+    if (indexOf !== -1) {
+      this.cities.splice(indexOf, 1);
     }
   }
 
   onSubmit(): void {
-    this.searchService.handleSearchRequest(this.checkedCities);
+    this.searchService.handleSearchRequest(this.cities);
   }
 
   @HostListener('window:keydown.control.enter') onCtrlEnterDown(): void {
-    if (this.checkedCities.length) {
+    if (this.cities.length) {
       this.onSubmit();
     }
   }

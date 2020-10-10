@@ -1,7 +1,7 @@
-import { CityFormComponent } from './city-form.component';
-import { City } from '../interfaces/city';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CitySearchService } from '../city-search.service';
+import { City } from '../interfaces/city';
+import { CityFormComponent } from './city-form.component';
 
 let component: CityFormComponent;
 let snackBarStub: { open: jest.Mock };
@@ -22,7 +22,6 @@ describe('#onCitySelect', () => {
 
   beforeEach(() => {
     component.cities = [];
-    component.checkedCities = [];
   });
 
   it('should call #open if max. capacity is reached', () => {
@@ -44,46 +43,16 @@ describe('#onCitySelect', () => {
     expect(component.cities.length).toEqual(1);
     expect(component.cities[0]).toEqual(dummyCity);
   });
-
-  it('should add the city-search to #checkedCities', () => {
-    component.onCitySelect(dummyCity);
-    expect(component.checkedCities.length).toEqual(1);
-    expect(component.checkedCities[0]).toEqual(dummyCity);
-  });
 });
 
-describe('#onDelete', () => {
-  const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
-
-  it('should remove all items from #cities', () => {
+describe('#onCityRemove', () => {
+  it('should remove the city from #cities', () => {
+    const dummyCity: City = {} as City;
     component.cities = [dummyCity];
-    component.onDelete();
+
+    component.onCityRemove(dummyCity);
+
     expect(component.cities).toHaveLength(0);
-  });
-
-  it('should remove all items from #checkedCities', () => {
-    component.checkedCities = [dummyCity];
-    component.onDelete();
-    expect(component.checkedCities).toHaveLength(0);
-  });
-});
-
-describe('#onCheck', () => {
-  const dummyCity: City = { name: 'Regensburg', placeId: '01921' } as City;
-
-  beforeEach(() => {
-    component.cities = [];
-    component.checkedCities = [];
-  });
-  it('should add the city-search to #checkedCities when #checked is true', () => {
-    component.onCheck(dummyCity, true);
-    expect(component.checkedCities).toEqual([dummyCity]);
-  });
-
-  it('should remove the city-search from #checkedCities when #checked is false', () => {
-    component.checkedCities = [dummyCity];
-    component.onCheck(dummyCity, false);
-    expect(component.checkedCities).toHaveLength(0);
   });
 });
 
@@ -95,10 +64,10 @@ describe('#onSearch', () => {
     expect(searchServicestub.handleSearchRequest.mock.calls).toHaveLength(1);
   });
 
-  it('should call #handleSearchRequest with checkedCities ', () => {
-    component.checkedCities = [{ ...dummyCity }, { ...dummyCity }];
+  it('should call #handleSearchRequest with cities ', () => {
+    component.cities = [{ ...dummyCity }, { ...dummyCity }];
     component.onSubmit();
 
-    expect(searchServicestub.handleSearchRequest).toHaveBeenCalledWith(component.checkedCities);
+    expect(searchServicestub.handleSearchRequest).toHaveBeenCalledWith(component.cities);
   });
 });

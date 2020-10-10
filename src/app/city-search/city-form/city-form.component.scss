@@ -5,8 +5,8 @@ ol {
 }
 
 .buttons-wrapper {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  justify-content: end;
 }
 
 .checkboxes-wrapper {
