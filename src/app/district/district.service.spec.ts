@@ -76,7 +76,7 @@ describe('#getDistricts', () => {
   it('should return an observable of districts when called with 1 city-search', done => {
     service.getDistricts(dummyCities.slice(0, 1)).subscribe(districts => {
       checkEqualityOfDistrictWithDummyDistrict(districts[0], districtDummy);
-      checkEqualityOfDistrictWithOpendatasoftDistrict(districts[0], opendatasoftDistrictDummy);
+      checkEqualityOfDistrictWithOpendatasoftDistrictDummy(districts[0], opendatasoftDistrictDummy);
       done();
     });
   });
@@ -84,7 +84,7 @@ describe('#getDistricts', () => {
   it('should return an observable of districts when called with 2 cities', done => {
     service.getDistricts(dummyCities.slice(0, 2)).subscribe(districts => {
       checkEqualityOfDistrictWithDummyDistrict(districts[0], districtDummy);
-      checkEqualityOfDistrictWithOpendatasoftDistrict(districts[0], opendatasoftDistrictDummy);
+      checkEqualityOfDistrictWithOpendatasoftDistrictDummy(districts[0], opendatasoftDistrictDummy);
       done();
     });
   });
@@ -92,7 +92,7 @@ describe('#getDistricts', () => {
   it('should return an observable of districts when called with 3 cities', done => {
     service.getDistricts(dummyCities.slice(0, 3)).subscribe(districts => {
       checkEqualityOfDistrictWithDummyDistrict(districts[0], districtDummy);
-      checkEqualityOfDistrictWithOpendatasoftDistrict(districts[0], opendatasoftDistrictDummy);
+      checkEqualityOfDistrictWithOpendatasoftDistrictDummy(districts[0], opendatasoftDistrictDummy);
       done();
     });
   });
@@ -111,7 +111,7 @@ function checkEqualityOfDistrictWithDummyDistrict(d1: District, d2: District): v
   expect(d1.totalSuspectsCount).toEqual(d2.totalSuspectsCount);
 }
 
-function checkEqualityOfDistrictWithOpendatasoftDistrict(
+function checkEqualityOfDistrictWithOpendatasoftDistrictDummy(
   d: District,
   oD: OpendatasoftDistrict,
 ): void {

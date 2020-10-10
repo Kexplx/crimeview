@@ -1,7 +1,7 @@
-import { CityInputComponent } from './city-input.component';
-import { CityPrediction } from '../interfaces/city-prediction';
 import { of } from 'rxjs';
 import { City } from '../interfaces/city';
+import { CityPrediction } from '../interfaces/city-prediction';
+import { CityInputComponent } from './city-input.component';
 import { CityService } from './city.service';
 
 let cityServiceSpy: { getCityPredictions: jest.Mock; getCity: jest.Mock };
@@ -10,7 +10,7 @@ const cityPredictions: CityPrediction[] = [
   { name: 'c', placeId: 'D' },
 ];
 
-const city: City = { placeId: '123', name: 'K', lat: 1, lng: 2 };
+const city: City = { placeId: '123', name: 'K', position: { lat: 1, lng: 0 } };
 
 let component: CityInputComponent;
 

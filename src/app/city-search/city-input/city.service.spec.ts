@@ -1,19 +1,28 @@
 import { NgZone } from '@angular/core';
-import { of } from 'rxjs';
-import { City } from '../interfaces/city';
 import { CityService } from './city.service';
 
 type AutocompleteService = google.maps.places.AutocompleteService;
 type Geocoder = google.maps.Geocoder;
 
-const ngZoneStub = { run: (cb: () => void) => cb() };
+const ngZoneStub = {
+  run: (cb: () => void) => cb(),
+};
 
 const predictionServiceSpy = {
-  getPlacePredictions: jest.fn(() => of([{ description: 't_desc', place_id: 't_placeId' }])),
+  getPlacePredictions: jest.fn((_: any, cb: any) =>
+    cb([{ description: 't_desc', place_id: 't_placeId' }]),
+  ),
 };
 
 const geocoderSpy = {
-  geocode: jest.fn(() => of<City>({ lat: 0, lng: 1, name: 't_city', placeId: 't_placeId' })),
+  geocode: jest.fn((_: any, cb: any) =>
+    cb([
+      {
+        address_components: [{ long_name: 'cityName' }],
+        geometry: { location: { lat: () => 1, lng: () => 0 } },
+      },
+    ]),
+  ),
 };
 
 const cityService = new CityService(
@@ -23,28 +32,29 @@ const cityService = new CityService(
 );
 
 describe('#getCityPredictions', () => {
-  it('calls #getPlacePredictions once', () => {
+  it('calls #getPlacePredictions once', done => {
     cityService.getCityPredictions('').subscribe(() => {
       expect(predictionServiceSpy.getPlacePredictions.mock.calls.length).toEqual(1);
+
+      done();
     });
   });
 
-  it('returns observable with mapped predictions', () => {
+  it('returns observable with mapped predictions', done => {
     cityService.getCityPredictions('').subscribe(predictions => {
       expect(predictions).toEqual([{ name: 't_desc', placeId: 't_placeId' }]);
+
+      done();
     });
   });
 });
 
 describe('#getCity', () => {
-  it('should return an observable of cities', () => {
-    cityService.getCity('abc').subscribe(cities => {
-      expect(cities).toEqual({
-        lat: 0,
-        lng: 1,
-        name: 't_city',
-        placeId: 't_placeId',
-      });
+  it('should return an observable of cities', done => {
+    cityService.getCity('placeId').subscribe(city => {
+      expect(city).toEqual({ placeId: 'placeId', name: 'cityName', position: { lat: 1, lng: 0 } });
+
+      done();
     });
   });
 });
