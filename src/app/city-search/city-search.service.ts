@@ -17,9 +17,13 @@ export class CitySearchService {
   private searchSubject = new Subject<Search>();
   search$ = this.searchSubject.asObservable();
 
+  private isSearchingSubject = new Subject<boolean>();
+  isSearching$ = this.isSearchingSubject.asObservable();
+
   constructor(private districtService: DistrictService) {}
 
   handleSearchRequest(cities: City[]): void {
+    this.isSearchingSubject.next(true);
     this.districtService.getDistricts(cities).subscribe(districts => {
       const route: Search = {
         cities,
@@ -28,6 +32,7 @@ export class CitySearchService {
       };
 
       this.searchSubject.next(route);
+      this.isSearchingSubject.next(false);
     });
   }
 
