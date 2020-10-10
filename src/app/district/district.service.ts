@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { City } from '../city-search/interfaces/city';
+import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { City } from '../city-search/interfaces/city';
 import { District } from './interfaces/district';
 import { OpendatasoftDistrict } from './interfaces/opendatasoft-district';
-import { environment } from '../../environments/environment';
 
 enum SearchTypes {
   Radius = 1,
@@ -57,22 +57,25 @@ export class DistrictService {
   }
 
   private getOpendatasoftDistricts(cities: City[]): Observable<OpendatasoftDistrict[]> {
-    const url = this.buildUrl(cities, cities.length);
+    const url = this.getOpendatasoftUrl(cities, cities.length);
 
     return this.http
       .get<OpendatasoftResponse>(url)
       .pipe(map(({ records }) => records.map(r => r.fields)));
   }
 
-  private buildUrl(cities: City[], type: SearchTypes): string {
+  private getOpendatasoftUrl(cities: City[], type: SearchTypes): string {
+    const lat = (city: City) => city.position.lat;
+    const lng = (city: City) => city.position.lng;
+
     // prettier-ignore
     switch (type) {
       case Line:
-        return `${districtsByLine}(${cities[0].lat},${cities[0].lng}),(${cities[1].lat},${cities[1].lng}),(${cities[1].lat},${cities[1].lng + 0.000001})`;
+        return `${districtsByLine}(${lat(cities[0])},${lng(cities[0])}),(${lat(cities[1])},${lng(cities[1])}),(${lat(cities[1])},${lng(cities[1]) + 0.000001})`;
       case Polygon:
-        return `${districtsByPolygon}(${cities[0].lat},${cities[0].lng}),(${cities[1].lat},${cities[1].lng}),(${cities[2].lat},${cities[2].lng})`;
+        return `${districtsByPolygon}(${lat(cities[0])},${lng(cities[0])}),(${lat(cities[1])},${lng(cities[1])}),(${lat(cities[2])},${lng(cities[2])})`;
       case Radius:
-        return `${districtsByRadius}${cities[0].lat},${cities[0].lng},10000`;
+        return `${districtsByRadius}${lat(cities[0])},${lng(cities[0])},10000`;
     }
   }
 }

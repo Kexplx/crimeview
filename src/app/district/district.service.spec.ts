@@ -1,8 +1,8 @@
-import { DistrictService } from './district.service';
 import { of } from 'rxjs';
-import { OpendatasoftDistrict } from './interfaces/opendatasoft-district';
-import { District } from './interfaces/district';
 import { City } from '../city-search/interfaces/city';
+import { DistrictService } from './district.service';
+import { District } from './interfaces/district';
+import { OpendatasoftDistrict } from './interfaces/opendatasoft-district';
 
 let service: DistrictService;
 let httpMock: { get: jest.Mock };
@@ -60,9 +60,9 @@ describe('#getDistricts', () => {
 
   beforeEach(() => {
     dummyCities = [
-      { lat: 1, lng: 2 } as City,
-      { lat: 1, lng: 2 } as City,
-      { lat: 1, lng: 2 } as City,
+      { name: 'Test City 1', position: { lat: 1, lng: 2 } } as City,
+      { name: 'Test City 2', position: { lat: 1, lng: 2 } } as City,
+      { name: 'Test City 3', position: { lat: 1, lng: 2 } } as City,
     ];
   });
 

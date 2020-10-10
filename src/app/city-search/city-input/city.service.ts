@@ -39,13 +39,17 @@ export class CityService {
     return new Observable(sub => {
       this.geoCoder.geocode({ placeId }, result =>
         this.ngZone.run(() => {
-          const { address_components, geometry } = result[0];
+          const {
+            address_components,
+            geometry: {
+              location: { lat, lng },
+            },
+          } = result[0];
 
           const city: City = {
             placeId,
-            lat: geometry.location.lat(),
-            lng: geometry.location.lng(),
             name: address_components[0].long_name,
+            position: { lat: lat(), lng: lng() },
           };
 
           sub.next(city);

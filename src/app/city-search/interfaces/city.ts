@@ -1,6 +1,10 @@
+export interface Position {
+  lat: number;
+  lng: number;
+}
+
 export interface City {
   placeId: string;
   name: string;
-  lat: number;
-  lng: number;
+  position: Position;
 }
