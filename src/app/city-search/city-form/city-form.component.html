@@ -11,7 +11,7 @@
     </mat-chip>
   </mat-chip-list>
 </div>
-<div style="position: relative" class="buttons-wrapper mt-1">
+<div class="buttons-wrapper mt-1">
   <button [disabled]="!cities.length" (click)="onSubmit()" color="primary" mat-raised-button>Suche starten</button>
   <mat-progress-bar *ngIf="showProgressBar$ | async" mode="buffer"></mat-progress-bar>
 </div>
