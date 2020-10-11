@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should concat city-search names with "-" for type "Line" 1`] = `"Regensburg - Muenchen"`;
+
+exports[`should concat city-search names with "-" for type "Polygon" 1`] = `"Regensburg - Muenchen - Dortmund"`;
+
+exports[`should postfix first city-search name with "(10km Radius)" for type "Line" 1`] = `"Regensburg (10km Radius)"`;

@@ -1,8 +1,8 @@
-import { District } from '../district/interfaces/district';
-import { DistrictService } from '../district/district.service';
-import { City } from './interfaces/city';
 import { of } from 'rxjs';
-import { CitySearchService, Search } from './city-search.service';
+import { DistrictService } from '../district/district.service';
+import { District } from '../district/interfaces/district';
+import { CitySearchService } from './city-search.service';
+import { City } from './interfaces/city';
 
 let searchService: CitySearchService;
 
@@ -26,11 +26,8 @@ describe('#handleSearchRequest', () => {
 
   it('search$ should emit the new search', done => {
     searchService.search$.subscribe(search => {
-      expect(search).toEqual<Search>({
-        districts: dummyDistricts,
-        cities: dummyCities,
-        type: 'Line',
-      });
+      expect(search).toMatchSnapshot();
+
       done();
     });
 

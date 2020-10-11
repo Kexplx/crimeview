@@ -42,7 +42,7 @@ describe('#getCityPredictions', () => {
 
   it('returns observable with mapped predictions', done => {
     cityService.getCityPredictions('').subscribe(predictions => {
-      expect(predictions).toEqual([{ name: 't_desc', placeId: 't_placeId' }]);
+      expect(predictions).toMatchSnapshot();
 
       done();
     });
@@ -52,7 +52,7 @@ describe('#getCityPredictions', () => {
 describe('#getCity', () => {
   it('should return an observable of cities', done => {
     cityService.getCity('placeId').subscribe(city => {
-      expect(city).toEqual({ placeId: 'placeId', name: 'cityName', position: { lat: 1, lng: 0 } });
+      expect(city).toMatchSnapshot();
 
       done();
     });

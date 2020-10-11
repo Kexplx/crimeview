@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#handleSearchRequest search$ should emit the new search 1`] = `
+Object {
+  "cities": Array [
+    Object {
+      "name": "Dummy3",
+    },
+    Object {
+      "name": "Dummy4",
+    },
+  ],
+  "districts": Array [
+    Object {
+      "name": "Dummy1",
+    },
+    Object {
+      "name": "Dummy2",
+    },
+  ],
+  "type": "Line",
+}
+`;

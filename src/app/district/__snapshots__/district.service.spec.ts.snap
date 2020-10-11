@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#getDistricts should return an observable of districts when called with 1 city-search 1`] = `
+Array [
+  Object {
+    "code": "091",
+    "commonOffences": Array [
+      Object {
+        "offenceName": "a",
+        "offencesCount": 1,
+      },
+    ],
+    "crestUrl": "ab",
+    "geometry": Object {
+      "coordinates": Array [
+        Array [
+          Array [
+            1,
+            2,
+          ],
+          Array [
+            3,
+            4,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "name": "name",
+    "nonGermanSuspectsCount": 12,
+    "relativeOffencesCount": 34,
+    "solvedCasesCount": 56,
+    "state": "Bayern",
+    "totalOffencesCount": 1,
+    "totalSuspectsCount": 2,
+    "type": "Kreisfreie Stadt",
+  },
+]
+`;
+
+exports[`#getDistricts should return an observable of districts when called with 2 cities 1`] = `
+Array [
+  Object {
+    "code": "091",
+    "commonOffences": Array [
+      Object {
+        "offenceName": "a",
+        "offencesCount": 1,
+      },
+    ],
+    "crestUrl": "ab",
+    "geometry": Object {
+      "coordinates": Array [
+        Array [
+          Array [
+            1,
+            2,
+          ],
+          Array [
+            3,
+            4,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "name": "name",
+    "nonGermanSuspectsCount": 12,
+    "relativeOffencesCount": 34,
+    "solvedCasesCount": 56,
+    "state": "Bayern",
+    "totalOffencesCount": 1,
+    "totalSuspectsCount": 2,
+    "type": "Kreisfreie Stadt",
+  },
+]
+`;
+
+exports[`#getDistricts should return an observable of districts when called with 3 cities 1`] = `
+Array [
+  Object {
+    "code": "091",
+    "commonOffences": Array [
+      Object {
+        "offenceName": "a",
+        "offencesCount": 1,
+      },
+    ],
+    "crestUrl": "ab",
+    "geometry": Object {
+      "coordinates": Array [
+        Array [
+          Array [
+            1,
+            2,
+          ],
+          Array [
+            3,
+            4,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "name": "name",
+    "nonGermanSuspectsCount": 12,
+    "relativeOffencesCount": 34,
+    "solvedCasesCount": 56,
+    "state": "Bayern",
+    "totalOffencesCount": 1,
+    "totalSuspectsCount": 2,
+    "type": "Kreisfreie Stadt",
+  },
+]
+`;

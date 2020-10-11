@@ -12,7 +12,6 @@ describe('#transform', () => {
 
     const actual = pipe.transform(district);
 
-    const expected = '10 (10%)';
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchSnapshot();
   });
 });

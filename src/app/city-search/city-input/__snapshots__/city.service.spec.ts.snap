@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#getCity should return an observable of cities 1`] = `
+Object {
+  "name": "cityName",
+  "placeId": "placeId",
+  "position": Object {
+    "lat": 1,
+    "lng": 0,
+  },
+}
+`;
+
+exports[`#getCityPredictions returns observable with mapped predictions 1`] = `
+Array [
+  Object {
+    "name": "t_desc",
+    "placeId": "t_placeId",
+  },
+]
+`;
