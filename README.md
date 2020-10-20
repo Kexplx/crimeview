@@ -23,6 +23,8 @@ This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german ci
     <li><a target_blank href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">Bundeskriminalamt</a> - District crime statistics</li>
 </ul>
 
+## Idea
+The idea for Crimeview comes from the <a href="https://oss.cs.fau.de/">Professorship of open source</a> and it's <a href="https://oss.cs.fau.de/teaching/specific/amse/">AMSE</a> course @ <a href="https://www.fau.eu/">FAU</a>.
 ## License
 
 Copyright 2020 Oscar Rosner  
