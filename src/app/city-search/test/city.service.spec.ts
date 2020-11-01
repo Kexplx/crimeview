@@ -1,5 +1,5 @@
 import { NgZone } from '@angular/core';
-import { CityService } from './city.service';
+import { CityService } from '../city-input/city.service';
 
 type AutocompleteService = google.maps.places.AutocompleteService;
 type Geocoder = google.maps.Geocoder;

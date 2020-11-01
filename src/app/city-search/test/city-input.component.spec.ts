@@ -1,8 +1,8 @@
 import { of } from 'rxjs';
 import { City } from '../interfaces/city';
 import { CityPrediction } from '../interfaces/city-prediction';
-import { CityInputComponent } from './city-input.component';
-import { CityService } from './city.service';
+import { CityInputComponent } from '../city-input/city-input.component';
+import { CityService } from '../city-input/city.service';
 
 let cityServiceSpy: { getCityPredictions: jest.Mock; getCity: jest.Mock };
 const cityPredictions: CityPrediction[] = [

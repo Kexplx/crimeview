@@ -1,4 +1,4 @@
-import { PredictionPipe } from './prediction.pipe';
+import { PredictionPipe } from '../city-input/prediction.pipe';
 
 const pipe = new PredictionPipe();
 

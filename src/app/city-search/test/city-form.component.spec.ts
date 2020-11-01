@@ -1,7 +1,7 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CitySearchService } from '../city-search.service';
 import { City } from '../interfaces/city';
-import { CityFormComponent } from './city-form.component';
+import { CityFormComponent } from '../city-form/city-form.component';
 
 let component: CityFormComponent;
 let snackBarStub: { open: jest.Mock };

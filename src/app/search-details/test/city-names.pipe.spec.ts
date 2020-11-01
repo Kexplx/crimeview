@@ -1,5 +1,5 @@
-import { City } from '../city-search/interfaces/city';
-import { CityNamesPipe } from './city-names.pipe';
+import { City } from '../../city-search/interfaces/city';
+import { CityNamesPipe } from '../city-names.pipe';
 
 const pipe = new CityNamesPipe();
 

@@ -1,4 +1,4 @@
-import { ValuesPipe } from './values.pipe';
+import { ValuesPipe } from '../clicked-district-details/values.pipe';
 
 const pipe = new ValuesPipe();
 

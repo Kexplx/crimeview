@@ -1,8 +1,8 @@
 import { of } from 'rxjs';
-import { DistrictService } from '../district/district.service';
-import { District } from '../district/interfaces/district';
-import { CitySearchService } from './city-search.service';
-import { City } from './interfaces/city';
+import { DistrictService } from '../../district/district.service';
+import { District } from '../../district/interfaces/district';
+import { CitySearchService } from '../city-search.service';
+import { City } from '../interfaces/city';
 
 let searchService: CitySearchService;
 

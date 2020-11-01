@@ -1,5 +1,5 @@
 import { District } from 'src/app/district/interfaces/district';
-import { SuspectsMigPipe } from './suspects-mig.pipe';
+import { SuspectsMigPipe } from '../clicked-district-details/suspects-mig.pipe';
 
 const pipe = new SuspectsMigPipe();
 
