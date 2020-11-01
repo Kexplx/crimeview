@@ -15,6 +15,14 @@ This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german ci
   <img src="docs/map-sample-3.png?raw=true" title="Sample Route">
 </p>
 
+## Architecture
+
+### Building block view
+
+<div align="center">
+  <img src="docs/building-block-view.svg?raw=true" title="Sample Route">
+</div>
+
 ## Data sources
 
 <ul>
