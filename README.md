@@ -20,7 +20,13 @@ This app analyses a route based on a Polygon, Line or Radius for 1 - 3 german ci
 ### Building block view
 
 <div align="center">
-  <img src="docs/building-block-view-1.svg" title="Sample Route">
+  <img src="docs/building-block-view.svg" title="Sample Route">
+</div>
+
+### Dynamic view
+
+<div align="center">
+  <img src="docs/dynamic-view.svg" title="Sample Route">
 </div>
 
 ## Data sources
